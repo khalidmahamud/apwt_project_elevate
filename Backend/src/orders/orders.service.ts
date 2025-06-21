@@ -11,6 +11,22 @@ import { Users } from '../users/entities/users.entity';
 import { Address } from '../users/entities/address.entity';
 import { ProductsService } from '../products/products.service';
 import { subDays, endOfDay, startOfDay, addDays, format } from 'date-fns';
+import * as Papa from 'papaparse';
+import * as ExcelJS from 'exceljs';
+import { UsersService } from '../users/users.service';
+
+interface SalesReportRow {
+  'Order ID': string;
+  'Order Date': string;
+  'Customer Name': string;
+  'Customer Email': string;
+  'Order Status': string;
+  'Product Name': string;
+  'Quantity': number;
+  'Price Per Item': number;
+  'Line Item Total': number;
+  'Order Total': number;
+}
 
 @Injectable()
 export class OrdersService {
@@ -26,6 +42,7 @@ export class OrdersService {
     @InjectRepository(Address)
     private readonly addressRepository: Repository<Address>,
     private readonly productsService: ProductsService,
+    private readonly usersService: UsersService,
   ) {}
 
   async create(createOrderDto: CreateOrderDto, userId: string) {
@@ -251,6 +268,99 @@ export class OrdersService {
     });
 
     return this.orderRepository.save(updatedOrders);
+  }
+
+  async generateSalesReport(): Promise<string> {
+    const orders = await this.orderRepository.find({
+      relations: ['items', 'items.product', 'user'],
+      order: {
+        createdAt: 'DESC',
+      },
+    });
+
+    if (orders.length === 0) {
+      return '';
+    }
+
+    const reportData: SalesReportRow[] = [];
+    for (const order of orders) {
+      for (const item of order.items) {
+        reportData.push({
+          'Order ID': order.id,
+          'Order Date': format(new Date(order.createdAt), 'yyyy-MM-dd HH:mm:ss'),
+          'Customer Name': `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim(),
+          'Customer Email': order.user.email,
+          'Order Status': order.status,
+          'Product Name': item.product.name,
+          'Quantity': item.quantity,
+          'Price Per Item': item.price,
+          'Line Item Total': item.total,
+          'Order Total': order.totalAmount,
+        });
+      }
+    }
+
+    return Papa.unparse(reportData);
+  }
+
+  async generateMasterReport(): Promise<Buffer> {
+    const workbook = new ExcelJS.Workbook();
+    workbook.creator = 'Elevate';
+    workbook.created = new Date();
+
+    // 1. Sales Report Sheet
+    const salesSheet = workbook.addWorksheet('Sales Report');
+    const salesData = await this.getSalesReportData();
+    if (salesData.length > 0) {
+      salesSheet.columns = Object.keys(salesData[0]).map(key => ({ header: key, key, width: 20 }));
+      salesSheet.addRows(salesData);
+    }
+
+    // 2. Customer Summary Sheet
+    const customerSheet = workbook.addWorksheet('Customer Summary');
+    const customerData = await this.usersService.generateCustomerReport();
+    if (customerData.length > 0) {
+      customerSheet.columns = Object.keys(customerData[0]).map(key => ({ header: key, key, width: 25 }));
+      customerSheet.addRows(customerData);
+    }
+
+    // 3. Product Performance Sheet
+    const productSheet = workbook.addWorksheet('Product Performance');
+    const productData = await this.productsService.generateProductPerformanceReport();
+    if (productData.length > 0) {
+      productSheet.columns = Object.keys(productData[0]).map(key => ({ header: key, key, width: 20 }));
+      productSheet.addRows(productData);
+    }
+
+    return await workbook.xlsx.writeBuffer() as Buffer;
+  }
+
+  private async getSalesReportData() {
+    const orders = await this.orderRepository.find({
+      relations: ['items', 'items.product', 'user'],
+      order: {
+        createdAt: 'DESC',
+      },
+    });
+
+    const reportData: SalesReportRow[] = [];
+    for (const order of orders) {
+      for (const item of order.items) {
+        reportData.push({
+          'Order ID': order.id,
+          'Order Date': format(new Date(order.createdAt), 'yyyy-MM-dd HH:mm:ss'),
+          'Customer Name': `${order.user?.firstName || ''} ${order.user?.lastName || ''}`.trim(),
+          'Customer Email': order.user?.email,
+          'Order Status': order.status,
+          'Product Name': item.product.name,
+          'Quantity': item.quantity,
+          'Price Per Item': item.price,
+          'Line Item Total': item.total,
+          'Order Total': order.totalAmount,
+        });
+      }
+    }
+    return reportData;
   }
 
   // Analytics methods

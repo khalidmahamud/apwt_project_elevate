@@ -4,12 +4,25 @@ import { Repository, FindOptionsWhere } from 'typeorm';
 import { Product, ProductCategory } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { OrderItem } from '../orders/entities/order-item.entity';
+
+interface ProductPerformanceRow {
+  'Product ID': string;
+  'Product Name': string;
+  'Category': string;
+  'Stock Quantity': number;
+  'Price': number;
+  'Units Sold': number;
+  'Total Revenue': number;
+}
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    @InjectRepository(OrderItem)
+    private readonly orderItemRepository: Repository<OrderItem>,
   ) {}
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
@@ -118,5 +131,31 @@ export class ProductsService {
     const product = await this.findOne(id);
     product.stockQuantity = stockQuantity;
     return await this.productRepository.save(product);
+  }
+
+  async generateProductPerformanceReport(): Promise<ProductPerformanceRow[]> {
+    const products = await this.productRepository.find();
+    const report: ProductPerformanceRow[] = [];
+
+    for (const product of products) {
+      const salesData = await this.orderItemRepository
+        .createQueryBuilder('orderItem')
+        .select('SUM(orderItem.quantity)', 'unitsSold')
+        .addSelect('SUM(orderItem.total)', 'totalRevenue')
+        .where('orderItem.productId = :productId', { productId: product.id })
+        .getRawOne();
+
+      report.push({
+        'Product ID': product.id,
+        'Product Name': product.name,
+        'Category': product.category,
+        'Stock Quantity': product.stockQuantity,
+        'Price': product.price,
+        'Units Sold': parseInt(salesData.unitsSold, 10) || 0,
+        'Total Revenue': parseFloat(salesData.totalRevenue) || 0,
+      });
+    }
+
+    return report;
   }
 } 

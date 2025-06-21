@@ -16,6 +16,16 @@ import { Role } from './enums/roles.enum';
 import { subDays, endOfDay, startOfDay, addDays } from 'date-fns';
 import { Order } from 'src/orders/entities/order.entity';
 
+interface CustomerReportRow {
+  'Customer ID': string;
+  'First Name': string;
+  'Last Name': string;
+  'Email': string;
+  'Total Orders': number;
+  'Total Spent': number;
+  'Joined On': Date;
+}
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -264,5 +274,28 @@ export class UsersService {
         filledTrend.push(trendMap.get(dateKey) || 0);
     }
     return filledTrend;
+  }
+
+  async generateCustomerReport(): Promise<CustomerReportRow[]> {
+    const users = await this.usersRepository.find({
+      relations: ['orders'],
+    });
+
+    const reportData: CustomerReportRow[] = users.map(user => {
+      const totalOrders = user.orders.length;
+      const totalSpent = user.orders.reduce((sum, order) => sum + order.totalAmount, 0);
+
+      return {
+        'Customer ID': user.id,
+        'First Name': user.firstName,
+        'Last Name': user.lastName || '',
+        'Email': user.email,
+        'Total Orders': totalOrders,
+        'Total Spent': totalSpent,
+        'Joined On': user.createdAt,
+      };
+    });
+
+    return reportData;
   }
 }

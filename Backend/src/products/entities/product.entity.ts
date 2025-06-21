@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { OrderItem } from '../../orders/entities/order-item.entity';
 
@@ -42,12 +42,9 @@ export class Product {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
 
-  @Column({ nullable: true })
-  image: string;
-
   @ApiProperty({ description: 'The discounted price of the product (if available)', type: 'number', format: 'decimal', nullable: true })
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
-  discountedPrice: number;
+  discountedPrice?: number;
 
   @ApiProperty({ description: 'The current stock quantity of the product', type: 'integer', default: 0 })
   @Column({ type: 'int', default: 0 })
@@ -70,7 +67,7 @@ export class Product {
   colors: string[];
 
   @ApiProperty({ description: 'Product images URLs', type: [String], default: [] })
-  @Column('varchar', { array: true, default: [] })
+  @Column({ type: 'text', array: true, default: [] })
   images: string[];
 
   @ApiProperty({ description: 'Whether the product is currently active', type: 'boolean', default: true })

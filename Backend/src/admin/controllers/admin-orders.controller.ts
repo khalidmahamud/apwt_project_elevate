@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Query, UseGuards, Res } from '@nestjs/common';
 import { OrdersService } from '../../orders/orders.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
@@ -7,6 +7,7 @@ import { Role } from '../../users/enums/roles.enum';
 import { OrderStatus } from '../../orders/enums/order-status.enum';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
 import { subDays, startOfDay, endOfDay } from 'date-fns';
+import { Response } from 'express';
 
 @ApiTags('G. Admin - Orders')
 @ApiBearerAuth()
@@ -139,5 +140,17 @@ export class AdminOrdersController {
   @ApiOperation({ summary: 'Get a single order by ID (admin only)' })
   findOne(@Param('id') id: string) {
     return this.ordersService.findOne(id);
+  }
+
+  @Get('report/download')
+  @ApiOperation({ summary: 'Download a master report as XLSX' })
+  async downloadMasterReport(@Res() res: Response) {
+    const buffer = await this.ordersService.generateMasterReport();
+    const filename = `master-report-${new Date().toISOString()}.xlsx`;
+    res.set({
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': `attachment; filename=${filename}`,
+    });
+    res.send(buffer);
   }
 }

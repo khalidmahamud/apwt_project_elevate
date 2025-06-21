@@ -255,6 +255,7 @@ function HomePage() {
 	const [userAnalytics, setUserAnalytics] = useState<any>(null)
 	const [todaysSummary, setTodaysSummary] = useState<any>(null)
 	const [dashboardLoading, setDashboardLoading] = useState(true);
+	const [isDownloading, setIsDownloading] = useState(false);
 
 	useEffect(() => {
 		if (authLoading) return; // Wait for the auth context to load
@@ -286,6 +287,32 @@ function HomePage() {
 		fetchDashboardData();
 	}, [user, authLoading]);
 
+	const handleDownloadReport = async () => {
+		setIsDownloading(true);
+		toast.info('Generating your report, please wait...');
+		try {
+			const response = await api.get('/admin/orders/report/download', {
+				responseType: 'blob',
+			});
+			const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.style.display = 'none';
+			a.href = url;
+			a.download = `master-report-${new Date().toISOString().split('T')[0]}.xlsx`;
+			document.body.appendChild(a);
+			a.click();
+			window.URL.revokeObjectURL(url);
+			a.remove();
+			toast.success('Report downloaded successfully!');
+		} catch (error) {
+			console.error('Failed to download report', error);
+			toast.error('Failed to download report.');
+		} finally {
+			setIsDownloading(false);
+		}
+	};
+
 	if (authLoading || dashboardLoading) {
         return (
 			<div className='p-4 grid grid-cols-1 lg:grid-cols-4 gap-4'>
@@ -307,8 +334,8 @@ function HomePage() {
 	}
 
 	return (
-		<div className='p-4 grid grid-cols-1 lg:grid-cols-4 gap-4'>
-			<div className='col-span-1 lg:col-span-4 flex justify-between'>
+		<div className='p-4 grid grid-cols-1 lg:grid-cols-3 gap-6'>
+			<div className='lg:col-span-3 flex justify-between items-center'>
 				<div>
 					{user ? (
 						<>
@@ -327,16 +354,20 @@ function HomePage() {
 					) : null}
 				</div>
 				<Button
-					asChild
-					className='h-[50px] bg-accent text-accent-foreground text-lg rounded-sm hover:bg-accent/70'
+					onClick={handleDownloadReport}
+					disabled={isDownloading}
+					className='h-[50px] bg-accent text-accent-foreground text-lg rounded-sm hover:bg-accent/70 cursor-pointer'
 				>
-					<Link href={''}>
-						<span>Download Report</span>
-						<Download />
-					</Link>
+					{isDownloading ? (
+						<RefreshCw className='h-4 w-4 mr-2 animate-spin' />
+					) : (
+						<Download className='h-4 w-4 mr-2' />
+					)}
+					<span>{isDownloading ? 'Generating...' : 'Download Report'}</span>
 				</Button>
 			</div>
-			<div className='col-span-1 lg:col-span-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+
+			<div className='lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
                 <AnalyticsCard
                     title="Total Visitors"
                     value={userAnalytics?.totalUsers ?? 0}
