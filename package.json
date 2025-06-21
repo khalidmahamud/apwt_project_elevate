@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@types/cookie-parser": "^1.4.9",
+    "cookie-parser": "^1.4.7",
+    "cookies-next": "^6.0.0",
+    "date-fns": "^4.1.0"
+  }
+}
