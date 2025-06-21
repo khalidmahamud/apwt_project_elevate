@@ -255,134 +255,74 @@ export class OrdersService {
 
   // Analytics methods
   async getOrderAnalytics(startDate?: Date, endDate?: Date) {
-    // Set default dates if not provided
-    const now = new Date();
-    if (!endDate) endDate = endOfDay(now);
-    if (!startDate) startDate = startOfDay(subDays(now, 6));
+    // 1. Set date ranges
+    const end = endDate ? endOfDay(endDate) : endOfDay(new Date());
+    const start = startDate ? startOfDay(startDate) : startOfDay(subDays(end, 6)); // Default to last 7 days
+    const prevStart = subDays(start, (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
+    const prevEnd = subDays(end, (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
 
-    // Calculate previous period  
-    const days = 6;
-    const prevStartDate = startOfDay(subDays(startDate, days + 1));
-    const prevEndDate = endOfDay(subDays(startDate, 1));
+    const whereCurrent = { createdAt: Between(start, end) };
+    const wherePrevious = { createdAt: Between(prevStart, prevEnd) };
 
-    // Helper to get daily trends - Fixed for PostgreSQL
-    const getDailyTrends = async (from: Date, to: Date) => {
-      const query = this.orderRepository
-        .createQueryBuilder('order')
-        .select([
-          `DATE(order.createdAt) as date`,
-          'COUNT(order.id) as orderCount',
-          'SUM(order.totalAmount) as totalRevenue'
-        ])
-        .where('order.createdAt >= :from AND order.createdAt <= :to', { from, to })
-        .groupBy('DATE(order.createdAt)')
-        .orderBy('date', 'ASC');
-      
-      const result = await query.getRawMany();
-      // console.log('Raw trend data:', result); // Debug log
-      return result;
-    };
-
-    // Get trends for current and previous periods
-    const [trend, prevTrend] = await Promise.all([
-      getDailyTrends(startDate, endDate),
-      getDailyTrends(prevStartDate, prevEndDate)
+    // 2. Fetch data
+    const [currentOrders, prevOrders] = await Promise.all([
+      this.orderRepository.find({ where: whereCurrent }),
+      this.orderRepository.find({ where: wherePrevious }),
     ]);
 
-    // console.log('Current trend:', trend);
-    // console.log('Previous trend:', prevTrend);
-    // console.log('Date range:', { startDate, endDate });
+    // 3. Calculate metrics
+    const totalOrders = currentOrders.length;
+    const totalRevenue = currentOrders.reduce((sum, order) => sum + order.totalAmount, 0);
+    const prevTotalOrders = prevOrders.length;
+    const prevTotalRevenue = prevOrders.reduce((sum, order) => sum + order.totalAmount, 0);
 
-    // Fixed fillTrend function
-    const fillTrend = (trendArr: any[], from: Date, to: Date, key: string): number[] => {
-      const result: number[] = [];
-      const current = new Date(from);
-      
-      while (current <= to) {
-        // Format date as YYYY-MM-DD to match database format
-        const dateStr = current.toISOString().split('T')[0];
-        
-        // Find matching trend data
-        const found = trendArr.find(t => {
-          // Handle different possible date formats from database
-          let trendDateStr: string;
-          if (typeof t.date === 'string') {
-            trendDateStr = t.date.split(' ')[0]; // Remove time part if present
-          } else if (t.date instanceof Date) {
-            trendDateStr = t.date.toISOString().split('T')[0];
-          } else {
-            trendDateStr = '';
-          }
-          return trendDateStr === dateStr;
-        });
-        
-        const value = found ? Number(found[key]) || 0 : 0;
-        result.push(value);
-        
-        // Move to next day
-        current.setDate(current.getDate() + 1);
-      }
-      
-      return result;
+    const ordersChangePercent = prevTotalOrders > 0 ? ((totalOrders - prevTotalOrders) / prevTotalOrders) * 100 : (totalOrders > 0 ? 100 : 0);
+    const revenueChangePercent = prevTotalRevenue > 0 ? ((totalRevenue - prevTotalRevenue) / prevTotalRevenue) * 100 : (totalRevenue > 0 ? 100 : 0);
+
+    // 4. Generate trends
+    const getDailyTrends = async (from: Date, to: Date) => {
+        return this.orderRepository.createQueryBuilder('order')
+            .select(`DATE_TRUNC('day', "createdAt") as date, COUNT(id) as orders, SUM("totalAmount") as revenue`)
+            .where(`"createdAt" BETWEEN :from AND :to`, { from, to })
+            .groupBy('date')
+            .getRawMany();
     };
-
-    const ordersTrend = fillTrend(trend, startDate, endDate, 'ordercount'); // Note: PostgreSQL returns lowercase
-    const revenueTrend = fillTrend(trend, startDate, endDate, 'totalrevenue'); // Note: PostgreSQL returns lowercase
     
-    const prevOrdersTotal = prevTrend.reduce((sum, t) => sum + Number(t.ordercount || 0), 0);
-    const prevRevenueTotal = prevTrend.reduce((sum, t) => sum + Number(t.totalrevenue || 0), 0);
+    const currentTrendRaw = await getDailyTrends(start, end);
+    const ordersTrend = this.fillTrend(currentTrendRaw, start, end, 'orders');
+    const revenueTrend = this.fillTrend(currentTrendRaw, start, end, 'revenue');
 
-    // Main period orders
-    const orders = await this.orderRepository.find({
-      where: { createdAt: Between(startDate, endDate) },
-      relations: ['items'],
-    });
+    // 5. Calculate Average Order Value
+    const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+    const prevAvgOrderValue = prevTotalOrders > 0 ? prevTotalRevenue / prevTotalOrders : 0;
+    const avgOrderValueChange = prevAvgOrderValue > 0 ? ((avgOrderValue - prevAvgOrderValue) / prevAvgOrderValue) * 100 : (avgOrderValue > 0 ? 100 : 0);
     
-    const totalOrders = orders.length;
-    const totalRevenue = orders.reduce((sum, order) => sum + Number(order.totalAmount), 0);
-    const averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : null;
-
-    const ordersByStatus = orders.reduce((acc, order) => {
-      acc[order.status] = (acc[order.status] || 0) + 1;
-      return acc;
-    }, {});
-    
-    const shippedOrders = ordersByStatus['SHIPPED'] || 0;
-    const pendingOrders = ordersByStatus['PENDING'] || 0;
-
-    // Percentage change
-    const ordersChangePercent = prevOrdersTotal === 0 ? null : ((totalOrders - prevOrdersTotal) / prevOrdersTotal) * 100;
-    const revenueChangePercent = prevRevenueTotal === 0 ? null : ((totalRevenue - prevRevenueTotal) / prevRevenueTotal) * 100;
-
-    // Popular products - Fixed query
-    const orderItems = await this.orderItemRepository
-      .createQueryBuilder('orderItem')
-      .innerJoin('orderItem.order', 'order')
-      .select([
-        'orderItem.productId as productId',
-        'SUM(orderItem.quantity) as totalQuantity'
-      ])
-      .where('order.createdAt >= :startDate AND order.createdAt <= :endDate', { startDate, endDate })
-      .groupBy('orderItem.productId')
-      .orderBy('totalQuantity', 'DESC')
-      .limit(10)
-      .getRawMany();
+    // Create AOV trend by dividing daily revenue by daily orders
+    const avgOrderValueTrend = revenueTrend.map((rev, i) => ordersTrend[i] > 0 ? rev / ordersTrend[i] : 0);
 
     return {
-      totalOrders,
-      ordersChangePercent,
-      ordersTrend,
-      totalRevenue,
-      revenueChangePercent,
-      revenueTrend,
-      averageOrderValue,
-      shippedOrders,
-      pendingOrders,
-      ordersByStatus,
-      popularProducts: orderItems,
-      startDate,
-      endDate,
+        totalOrders,
+        totalRevenue,
+        ordersChangePercent,
+        revenueChangePercent,
+        ordersTrend,
+        revenueTrend,
+        avgOrderValue,
+        avgOrderValueChange,
+        avgOrderValueTrend
     };
+  }
+
+  private fillTrend(trendArr: any[], from: Date, to: Date, key: string): number[] {
+    const trendMap = new Map(
+      trendArr.map(item => [startOfDay(item.date).toISOString(), parseFloat(item[key]) || 0])
+    );
+    const filledTrend: number[] = [];
+    for (let d = startOfDay(from); d <= to; d = addDays(d, 1)) {
+        const dateKey = d.toISOString();
+        filledTrend.push(trendMap.get(dateKey) || 0);
+    }
+    return filledTrend;
   }
 
   async getSalesTrends(startDate: Date, endDate: Date, interval: 'day' | 'week' | 'month' = 'day') {

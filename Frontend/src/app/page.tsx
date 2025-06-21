@@ -29,13 +29,13 @@ import {
 } from 'recharts'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import api from '@/lib/api'
 import TopCustomersChart from '@/components/TopCustomersChart'
 import TopProductsTable from '@/components/TopProductsTable'
 import { toast } from 'sonner'
 import { Skeleton } from '@/components/ui/skeleton'
 import RecentOrdersTable from '@/components/RecentOrdersTable'
+import { useAuth } from '@/context/AuthContext'
 
 type AnalyticsCardProps = {
 	title: string
@@ -166,9 +166,9 @@ const TodaySummaryCard = ({ title, value, icon: Icon, color, formatAsCurrency = 
             background: `linear-gradient(135deg, ${color} 0%, #1E293B 100%)`
           }}
         >
-          <Icon className="absolute -right-4 -bottom-4 h-24 w-24 text-white/20" />
-          <p className='text-white/80'>{title}</p>
-          <p className='text-3xl font-bold text-white mt-2'>{formattedValue}</p>
+          <Icon className="absolute -right-4 -bottom-4 h-24 w-24 text-primary-foreground/20" />
+          <p className='text-foreground/80'>{title}</p>
+          <p className='text-3xl font-bold text-foreground mt-2'>{formattedValue}</p>
         </div>
     );
 };
@@ -178,15 +178,22 @@ const RevenueBreakdownChart = () => {
 	const [data, setData] = useState<RevenueBreakdownData | null>(null);
 	const [days, setDays] = useState(7);
 	const [loading, setLoading] = useState(true);
+	const { user: authUser, loading: authLoading } = useAuth();
 
 	useEffect(() => {
+		if (authLoading) return; // Wait for auth check to complete
+		if (!authUser) {
+			setLoading(false);
+			return; // No user, no fetch
+		}
+
 		setLoading(true);
 		api.get(`/admin/orders/analytics/revenue-breakdown?days=${days}`)
 			.then(res => {
 				setData(res.data);
 			})
 			.finally(() => setLoading(false));
-	}, [days]);
+	}, [days, authUser, authLoading]);
 
 	const barColors = [
 		'#7dd3fc', '#fca5a5', '#fdba74', '#d8b4fe',
@@ -209,12 +216,12 @@ const RevenueBreakdownChart = () => {
 	return (
 		<div className="bg-primary p-4 rounded-lg h-full flex flex-col">
 			<div className="flex justify-between items-center mb-4">
-				<h2 className="text-xl font-bold text-white">Revenue Breakdown</h2>
+				<h2 className="text-xl font-bold text-primary-foreground">Revenue Breakdown</h2>
 				{/* Note: ShadCN DropdownMenu would be ideal here */}
 				<select
 					value={days}
 					onChange={(e) => setDays(Number(e.target.value))}
-					className="bg-primary-foreground/10 text-white rounded p-1"
+					className="bg-primary-foreground/10 text-primary-foreground rounded p-1"
 				>
 					<option value={7}>Last 7 days</option>
 					<option value={30}>Last 30 days</option>
@@ -232,7 +239,7 @@ const RevenueBreakdownChart = () => {
 							borderRadius: '8px',
 						}}
 					/>
-					<Legend formatter={(value) => <span className="text-white">{value}</span>}/>
+					<Legend formatter={(value) => <span className="text-primary-foreground">{value}</span>}/>
 					{data.categories.map((cat, index) => (
 						<Bar key={cat} dataKey={cat} fill={barColors[index % barColors.length]} />
 					))}
@@ -243,88 +250,67 @@ const RevenueBreakdownChart = () => {
 };
 
 function HomePage() {
-	const router = useRouter()
-	const [user, setUser] = useState<any>(null)
+	const { user, loading: authLoading } = useAuth();
 	const [orderSummary, setOrderSummary] = useState<any>(null)
 	const [userAnalytics, setUserAnalytics] = useState<any>(null)
 	const [todaysSummary, setTodaysSummary] = useState<any>(null)
-	const [userLoading, setUserLoading] = useState(true)
-	const [summaryLoading, setSummaryLoading] = useState(true)
-	const [userAnalyticsLoading, setUserAnalyticsLoading] = useState(true)
-	const [todaysSummaryLoading, setTodaysSummaryLoading] = useState(true)
-	const [error, setError] = useState('')
+	const [dashboardLoading, setDashboardLoading] = useState(true);
 
 	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			const token = localStorage.getItem('token')
-			if (!token) {
-				router.replace('/login')
-				return
-			}
-
-			// Fetch user profile
-			api
-				.get('/user/profile')
-				.then((res) => {
-					setUser(res.data)
-				})
-				.catch((err) => {
-					setError('Failed to fetch user profile')
-					toast.error('Failed to fetch user profile')
-				})
-				.finally(() => setUserLoading(false))
-
-			// Fetch order summary
-			api
-				.get('/admin/orders/analytics/summary')
-				.then((res) => {
-					setOrderSummary(res.data)
-				})
-				.catch((err) => {
-					setError('Failed to fetch order summary')
-					toast.error('Failed to fetch order summary')
-				})
-				.finally(() => setSummaryLoading(false))
-
-			// Fetch user analytics
-			api
-				.get('/admin/users/analytics/summary')
-				.then((res) => {
-					setUserAnalytics(res.data)
-				})
-				.catch((err) => {
-					setError('Failed to fetch user analytics')
-					toast.error('Failed to fetch user analytics')
-				})
-				.finally(() => setUserAnalyticsLoading(false))
-
-			// Fetch today's summary
-			const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-			api.get(`/admin/orders/analytics/summary?startDate=${today}&endDate=${today}`)
-				.then(res => {
-					setTodaysSummary(res.data);
-				})
-				.catch(err => {
-					setError("Failed to fetch today's summary");
-					toast.error("Failed to fetch today's summary");
-				})
-				.finally(() => setTodaysSummaryLoading(false));
+		if (authLoading) return; // Wait for the auth context to load
+		if (!user) {
+			// If auth is loaded and there's no user, stop loading dashboard
+			setDashboardLoading(false);
+			return;
 		}
-	}, [router])
 
-	const isLoading = userLoading || summaryLoading || userAnalyticsLoading || todaysSummaryLoading
+		const fetchDashboardData = async () => {
+			setDashboardLoading(true);
+			try {
+                const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+				const [summaryRes, userRes, todayRes] = await Promise.all([
+					api.get('/admin/orders/analytics/summary'),
+					api.get('/admin/users/analytics/summary'),
+					api.get(`/admin/orders/analytics/summary?startDate=${today}&endDate=${today}`)
+				]);
+				setOrderSummary(summaryRes.data);
+				setUserAnalytics(userRes.data);
+				setTodaysSummary(todayRes.data);
+			} catch (error) {
+				console.error('Failed to fetch dashboard data', error);
+				toast.error('Failed to load dashboard data.');
+			} finally {
+				setDashboardLoading(false);
+			}
+		};
+		fetchDashboardData();
+	}, [user, authLoading]);
+
+	if (authLoading || dashboardLoading) {
+        return (
+			<div className='p-4 grid grid-cols-1 lg:grid-cols-4 gap-4'>
+                <div className='col-span-1 lg:col-span-4 flex justify-between'>
+                    <div>
+                        <p className='text-primary-foreground opacity-40 text-4xl font-medium'>
+                            Loading...
+                        </p>
+                    </div>
+                </div>
+                <div className='col-span-1 lg:col-span-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+                    <Skeleton className="h-[200px] w-full rounded-lg" />
+                    <Skeleton className="h-[200px] w-full rounded-lg" />
+                    <Skeleton className="h-[200px] w-full rounded-lg" />
+                    <Skeleton className="h-[200px] w-full rounded-lg" />
+                </div>
+            </div>
+        );
+	}
 
 	return (
 		<div className='p-4 grid grid-cols-1 lg:grid-cols-4 gap-4'>
 			<div className='col-span-1 lg:col-span-4 flex justify-between'>
 				<div>
-					{isLoading ? (
-						<p className='text-primary-foreground opacity-40 text-4xl font-medium'>
-							Loading...
-						</p>
-					) : error ? (
-						<p className='text-red-500 text-2xl'>{error}</p>
-					) : user ? (
+					{user ? (
 						<>
 							<p className='text-primary-foreground opacity-40 text-4xl font-medium'>
 								Welcome,{' '}
@@ -351,113 +337,88 @@ function HomePage() {
 				</Button>
 			</div>
 			<div className='col-span-1 lg:col-span-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-				{isLoading ? (
-					<>
-						<Skeleton className="h-[200px] w-full rounded-lg" />
-						<Skeleton className="h-[200px] w-full rounded-lg" />
-						<Skeleton className="h-[200px] w-full rounded-lg" />
-						<Skeleton className="h-[200px] w-full rounded-lg" />
-					</>
-				) : (
-					<>
-						<AnalyticsCard
-							title="Total Visitors"
-							value={userAnalytics?.totalUsers ?? 0}
-							changePercent={userAnalytics?.totalUsersChangePercent}
-							trendData={userAnalytics?.totalUsersTrend}
-							icon={Users}
-							chartColor="#10B981"
-						/>
-						<AnalyticsCard
-							title="Conversion Rate"
-							value={userAnalytics?.conversionRate ?? 0}
-							changePercent={userAnalytics?.conversionRateChangePercent}
-							trendData={userAnalytics?.conversionRateTrend}
-							icon={RefreshCw}
-							chartColor="#38BDF8"
-							formatAsPercent
-						/>
-						<AnalyticsCard
-							title="Total Orders"
-							value={orderSummary?.totalOrders ?? 0}
-							changePercent={orderSummary?.ordersChangePercent}
-							trendData={orderSummary?.ordersTrend}
-							icon={ShoppingBag}
-							chartColor="#8B5CF6"
-						/>
-						<AnalyticsCard
-							title="Total Revenue"
-							value={orderSummary?.totalRevenue ?? 0}
-							changePercent={orderSummary?.revenueChangePercent}
-							trendData={orderSummary?.revenueTrend}
-							icon={DollarSign}
-							chartColor="#FFB957"
-							formatAsCurrency
-						/>
-					</>
-				)}
+                <AnalyticsCard
+                    title="Total Visitors"
+                    value={userAnalytics?.totalUsers ?? 0}
+                    changePercent={userAnalytics?.totalUsersChangePercent}
+                    trendData={userAnalytics?.totalUsersTrend}
+                    icon={Users}
+                    chartColor="#10B981"
+                />
+                <AnalyticsCard
+                    title="Conversion Rate"
+                    value={userAnalytics?.conversionRate ?? 0}
+                    changePercent={userAnalytics?.conversionRateChangePercent}
+                    trendData={userAnalytics?.conversionRateTrend}
+                    icon={RefreshCw}
+                    chartColor="#38BDF8"
+                    formatAsPercent
+                />
+                <AnalyticsCard
+                    title="Total Orders"
+                    value={orderSummary?.totalOrders ?? 0}
+                    changePercent={orderSummary?.ordersChangePercent}
+                    trendData={orderSummary?.ordersTrend}
+                    icon={ShoppingBag}
+                    chartColor="#8B5CF6"
+                />
+                <AnalyticsCard
+                    title="Total Revenue"
+                    value={orderSummary?.totalRevenue ?? 0}
+                    changePercent={orderSummary?.revenueChangePercent}
+                    trendData={orderSummary?.revenueTrend}
+                    icon={DollarSign}
+                    chartColor="#FFB957"
+                    formatAsCurrency
+                />
 			</div>
 
 			{/* Today's Summary Section */}
-			<div className="col-span-1 lg:col-span-1">
+			<div className="col-span-1 lg:col-span-4">
 				<div className="bg-primary p-4 rounded-lg h-full">
-					<h2 className='text-xl font-bold text-white mb-4'>Today</h2>
-					<div className="flex flex-col gap-4">
-						{isLoading ? (
-							<div className="space-y-4">
-								<Skeleton className="h-28 w-full rounded-lg" />
-								<Skeleton className="h-28 w-full rounded-lg" />
-								<Skeleton className="h-28 w-full rounded-lg" />
-								<Skeleton className="h-28 w-full rounded-lg" />
-							</div>
-						) : (
-							<>
-								<TodaySummaryCard 
-									title="Today's Revenue"
-									value={todaysSummary?.totalRevenue ?? 0}
-									icon={DollarSign}
-									color="#10B981"
-									formatAsCurrency
-								/>
-								<TodaySummaryCard 
-									title="Total Orders"
-									value={todaysSummary?.totalOrders ?? 0}
-									icon={Truck}
-									color="#8B5CF6"
-								/>
-								<TodaySummaryCard 
-									title="Shipped Orders"
-									value={todaysSummary?.shippedOrders ?? 0}
-									icon={ShoppingCart}
-									color="#38BDF8"
-								/>
-								<TodaySummaryCard 
-									title="Pending Orders"
-									value={todaysSummary?.pendingOrders ?? 0}
-									icon={Tag}
-									color="#F59E0B"
-								/>
-							</>
-						)}
+					<h2 className='text-xl font-bold text-primary-foreground mb-4'>Today</h2>
+					<div className="grid grid-cols-3 gap-4">
+                        {/* <TodaySummaryCard 
+                            title="Today's Revenue"
+                            value={todaysSummary?.totalRevenue ?? 0}
+                            icon={DollarSign}
+                            color="#10B981"
+                            formatAsCurrency
+                        /> */}
+                        <TodaySummaryCard 
+                            title="Total Orders"
+                            value={todaysSummary?.totalOrders ?? 0}
+                            icon={Truck}
+                            color="#8B5CF6"
+                        />
+                        <TodaySummaryCard 
+                            title="Shipped Orders"
+                            value={todaysSummary?.shippedOrders ?? 0}
+                            icon={ShoppingCart}
+                            color="#38BDF8"
+                        />
+                        <TodaySummaryCard 
+                            title="Pending Orders"
+                            value={todaysSummary?.pendingOrders ?? 0}
+                            icon={Tag}
+                            color="#F59E0B"
+                        />
 					</div>
 				</div>
 			</div>
 
-			{/* Revenue Breakdown Chart */}
-			<div className='col-span-1 lg:col-span-3'>
-				<RevenueBreakdownChart />
-			</div>
-
-			{/* Customer Growth and Top Products */}
-			<div className="col-span-1 lg:col-span-2">
-				<TopCustomersChart />
-			</div>
-			<div className="col-span-1 lg:col-span-2">
-				<TopProductsTable />
-			</div>
-
-			<div className="col-span-1 lg:col-span-4">
-				<RecentOrdersTable />
+			{/* MAIN CONTENT AREA */}
+			<div className='grid grid-cols-1 lg:grid-cols-4 col-span-4 gap-4'>
+				{/* LEFT (MAIN) */}
+				<div className='lg:col-span-2 flex flex-col gap-4'>
+					<RevenueBreakdownChart />
+					<RecentOrdersTable />
+				</div>
+				{/* RIGHT (SIDE) */}
+				<div className="col-span-2 flex flex-col gap-6">
+					<TopProductsTable />
+					<TopCustomersChart />
+				</div>
 			</div>
 		</div>
 	)

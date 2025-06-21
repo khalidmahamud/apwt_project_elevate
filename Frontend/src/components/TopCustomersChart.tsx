@@ -43,11 +43,11 @@ const TopCustomersChart = () => {
     return (
         <div className="bg-primary p-4 rounded-lg h-full flex flex-col">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-white">Top Customers</h2>
+                <h2 className="text-xl font-bold text-primary-foreground">Top Customers</h2>
                 <select
                     value={days}
                     onChange={(e) => setDays(e.target.value)}
-                    className="bg-primary-foreground/10 text-white rounded p-1"
+                    className="bg-primary-foreground/10 text-primary-foreground rounded p-1"
                 >
                     <option value="7">Last 7 Days</option>
                     <option value="30">Last 30 Days</option>
@@ -66,8 +66,8 @@ const TopCustomersChart = () => {
                         ))}
                     </div>
                 ) : (
-                    <table className="w-full text-left text-sm text-gray-400">
-                        <thead className="text-xs text-gray-400 uppercase border-b border-gray-700">
+                    <table className="w-full text-left text-sm text-primary-foreground">
+                        <thead className="text-xs text-primary-foreground font-semibold uppercase border-b border-gray-700">
                             <tr>
                                 <th scope="col" className="py-3 px-2">Customer</th>
                                 <th scope="col" className="py-3 px-2 text-right">Orders</th>
@@ -77,9 +77,9 @@ const TopCustomersChart = () => {
                         <tbody>
                             {customers.map((customer) => (
                                 <tr key={customer.id} className="border-b border-gray-800 hover:bg-primary-foreground/5">
-                                    <td className="py-3 px-2 text-white font-medium">{customer.email}</td>
+                                    <td className="py-3 px-2 text-primary-foreground font-medium">{customer.email}</td>
                                     <td className="py-3 px-2 text-right">{customer.orderCount}</td>
-                                    <td className="py-3 px-2 text-right font-bold text-white">{formatCurrency(parseFloat(customer.totalSpent))}</td>
+                                    <td className="py-3 px-2 text-right font-bold text-primary-foreground">{formatCurrency(parseFloat(customer.totalSpent))}</td>
                                 </tr>
                             ))}
                         </tbody>

@@ -88,7 +88,10 @@ export class AuthService {
   }
 
   async refresh(userId: string, refreshToken: string) {
-    const user = await this.usersRepository.findOne({ where: { id: userId } });
+    const user = await this.usersRepository.findOne({
+      where: { id: userId },
+      relations: ['roles'],
+    });
     if (!user || !user.refreshToken) {
       throw new UnauthorizedException('Access Denied');
     }

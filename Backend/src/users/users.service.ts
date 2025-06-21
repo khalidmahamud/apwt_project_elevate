@@ -199,7 +199,7 @@ export class UsersService {
   async getUserAnalytics() {
     // 1. Date setup
     const endDate = endOfDay(new Date());
-    const startDate = startOfDay(subDays(endDate, 6));
+    const startDate = startOfDay(subDays(endDate, 6)); // Last 7 days
     const prevStartDate = startOfDay(subDays(startDate, 7));
     const prevEndDate = endOfDay(subDays(startDate, 1));
 
@@ -220,12 +220,14 @@ export class UsersService {
     const newUsersTrendRaw = await getDailyNewUsers(startDate, endDate);
     const totalUsersTrend = this.fillTrend(newUsersTrendRaw, startDate, endDate, 'count');
 
-
     // 4. Conversion Rate stats
-    const totalPurchasingUsersQuery = this.orderRepository.createQueryBuilder("order").select('COUNT(DISTINCT "userId")');
-    const totalPurchasingUsers = await totalPurchasingUsersQuery.getRawOne().then(result => parseInt(result.count, 10) || 0);
+    const totalPurchasingUsers = await this.orderRepository.createQueryBuilder("order")
+        .select('COUNT(DISTINCT "userId")')
+        .getRawOne()
+        .then(result => parseInt(result.count, 10) || 0);
+    
     const conversionRate = totalUsers > 0 ? (totalPurchasingUsers / totalUsers) * 100 : 0;
-
+    
     // 5. Conversion rate change and trend
     const getDailyActiveCustomers = (from: Date, to: Date) => {
         return this.orderRepository.createQueryBuilder('order')
@@ -235,13 +237,12 @@ export class UsersService {
             .getRawMany();
     }
     const activeCustomersCurrentPeriodRaw = await getDailyActiveCustomers(startDate, endDate);
+    
     const activeCustomersCurrentPeriod = await this.orderRepository.createQueryBuilder("order").select('COUNT(DISTINCT "userId")').where({ createdAt: Between(startDate, endDate) }).getRawOne().then(r => parseInt(r.count, 10) || 0);
     const activeCustomersPrevPeriod = await this.orderRepository.createQueryBuilder("order").select('COUNT(DISTINCT "userId")').where({ createdAt: Between(prevStartDate, prevEndDate) }).getRawOne().then(r => parseInt(r.count, 10) || 0);
     
     const conversionRateChangePercent = activeCustomersPrevPeriod > 0 ? ((activeCustomersCurrentPeriod - activeCustomersPrevPeriod) / activeCustomersPrevPeriod) * 100 : (activeCustomersCurrentPeriod > 0 ? 100 : 0);
-
     const conversionRateTrend = this.fillTrend(activeCustomersCurrentPeriodRaw, startDate, endDate, 'count');
-
 
     return {
         totalUsers,
@@ -249,20 +250,19 @@ export class UsersService {
         totalUsersTrend,
         conversionRate,
         conversionRateChangePercent,
-        conversionRateTrend
+        conversionRateTrend,
     };
   }
 
   private fillTrend(trendArr: any[], from: Date, to: Date, key: string): number[] {
-    const result: number[] = [];
-    const numDays = Math.floor((endOfDay(to).getTime() - startOfDay(from).getTime()) / (1000 * 60 * 60 * 24));
-    for (let i = 0; i <= numDays; i++) {
-      const d = startOfDay(addDays(from, i));
-      const dStr = d.toISOString().slice(0, 10); // 'YYYY-MM-DD'
-      const found = trendArr.find(t => t.date && typeof t.date.toISOString === 'function' && t.date.toISOString().slice(0, 10) === dStr);
-      const value = found && found[key] != null ? Number(found[key]) : 0;
-      result.push(isNaN(value) ? 0 : value);
+    const trendMap = new Map(
+      trendArr.map(item => [startOfDay(item.date).toISOString(), parseInt(item[key], 10) || 0])
+    );
+    const filledTrend: number[] = [];
+    for (let d = startOfDay(from); d <= to; d = addDays(d, 1)) {
+        const dateKey = d.toISOString();
+        filledTrend.push(trendMap.get(dateKey) || 0);
     }
-    return result;
+    return filledTrend;
   }
 }

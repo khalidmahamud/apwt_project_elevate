@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -9,35 +10,22 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { login, user } = useAuth();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
-      if (token) {
-        router.replace('/');
-      }
+    if (user) {
+      router.replace('/');
     }
-  }, [router]);
+  }, [user, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-      if (!res.ok) {
-        throw new Error('Invalid credentials');
-      }
-      const data = await res.json();
-      localStorage.setItem('token', data.access_token);
-      router.push('/');
+      await login({ email, password });
     } catch (err: any) {
-      setError(err.message || 'Login failed');
-    } finally {
+      setError(err.response?.data?.message || err.message || 'Login failed');
       setLoading(false);
     }
   };

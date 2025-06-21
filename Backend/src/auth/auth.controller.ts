@@ -48,11 +48,12 @@ export class AuthController {
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) response: Response,
   ) {
+    console.log('Login attempt with DTO:', loginDto);
     const { access_token, refresh_token, message } =
       await this.authService.login(loginDto);
     response.cookie('refresh_token', refresh_token, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
     });
     return { access_token, message };
@@ -62,8 +63,12 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
   async logout(@Req() req, @Res({ passthrough: true }) response: Response) {
-    await this.authService.logout(req.user.sub);
-    response.clearCookie('refresh_token');
+    await this.authService.logout(req.user.id);
+    response.clearCookie('refresh_token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    });
     return { message: 'Logged out successfully' };
   }
 
@@ -78,7 +83,7 @@ export class AuthController {
     );
     response.cookie('refresh_token', refresh_token, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
     });
     return { access_token };

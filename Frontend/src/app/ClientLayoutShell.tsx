@@ -3,6 +3,7 @@
 import AppSidebar from '@/components/AppSidebar';
 import Navbar from '@/components/Navbar';
 import { ThemeProvider } from '@/components/Providers/ThemeProvider';
+import { AuthProvider } from '@/context/AuthContext';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { usePathname } from 'next/navigation';
 
@@ -12,25 +13,27 @@ export default function ClientLayoutShell({ children }: { children: React.ReactN
   const defaultOpen = true; 
 
   return (
-    <ThemeProvider
-      attribute='class'
-      defaultTheme='system'
-      enableSystem
-      disableTransitionOnChange
-    >
-      {showLayout ? (
-        <SidebarProvider defaultOpen={defaultOpen}>
-          <AppSidebar />
+    <AuthProvider>
+      <ThemeProvider
+        attribute='class'
+        defaultTheme='system'
+        enableSystem
+        disableTransitionOnChange
+      >
+        {showLayout ? (
+          <SidebarProvider defaultOpen={defaultOpen}>
+            <AppSidebar />
+            <main className='w-full'>
+              <Navbar />
+              <div className='px-4'>{children}</div>
+            </main>
+          </SidebarProvider>
+        ) : (
           <main className='w-full'>
-            <Navbar />
-            <div className='px-4'>{children}</div>
+            {children}
           </main>
-        </SidebarProvider>
-      ) : (
-        <main className='w-full'>
-          {children}
-        </main>
-      )}
-    </ThemeProvider>
+        )}
+      </ThemeProvider>
+    </AuthProvider>
   );
 } 

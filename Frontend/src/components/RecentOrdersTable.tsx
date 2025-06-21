@@ -111,9 +111,9 @@ const RecentOrdersTable = () => {
     );
 
     return (
-        <div className="bg-primary p-4 rounded-lg mt-4">
+        <div className="bg-primary text-primary-foreground p-4 rounded-lg mt-4">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-white">Recent Orders</h2>
+                <h2 className="text-xl font-bold text-primary-foreground">Recent Orders</h2>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" size="sm" className="ml-auto gap-1">
@@ -135,15 +135,15 @@ const RecentOrdersTable = () => {
             {loading ? (
                 renderSkeleton()
             ) : (
-                <Table>
+                <Table className='text-primary-foreground'>
                     <TableHeader>
-                        <TableRow>
-                            <TableHead>ID</TableHead>
-                            <TableHead>Product Name</TableHead>
-                            <TableHead className="text-right">Amount</TableHead>
-                            <TableHead>Date</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>
+                        <TableRow className='text-primary-foreground'>
+                            <TableHead className='text-primary-foreground font-semibold capitalize'>ID</TableHead>
+                            <TableHead className='text-primary-foreground font-semibold capitalize'>Product Name</TableHead>
+                            <TableHead className="text-right text-primary-foreground font-semibold">Amount</TableHead>
+                            <TableHead className='text-primary-foreground font-semibold'>Date</TableHead>
+                            <TableHead className='text-primary-foreground font-semibold'>Status</TableHead>
+                            <TableHead className='text-primary-foreground font-semibold'>
                                 <span className="sr-only">Actions</span>
                             </TableHead>
                         </TableRow>
@@ -151,12 +151,12 @@ const RecentOrdersTable = () => {
                     <TableBody>
                         {orders.map((order) => (
                             <TableRow key={order.id}>
-                                <TableCell className="font-medium">{`ORD-${order.id.substring(0, 8)}...`}</TableCell>
+                                <TableCell className="font-medium">{`${order.id.substring(0, 8)}...`}</TableCell>
                                 <TableCell>{order.items.length > 0 ? order.items[0].product.name : 'N/A'}</TableCell>
                                 <TableCell className="text-right">{formatCurrency(order.totalAmount)}</TableCell>
                                 <TableCell>{formatDate(order.createdAt)}</TableCell>
                                 <TableCell>
-                                    <Badge variant={getStatusVariant(order.status) as any}>{order.status}</Badge>
+                                    <Badge className='' variant={getStatusVariant(order.status) as any}>{order.status}</Badge>
                                 </TableCell>
                                 <TableCell>
                                     <DropdownMenu>

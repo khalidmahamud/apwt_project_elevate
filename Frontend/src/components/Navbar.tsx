@@ -14,53 +14,18 @@ import {
 	LogOut,
 	MessageSquareText,
 	Moon,
-	SeparatorHorizontal,
 	Settings,
 	Sun,
-	Tally1,
 	User,
 } from 'lucide-react'
-import Link from 'next/link'
 import { Button } from './ui/button'
 import { useTheme } from 'next-themes'
 import { SidebarTrigger } from './ui/sidebar'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import api from '@/lib/api'
+import { useAuth } from '@/context/AuthContext'
 
 const Navbar = () => {
-	const router = useRouter()
 	const { theme, setTheme } = useTheme()
-	const [user, setUser] = useState<any>(null)
-	const [loading, setLoading] = useState(true)
-	const [error, setError] = useState('')
-
-	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			const token = localStorage.getItem('token')
-			if (!token) {
-				router.replace('/login')
-				return
-			}
-			// Fetch user profile
-			api
-				.get('/user/profile')
-				.then((res) => {
-					setUser(res.data)
-				})
-				.catch((err) => {
-					setError('Failed to fetch user profile')
-				})
-				.finally(() => setLoading(false))
-		}
-	}, [router])
-
-	const handleLogout = () => {
-		if (typeof window !== 'undefined') {
-			localStorage.removeItem('token');
-			router.replace('/login');
-		}
-	}
+	const { user, loading, logout } = useAuth()
 
 	return (
 		<nav className='w-full p-4 flex items-center justify-between bg-primary'>
@@ -105,7 +70,9 @@ const Navbar = () => {
 					</DropdownMenuContent>
 				</DropdownMenu>
 				<div className='h-8 w-0.5 bg-primary-foreground'></div>
-				{!loading && user ? (
+				{loading ? (
+					<div className='w-24 h-6 bg-gray-200 rounded animate-pulse'></div>
+				) : user ? (
 					<div>
 						<p className='text-sm text-accent'>
 							{user.firstName
@@ -117,9 +84,7 @@ const Navbar = () => {
 						</p>
 						<p className='text-[12px]'>{user.email}</p>
 					</div>
-				) : (
-					<div className='w-24 h-6 bg-gray-200 rounded animate-pulse'></div>
-				)}
+				) : null}
 				{/* USER MENU */}
 				<DropdownMenu>
 					<DropdownMenuTrigger>
@@ -139,7 +104,7 @@ const Navbar = () => {
 							<Settings className='h-[1.2rem w-[1.2rem] mr-2' />
 							Settings
 						</DropdownMenuItem>
-						<DropdownMenuItem variant='destructive' onClick={handleLogout} className="cursor-pointer">
+						<DropdownMenuItem variant='destructive' onClick={logout} className="cursor-pointer">
 							<LogOut className='h-[1.2rem w-[1.2rem] mr-2' />
 							Log Out
 						</DropdownMenuItem>

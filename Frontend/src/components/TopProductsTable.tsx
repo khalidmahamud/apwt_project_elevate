@@ -60,11 +60,11 @@ const TopProductsTable = () => {
 		<div className="bg-primary p-4 rounded-lg h-full flex flex-col">
 			{/* Header */}
 			<div className="flex justify-between items-center mb-4">
-				<h2 className="text-xl font-bold text-white">Top Selling Products</h2>
+				<h2 className="text-xl font-bold text-primary-foreground">Top Selling Products</h2>
 				<select
 					value={days}
 					onChange={(e) => setDays(e.target.value)}
-					className="bg-primary-foreground/10 text-white rounded p-1"
+					className="bg-primary-foreground/10 text-primary-foreground rounded p-1"
 				>
 					<option value="7">Last 7 Days</option>
 					<option value="30">Last 30 Days</option>
@@ -93,8 +93,8 @@ const TopProductsTable = () => {
 						<p className="text-red-500">{error}</p>
 					</div>
 				) : (
-					<table className="w-full text-left text-sm text-gray-400">
-						<thead className="text-xs text-gray-400 uppercase border-b border-gray-700">
+					<table className="w-full text-left text-sm text-primary-foreground">
+						<thead className="text-xs text-primary-foreground uppercase border-b border-gray-700">
 							<tr>
 								<th scope="col" className="py-3 px-2">Product Name</th>
 								<th scope="col" className="py-3 px-2 text-right">Price</th>
@@ -107,7 +107,7 @@ const TopProductsTable = () => {
 						<tbody>
 							{products.map((product) => (
 								<tr key={product.id} className="border-b border-gray-800 hover:bg-primary-foreground/5">
-									<td className="py-3 px-2 text-white font-medium flex items-center gap-3">
+									<td className="py-3 px-2 text-primary-foreground font-medium flex items-center gap-3">
 										<Image
 											src={product.image || '/placeholder-shoe.png'}
 											alt={product.name}
@@ -126,7 +126,7 @@ const TopProductsTable = () => {
 											<Star className="w-4 h-4 text-yellow-400 ml-1" fill="currentColor" />
 										</div>
 									</td>
-									<td className="py-3 px-2 text-right font-bold text-white">{formatCurrency(product.totalRevenue)}</td>
+									<td className="py-3 px-2 text-right font-bold text-primary-foreground">{formatCurrency(product.totalRevenue)}</td>
 								</tr>
 							))}
 						</tbody>
