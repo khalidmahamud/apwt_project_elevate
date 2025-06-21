@@ -158,7 +158,7 @@ const RecentOrdersTable = () => {
                                 <TableCell>
                                     <Badge className='' variant={getStatusVariant(order.status) as any}>{order.status}</Badge>
                                 </TableCell>
-                                <TableCell>
+                                {/* <TableCell>
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                             <Button aria-haspopup="true" size="icon" variant="ghost">
@@ -171,7 +171,7 @@ const RecentOrdersTable = () => {
                                             <DropdownMenuItem>Update Status</DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
-                                </TableCell>
+                                </TableCell> */}
                             </TableRow>
                         ))}
                     </TableBody>
