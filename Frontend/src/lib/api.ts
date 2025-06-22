@@ -18,29 +18,66 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
+// Flag to prevent multiple simultaneous refresh requests
+let isRefreshing = false;
+// Queue of failed requests to retry after token refresh
+let failedQueue: { resolve: (value: unknown) => void; reject: (reason?: any) => void; }[] = [];
+
+const processQueue = (error: any, token = null) => {
+  failedQueue.forEach(prom => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+
+  failedQueue = [];
+};
+
 // Add a response interceptor to handle token refresh
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise(function (resolve, reject) {
+          failedQueue.push({ resolve, reject });
+        })
+          .then(token => {
+            originalRequest.headers['Authorization'] = 'Bearer ' + token;
+            return api(originalRequest);
+          })
+          .catch(err => {
+            return Promise.reject(err);
+          });
+      }
+
       originalRequest._retry = true;
-      console.log('Access token expired. Attempting to refresh...');
+      isRefreshing = true;
+
       try {
         const { data } = await api.get('/auth/refresh');
-        console.log('Token refresh successful.');
-        setAccessToken(data.access_token);
-        originalRequest.headers['Authorization'] =
-          'Bearer ' + data.access_token;
+        const newAccessToken = data.access_token;
+        
+        setAccessToken(newAccessToken);
+        api.defaults.headers.common['Authorization'] = 'Bearer ' + newAccessToken;
+        originalRequest.headers['Authorization'] = 'Bearer ' + newAccessToken;
+        
+        processQueue(null, newAccessToken);
         return api(originalRequest);
+
       } catch (refreshError) {
-        console.error('Failed to refresh token:', refreshError);
-        setAccessToken(null);
-        // Redirect to login
-        if (typeof window !== 'undefined') {
-          window.location.href = '/login';
-        }
+        processQueue(refreshError, null);
+        setAccessToken(null); // Clear token
+        // Fire a custom event to notify the app of auth failure
+        console.log('Dispatching auth-failure event');
+        window.dispatchEvent(new Event('auth-failure'));
         return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
       }
     }
     return Promise.reject(error);

@@ -9,7 +9,7 @@ interface AuthContextType {
   user: any;
   loading: boolean;
   login: (credentials: any) => Promise<void>;
-  logout: () => void;
+  logout: (isForced?: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,6 +18,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+
+  const logout = async (isForced = false) => {
+    try {
+      if (!isForced) {
+        await api.get('/auth/logout');
+      }
+    } catch (error) {
+      console.error('Logout failed', error);
+    } finally {
+      setUser(null);
+      setAccessToken(null);
+      // Use replace instead of push to prevent back navigation
+      router.replace('/login');
+    }
+  };
+
+  useEffect(() => {
+    const handleAuthFailure = () => {
+      console.log('Auth failure event caught, logging out.');
+      logout(true); // Pass a flag to indicate it's a forced logout
+    };
+
+    window.addEventListener('auth-failure', handleAuthFailure);
+
+    return () => {
+      window.removeEventListener('auth-failure', handleAuthFailure);
+    };
+  }, []); // Empty dependency array ensures this runs only once
 
   useEffect(() => {
     const initializeAuth = async () => {
@@ -43,14 +71,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const profileRes = await api.get('/user/profile');
     setUser(profileRes.data);
     router.push('/');
-  };
-
-  const logout = () => {
-    setUser(null);
-    setAccessToken(null);
-    // Notify backend in background
-    api.get('/auth/logout').catch(err => console.error('Server logout failed', err));
-    router.replace('/login');
   };
 
   return (

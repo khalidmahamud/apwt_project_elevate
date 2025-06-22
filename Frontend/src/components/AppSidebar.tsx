@@ -22,7 +22,8 @@ import {
 	useSidebar,
 } from './ui/sidebar'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
+import { useAuth } from '@/context/AuthContext'
 import ElevateLogo from './ElevateLogo'
 
 const items = [
@@ -65,16 +66,9 @@ const items = [
 
 const AppSidebar = () => {
 	const { state } = useSidebar()
+	const { logout } = useAuth()
 	const pathname = usePathname()
 	const isCollapsed = state === 'collapsed'
-	const router = useRouter()
-
-	const handleLogout = () => {
-		if (typeof window !== 'undefined') {
-			localStorage.removeItem('token')
-			router.replace('/login')
-		}
-	}
 
 	const getActiveStyles = (isActive: boolean) => {
 		if (!isActive) return ''
@@ -145,7 +139,7 @@ const AppSidebar = () => {
 						<SidebarMenuButton
 							asChild
 							className='h-[40px] bg-accent text-accent-foreground hover:bg-accent/90 hover:text-accent-foreground'
-							onClick={handleLogout}
+							onClick={() => logout()}
 						>
 							<button
 								className={
