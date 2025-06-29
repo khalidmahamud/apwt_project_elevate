@@ -1,320 +1,614 @@
-# Elevate E-Commerce Platform
+# Elevate E-commerce Platform
 
-A full-stack e-commerce platform built with Next.js frontend and NestJS backend, featuring AI-powered analytics chatbot.
+A comprehensive e-commerce management system built with NestJS backend and Next.js frontend, featuring advanced analytics, AI-powered chatbot, and robust user management.
 
-## 🚀 Features Overview
+## 🚀 Table of Contents
 
-### Frontend (Next.js)
-- **Modern UI/UX** with Tailwind CSS and shadcn/ui components
-- **Responsive Design** optimized for mobile and desktop
-- **Authentication System** with JWT tokens
-- **Real-time Analytics Dashboard**
-- **Product Management** with CRUD operations
-- **Order Management** with status tracking
-- **Customer Management**
-- **AI-Powered Chatbot** for business analytics
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Backend Features](#backend-features)
+- [Frontend Features](#frontend-features)
+- [Authentication System](#authentication-system)
+- [API Documentation](#api-documentation)
+- [Installation & Setup](#installation--setup)
+- [Environment Variables](#environment-variables)
+- [Usage](#usage)
+- [Contributing](#contributing)
+
+## 📋 Overview
+
+Elevate is a full-stack e-commerce platform that provides:
+
+- **Admin Dashboard**: Comprehensive analytics and management tools
+- **User Management**: Role-based access control with customer profiles
+- **Product Management**: Advanced product catalog with categories and status flags
+- **Order Management**: Complete order lifecycle management
+- **AI Chatbot**: Intelligent customer support and analytics queries
+- **Analytics**: Real-time business intelligence and reporting
+- **File Management**: Secure file upload and static serving
+
+## 🏗️ Architecture
 
 ### Backend (NestJS)
-- **RESTful API** with comprehensive endpoints
-- **JWT Authentication** with role-based access control
-- **Database Integration** with PostgreSQL and TypeORM
-- **File Upload** for product images
-- **Order Processing** with status management
-- **User Management** with roles and permissions
-- **Analytics API** for business intelligence
-- **AI Chatbot Service** with OpenAI integration
+- **Framework**: NestJS with TypeScript
+- **Database**: PostgreSQL with TypeORM
+- **Authentication**: JWT with refresh tokens
+- **Documentation**: Swagger/OpenAPI
+- **File Handling**: Express static serving
+- **AI Integration**: OpenAI GPT-3.5 for chatbot
 
-## 📁 Project Structure
+### Frontend (Next.js)
+- **Framework**: Next.js 15 with React 19
+- **Styling**: Tailwind CSS with shadcn/ui components
+- **Charts**: Recharts for data visualization
+- **State Management**: React Context API
+- **HTTP Client**: Axios with interceptors
+- **UI Components**: Radix UI primitives
 
+## 🔧 Backend Features
+
+### 1. Authentication Module (`/auth/`)
+
+**Libraries Used:**
+- `@nestjs/jwt` - JWT token generation and validation
+- `@nestjs/passport` - Authentication strategies
+- `passport-jwt` - JWT strategy implementation
+- `bcrypt` - Password hashing and comparison
+- `cookie-parser` - Cookie handling
+
+**Features:**
+- JWT-based authentication with access and refresh tokens
+- Role-based authorization (Admin, Customer)
+- Password hashing with bcrypt
+- Token refresh mechanism
+- Login/logout functionality
+- User session management
+
+**Key Components:**
+- `AuthService` - Core authentication logic
+- `JwtAuthGuard` - Route protection
+- `RolesGuard` - Role-based access control
+- `JwtStrategy` - JWT token validation
+- `RefreshTokenStrategy` - Refresh token handling
+
+### 2. User Management Module (`/users/`)
+
+**Libraries Used:**
+- `@nestjs/typeorm` - Database operations
+- `class-validator` - Input validation
+- `class-transformer` - Data transformation
+
+**Features:**
+- User CRUD operations
+- Profile management with image upload
+- Address management
+- Role assignment
+- User analytics and reporting
+- Customer insights
+
+**Key Components:**
+- `UsersService` - Business logic
+- `AdminUserController` - Admin user management
+- `UsersController` - Public user operations
+- `Users` entity - Database model
+- `Address` entity - User addresses
+
+### 3. Product Management Module (`/products/`)
+
+**Libraries Used:**
+- `@nestjs/typeorm` - Database operations
+- `date-fns` - Date manipulation
+
+**Features:**
+- Product CRUD operations
+- Category management
+- Product status flags (Featured, New Arrival, Best Seller, On Sale)
+- Stock management
+- Product analytics
+- Image upload and management
+
+**Key Components:**
+- `ProductsService` - Business logic
+- `AdminProductsController` - Admin product management
+- `ProductController` - Public product operations
+- `Product` entity - Database model
+
+### 4. Order Management Module (`/orders/`)
+
+**Libraries Used:**
+- `@nestjs/typeorm` - Database operations
+- `date-fns` - Date manipulation
+
+**Features:**
+- Order creation and management
+- Order status tracking
+- Order items management
+- Order analytics
+- Revenue tracking
+- Customer order history
+
+**Key Components:**
+- `OrdersService` - Business logic
+- `AdminOrdersController` - Admin order management
+- `OrdersController` - Public order operations
+- `Order` entity - Database model
+- `OrderItem` entity - Order line items
+
+### 5. Admin Module (`/admin/`)
+
+**Libraries Used:**
+- `exceljs` - Excel report generation
+- `papaparse` - CSV parsing
+- `openai` - AI chatbot integration
+
+**Features:**
+- Comprehensive admin dashboard
+- Business analytics and reporting
+- Customer reports
+- Product performance tracking
+- Order analytics
+- AI-powered chatbot for business insights
+
+**Key Components:**
+- `ChatbotService` - AI-powered analytics assistant
+- Admin controllers for all modules
+- Report generation services
+- Analytics aggregation
+
+### 6. File Upload System
+
+**Libraries Used:**
+- `express` - Static file serving
+- `multer` - File upload handling
+
+**Features:**
+- Secure file upload
+- Image processing
+- Static file serving
+- File validation
+- Organized file storage
+
+## 🎨 Frontend Features
+
+### 1. Authentication System
+
+**Libraries Used:**
+- `axios` - HTTP client
+- `react` - UI framework
+- `next-themes` - Theme management
+
+**Features:**
+- Login/logout functionality
+- Token management
+- Role-based routing
+- Protected routes
+- User context management
+
+**Key Components:**
+- `AuthContext` - Global authentication state
+- `login-form.tsx` - Login interface
+- `useAuth` hook - Authentication utilities
+
+### 2. Dashboard Components
+
+**Libraries Used:**
+- `recharts` - Data visualization
+- `lucide-react` - Icons
+- `date-fns` - Date formatting
+- `sonner` - Toast notifications
+
+**Features:**
+- Real-time analytics dashboard
+- Interactive charts and graphs
+- Performance metrics
+- Revenue breakdown
+- Order tracking
+- Customer insights
+
+**Key Components:**
+- `AnalyticsCard` - Metric display with trends
+- `DashboardLayout` - Consistent layout structure
+- `DashboardGrid` - Responsive grid system
+- `RevenueBreakdownChart` - Revenue visualization
+- `TopCustomersChart` - Customer analytics
+- `TopProductsTable` - Product performance
+
+### 3. User Management Interface
+
+**Libraries Used:**
+- `@radix-ui/react-*` - UI primitives
+- `tailwind-merge` - CSS class merging
+- `class-variance-authority` - Component variants
+
+**Features:**
+- User profile management
+- Profile image upload
+- User information editing
+- Address management
+- Role-based interface
+
+**Key Components:**
+- `profile/page.tsx` - User profile interface
+- `customers/page.tsx` - Customer management
+- `customer-profile/page.tsx` - Customer profile view
+
+### 4. Product Management Interface
+
+**Libraries Used:**
+- `@radix-ui/react-dialog` - Modal dialogs
+- `@radix-ui/react-select` - Dropdown selects
+- `@radix-ui/react-tabs` - Tab navigation
+
+**Features:**
+- Product catalog management
+- Product creation and editing
+- Category management
+- Stock management
+- Product status toggles
+- Image upload
+
+**Key Components:**
+- `products/page.tsx` - Product management interface
+- Product forms and modals
+- Product status controls
+
+### 5. Order Management Interface
+
+**Libraries Used:**
+- `@radix-ui/react-table` - Data tables
+- `@radix-ui/react-badge` - Status badges
+
+**Features:**
+- Order tracking and management
+- Order status updates
+- Order history
+- Order analytics
+- Customer order views
+
+**Key Components:**
+- `orders/page.tsx` - Order management interface
+- Order status indicators
+- Order detail views
+
+### 6. Common UI Components
+
+**Libraries Used:**
+- `@radix-ui/react-*` - UI primitives
+- `clsx` - Conditional class names
+
+**Features:**
+- Reusable UI components
+- Consistent design system
+- Responsive layouts
+- Loading states
+- Error handling
+
+**Key Components:**
+- `LoadingSpinner` - Loading indicators
+- `EmptyState` - Empty state displays
+- `Button` - Interactive buttons
+- `Input` - Form inputs
+- `Table` - Data tables
+- `Modal` - Dialog components
+
+### 7. Custom Hooks
+
+**Features:**
+- API data fetching
+- Pagination management
+- Form handling
+- Authentication utilities
+
+**Key Components:**
+- `useApi` - API data fetching hooks
+- `usePagination` - Pagination logic
+- `useAuth` - Authentication utilities
+- `useMobile` - Responsive utilities
+
+## 🔐 Authentication System
+
+### JWT Token Architecture
+
+**Token Types:**
+1. **Access Token** - Short-lived (1 hour) for API access
+2. **Refresh Token** - Long-lived (24 hours) for token renewal
+
+**Security Features:**
+- Token rotation on refresh
+- Secure token storage
+- Automatic token refresh
+- Role-based access control
+
+### Authentication Flow
+
+1. **Login Process:**
+   ```typescript
+   // User submits credentials
+   POST /auth/login
+   {
+     "email": "user@example.com",
+     "password": "password123"
+   }
+   
+   // Server responds with tokens
+   {
+     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+     "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+     "message": "Welcome user"
+   }
+   ```
+
+2. **Token Validation:**
+   - Access tokens validated on each protected request
+   - Refresh tokens used to generate new access tokens
+   - Invalid tokens result in 401 Unauthorized
+
+3. **Role-Based Access:**
+   ```typescript
+   @UseGuards(JwtAuthGuard, RolesGuard)
+   @Roles(Role.ADMIN)
+   @Get('admin/users')
+   async getUsers() {
+     // Only accessible by admin users
+   }
+   ```
+
+### Cookie Management
+
+**Configuration:**
+- Secure cookie settings
+- HTTP-only cookies for security
+- Cross-origin resource sharing (CORS)
+- Credential inclusion for authenticated requests
+
+**Implementation:**
+```typescript
+// Backend CORS configuration
+app.enableCors({
+  origin: 'http://localhost:3001',
+  credentials: true,
+});
+
+// Frontend axios configuration
+axios.defaults.withCredentials = true;
 ```
-apwt_project_elevate/
-├── frontend/                 # Next.js frontend application
-│   ├── src/
-│   │   ├── app/             # App router pages
-│   │   ├── components/      # Reusable UI components
-│   │   ├── context/         # React context providers
-│   │   ├── hooks/           # Custom React hooks
-│   │   └── lib/             # Utility functions and API
-│   └── public/              # Static assets
-├── backend/                 # NestJS backend application
-│   └── api/
-│       ├── src/
-│       │   ├── admin/       # Admin-specific modules
-│       │   ├── auth/        # Authentication module
-│       │   ├── orders/      # Order management
-│       │   ├── products/    # Product management
-│       │   ├── users/       # User management
-│       │   └── common/      # Shared utilities
-│       └── uploads/         # File uploads directory
+
+### Session Management
+
+**Features:**
+- Automatic token refresh
+- Session persistence
+- Logout functionality
+- User state management
+
+**Implementation:**
+```typescript
+// AuthContext for global state
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// Token refresh logic
+const refreshToken = async () => {
+  try {
+    const response = await api.post('/auth/refresh');
+    setTokens(response.data);
+  } catch (error) {
+    logout();
+  }
+};
 ```
 
-## 🛠️ Technology Stack
+## 📚 API Documentation
 
-### Frontend
-- **Next.js 14** - React framework with App Router
-- **TypeScript** - Type-safe JavaScript
-- **Tailwind CSS** - Utility-first CSS framework
-- **shadcn/ui** - Modern component library
-- **React Hook Form** - Form management
-- **Zod** - Schema validation
-- **Axios** - HTTP client
+### Core Endpoints
 
-### Backend
-- **NestJS** - Progressive Node.js framework
-- **TypeScript** - Type-safe JavaScript
-- **PostgreSQL** - Primary database
-- **TypeORM** - Object-Relational Mapping
-- **JWT** - Authentication tokens
-- **OpenAI API** - AI chatbot integration
-- **Multer** - File upload handling
+#### Authentication
+- `POST /auth/login` - User login
+- `POST /auth/refresh` - Refresh access token
+- `POST /auth/logout` - User logout
 
-## 🎯 Core Features
+#### Users
+- `GET /users/profile` - Get user profile
+- `PATCH /users/profile` - Update user profile
+- `GET /admin/users` - Get all users (Admin)
+- `PATCH /admin/users/:id` - Update user (Admin)
+- `GET /admin/users/analytics` - User analytics (Admin)
 
-### 1. Authentication & Authorization
-- **JWT-based authentication** with refresh tokens
-- **Role-based access control** (Admin, User)
-- **Secure password hashing**
-- **Email verification system**
-- **Session management**
+#### Products
+- `GET /products` - Get products
+- `POST /admin/products` - Create product (Admin)
+- `PATCH /admin/products/:id` - Update product (Admin)
+- `DELETE /admin/products/:id` - Delete product (Admin)
+- `GET /admin/products/analytics` - Product analytics (Admin)
 
-### 2. Product Management
-- **CRUD operations** for products
-- **Image upload** with multiple file support
-- **Category management** with predefined categories
-- **Inventory tracking** with stock quantities
-- **Product variants** (sizes, colors)
-- **Product status** (active, featured, on sale)
-- **Search and filtering** capabilities
+#### Orders
+- `GET /orders` - Get orders
+- `POST /orders` - Create order
+- `PATCH /admin/orders/:id` - Update order (Admin)
+- `GET /admin/orders/analytics` - Order analytics (Admin)
 
-### 3. Order Management
-- **Order creation** and processing
-- **Status tracking** (Pending, Processing, Shipped, Delivered, Cancelled, Refunded)
-- **Order history** with detailed tracking
-- **Payment integration** support
-- **Order notes** and admin comments
-- **Invoice generation** and printing
+#### Admin
+- `GET /admin/chatbot` - AI chatbot queries
+- `GET /admin/reports` - Generate reports
 
-### 4. Customer Management
-- **User registration** and profiles
-- **Address management** with multiple addresses
-- **Order history** for customers
-- **Customer analytics** and insights
-- **Profile management** with avatar upload
+### Swagger Documentation
 
-### 5. Analytics Dashboard
-- **Real-time metrics** display
-- **Revenue analytics** with time-based filtering
-- **Order statistics** with status breakdown
-- **Customer insights** and top customers
-- **Product performance** tracking
-- **Inventory alerts** for low stock
+Access the interactive API documentation at:
+```
+http://localhost:3000/api
+```
 
-### 6. AI-Powered Chatbot
-- **Natural language processing** for business queries
-- **Real-time analytics** responses
-- **Product-specific** analytics
-- **Customer insights** and trends
-- **Inventory management** queries
-- **Revenue and sales** analysis
-- **Universal query handling** for any business metric
-
-## 🤖 AI Chatbot Features
-
-### Query Capabilities
-The AI chatbot can answer questions about:
-
-#### **Product Analytics**
-- "What's the best performing product currently?"
-- "Show me analytics for [Product Name]"
-- "Which products are low in stock?"
-- "Top selling products this month"
-
-#### **Customer Analytics**
-- "Who is our best customer currently?"
-- "Show me top customers by spending"
-- "Customer loyalty analysis"
-- "New vs returning customers"
-
-#### **Order Analytics**
-- "How many orders do we have today?"
-- "Order status breakdown"
-- "Pending orders count"
-- "Delivery performance"
-
-#### **Revenue Analytics**
-- "What's our revenue this month?"
-- "Total sales overview"
-- "Revenue trends"
-- "Profit analysis"
-
-#### **Inventory Analytics**
-- "Low stock alerts"
-- "Out of stock products"
-- "Inventory overview"
-- "Stock replenishment needs"
-
-#### **Time-Based Analytics**
-- Today, Yesterday, This Week, Last Week
-- This Month, Last Month, All Time
-- Custom date ranges
-
-#### **Category Analytics**
-- "How are electronics performing?"
-- "Category performance comparison"
-- "Best performing categories"
-
-#### **Trend Analysis**
-- "Revenue growth trends"
-- "Sales comparison"
-- "Performance changes"
-
-### Technical Implementation
-- **Dynamic product name extraction** from database
-- **Fuzzy matching** for product identification
-- **Time range detection** from natural language
-- **Real-time database queries** for accurate data
-- **OpenAI integration** for natural language responses
-- **Prevention of hallucinated data** - only real database values
-
-## 📊 Analytics Features
-
-### Dashboard Components
-1. **Revenue Cards** - Total revenue with period comparisons
-2. **Order Statistics** - Order counts and status breakdown
-3. **Customer Metrics** - Total customers and top spenders
-4. **Product Performance** - Best sellers and inventory alerts
-5. **Recent Orders Table** - Latest order activity
-6. **Top Customers Chart** - Customer spending visualization
-7. **Revenue Breakdown** - Category-wise revenue analysis
-
-### Filtering Options
-- **Time-based filtering**: 7 days, 30 days, All time
-- **Date range selection** with custom start/end dates
-- **Real-time updates** with automatic refresh
-
-## 🔧 Installation & Setup
+## 🛠️ Installation & Setup
 
 ### Prerequisites
-- Node.js (v18 or higher)
-- PostgreSQL database
-- OpenAI API key (for chatbot features)
+- Node.js 18+ 
+- PostgreSQL 12+
+- npm or yarn
 
 ### Backend Setup
-```bash
-cd backend/api
-npm install
-cp .env.example .env
-# Configure your .env file with database and OpenAI credentials
-npm run start:dev
-```
+
+1. **Clone and install dependencies:**
+   ```bash
+   cd backend/api
+   npm install
+   ```
+
+2. **Database setup:**
+   ```bash
+   # Create PostgreSQL database
+   createdb elevate_db
+   
+   # Run migrations
+   npm run migration:run
+   ```
+
+3. **Environment configuration:**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+4. **Start development server:**
+   ```bash
+   npm run start:dev
+   ```
 
 ### Frontend Setup
-```bash
-cd frontend/app
-npm install
-npm run dev
-```
 
-### Environment Variables
+1. **Install dependencies:**
+   ```bash
+   cd frontend/app
+   npm install
+   ```
+
+2. **Start development server:**
+   ```bash
+   npm run dev
+   ```
+
+## 🔧 Environment Variables
+
+### Backend (.env)
 ```env
 # Database
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
-DATABASE_USERNAME=your_username
-DATABASE_PASSWORD=your_password
-DATABASE_NAME=your_database
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=password
+DATABASE_NAME=elevate_db
 
 # JWT
-JWT_SECRET=your_jwt_secret
-JWT_REFRESH_SECRET=your_refresh_secret
+JWT_ACCESS_TOKEN_SECRET=your-access-secret
+JWT_REFRESH_TOKEN_SECRET=your-refresh-secret
+JWT_TOKEN_AUDIENCE=elevate-api
+JWT_TOKEN_ISSUER=elevate
+JWT_ACCESS_TOKEN_TTL=3600
+JWT_REFRESH_TOKEN_TTL=86400
 
 # OpenAI (for chatbot)
-OPENAI_API_KEY=your_openai_api_key
+OPENAI_API_KEY=your-openai-api-key
+
+# Server
+PORT=3000
+NODE_ENV=development
 ```
 
-## 🚀 API Endpoints
+### Frontend (.env.local)
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3000
+NEXT_PUBLIC_APP_NAME=Elevate
+```
 
-### Authentication
-- `POST /auth/login` - User login
-- `POST /auth/refresh` - Refresh JWT token
-- `POST /auth/logout` - User logout
+## 🚀 Usage
 
-### Products
-- `GET /products` - Get all products with pagination
-- `POST /products` - Create new product
-- `PUT /products/:id` - Update product
-- `DELETE /products/:id` - Delete product
-- `POST /products/upload` - Upload product images
+### Development
 
-### Orders
-- `GET /orders` - Get all orders with filtering
-- `POST /orders` - Create new order
-- `PUT /orders/:id` - Update order status
-- `GET /orders/analytics` - Get order analytics
+1. **Start both servers:**
+   ```bash
+   # Backend (Terminal 1)
+   cd backend/api && npm run start:dev
+   
+   # Frontend (Terminal 2)
+   cd frontend/app && npm run dev
+   ```
 
-### Users
-- `GET /users` - Get all users
-- `POST /users` - Create new user
-- `PUT /users/:id` - Update user
-- `DELETE /users/:id` - Delete user
+2. **Access the application:**
+   - Frontend: http://localhost:3001
+   - Backend API: http://localhost:3000
+   - API Docs: http://localhost:3000/api
 
-### Admin
-- `GET /admin/analytics` - Get comprehensive analytics
-- `POST /admin/chatbot` - AI chatbot endpoint
+### Production
 
-## 🎨 UI Components
+1. **Build the applications:**
+   ```bash
+   # Backend
+   cd backend/api && npm run build
+   
+   # Frontend
+   cd frontend/app && npm run build
+   ```
 
-### Reusable Components
-- **Button** - Various styles and states
-- **Input** - Form inputs with validation
-- **Modal** - Popup dialogs
-- **Table** - Data tables with sorting
-- **Card** - Content containers
-- **Badge** - Status indicators
-- **Avatar** - User profile images
-- **Dropdown** - Selection menus
+2. **Start production servers:**
+   ```bash
+   # Backend
+   cd backend/api && npm run start:prod
+   
+   # Frontend
+   cd frontend/app && npm start
+   ```
 
-### Layout Components
-- **Sidebar** - Navigation menu
-- **Navbar** - Top navigation bar
-- **Layout** - Page structure
-- **Theme Provider** - Dark/light mode support
+## 📊 Features Overview
 
-## 🔒 Security Features
+### Admin Dashboard
+- Real-time analytics and metrics
+- Revenue and order tracking
+- Customer insights
+- Product performance
+- AI-powered business insights
 
-- **JWT token authentication**
-- **Role-based access control**
-- **Password hashing** with bcrypt
-- **Input validation** and sanitization
-- **CORS configuration**
-- **Rate limiting** (configurable)
-- **Secure file upload** validation
+### User Management
+- Role-based access control
+- Profile management
+- Customer analytics
+- User activity tracking
 
-## 📱 Responsive Design
+### Product Management
+- Advanced product catalog
+- Category management
+- Stock tracking
+- Product status flags
+- Performance analytics
 
-- **Mobile-first** approach
-- **Tablet optimization**
-- **Desktop enhancement**
-- **Touch-friendly** interactions
-- **Adaptive layouts** for all screen sizes
+### Order Management
+- Complete order lifecycle
+- Status tracking
+- Revenue analytics
+- Customer order history
 
-## 🧪 Testing
+### AI Chatbot
+- Natural language queries
+- Business intelligence
+- Product recommendations
+- Customer support
 
-- **Unit tests** for backend services
-- **Integration tests** for API endpoints
-- **E2E tests** for critical user flows
-- **Component tests** for frontend
+## 🤝 Contributing
 
-## 🚀 Deployment
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-### Backend Deployment
-- **Docker** support for containerization
-- **Environment-specific** configurations
-- **Database migrations** handling
-- **Health check** endpoints
+## 📄 License
 
-### Frontend Deployment
-- **Static export** capability
-- **CDN optimization** ready
-- **SEO optimization** with meta tags
-- **Performance optimization** with Next.js
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue in the repository
+- Check the API documentation at `/api`
+- Review the codebase structure
+
+---
+
+**Elevate E-commerce Platform** - Built with ❤️ using NestJS and Next.js

@@ -98,13 +98,13 @@ export default function ProfilePage() {
       }
       
       console.log('Sending user data:', userData);
-      await api.patch(`/admin/users/${user.id}`, userData);
+      await api.patch(`/admin/users/${user?.id}`, userData);
       
       // Update profile image separately if it changed
       if (profileImage !== user?.profileImage) {
         console.log('Sending profile image:', { profileImage });
         try {
-          await api.patch(`/admin/users/${user.id}/profile-image`, { profileImage });
+          await api.patch(`/admin/users/${user?.id}/profile-image`, { profileImage });
         } catch (imageError) {
           console.error('Failed to update profile image:', imageError);
           // Continue with the update even if image fails

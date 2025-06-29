@@ -210,9 +210,9 @@ export class UsersService {
         .groupBy('user.id')
         .orderBy('totalSpent', sortOrder.toUpperCase() as 'ASC' | 'DESC');
     } else {
-      const validSortFields = ['createdAt', 'lastLoginAt', 'firstName', 'lastName', 'email'];
-      const finalSortBy = validSortFields.includes(sortBy) ? sortBy : 'createdAt';
-      queryBuilder.orderBy(`user.${finalSortBy}`, sortOrder.toUpperCase() as 'ASC' | 'DESC');
+    const validSortFields = ['createdAt', 'lastLoginAt', 'firstName', 'lastName', 'email'];
+    const finalSortBy = validSortFields.includes(sortBy) ? sortBy : 'createdAt';
+    queryBuilder.orderBy(`user.${finalSortBy}`, sortOrder.toUpperCase() as 'ASC' | 'DESC');
     }
     
     queryBuilder.skip((page - 1) * limit).take(limit);

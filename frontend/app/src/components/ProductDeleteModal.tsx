@@ -1,6 +1,7 @@
+import React from 'react'
 import { Button } from '@/components/ui/button'
 import api from '@/lib/api'
-import type { Product } from './ProductTable'
+import type { Product } from '@/types'
 
 interface ProductDeleteModalProps {
   product: Product | null

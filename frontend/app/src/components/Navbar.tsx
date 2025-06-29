@@ -98,7 +98,7 @@ const Navbar = () => {
 				<DropdownMenu>
 					<DropdownMenuTrigger>
 						<Avatar>
-							<AvatarImage src={getFullUrl(user?.profileImage) || 'https://github.com/shadcn.png'} />
+							<AvatarImage src={getFullUrl(user?.profileImage || '') || 'https://github.com/shadcn.png'} />
 							<AvatarFallback>
 								{user?.firstName?.[0]?.toUpperCase()}
 								{user?.lastName?.[0]?.toUpperCase()}
@@ -110,13 +110,15 @@ const Navbar = () => {
 						<DropdownMenuSeparator />
 						<DropdownMenuItem asChild>
 							<Link href="/profile">
-								<User className='h-[1.2rem w-[1.2rem] mr-2' />
-								Profile
+							<User className='h-[1.2rem w-[1.2rem] mr-2' />
+							Profile
 							</Link>
 						</DropdownMenuItem>
 						<DropdownMenuItem>
 							<Settings className='h-[1.2rem w-[1.2rem] mr-2' />
-							Settings
+							<Link href="/settings">
+								Settings
+							</Link>
 						</DropdownMenuItem>
 						<DropdownMenuItem variant='destructive' onClick={() => logout()} className="cursor-pointer">
 							<LogOut className='h-[1.2rem w-[1.2rem] mr-2' />

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import api from '@/lib/api'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -248,7 +248,8 @@ const AnalyticsCard = ({
 }
 
 export default function CustomersPage() {
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
+  const router = useRouter()
   const [users, setUsers] = useState<User[]>([])
   const [customerAnalytics, setCustomerAnalytics] = useState<CustomerAnalytics[]>([])
   const [userAnalytics, setUserAnalytics] = useState<UserAnalytics | null>(null)
@@ -271,11 +272,12 @@ export default function CustomersPage() {
   const [timePeriod, setTimePeriod] = useState<TimePeriod>('7days')
   const [showFilters, setShowFilters] = useState(false)
 
+  // Authentication check - using useEffect to avoid calling router during render
   useEffect(() => {
-    if (!user) {
-      redirect('/login')
+    if (!authLoading && !user) {
+      router.replace('/login')
     }
-  }, [user])
+  }, [authLoading, user, router])
 
   useEffect(() => {
     fetchUsers()
@@ -307,6 +309,8 @@ export default function CustomersPage() {
   }
 
   const fetchUsers = async () => {
+    if (!user || authLoading) return
+    
     try {
       setLoading(true)
       const params = new URLSearchParams({
@@ -324,7 +328,9 @@ export default function CustomersPage() {
       setUsers(response.data.items)
       setTotalPages(response.data.meta.totalPages)
     } catch (error) {
-      toast.error('Failed to fetch users')
+      if (user && !authLoading) {
+        toast.error('Failed to fetch users')
+      }
       console.error(error)
     } finally {
       setLoading(false)
@@ -332,6 +338,8 @@ export default function CustomersPage() {
   }
 
   const fetchAnalytics = async () => {
+    if (!user || authLoading) return
+    
     try {
       setAnalyticsLoading(true)
       const { startDate, endDate } = getDateRange(timePeriod)
@@ -347,7 +355,9 @@ export default function CustomersPage() {
       setCustomerAnalytics(customerRes.data)
       setUserAnalytics(userRes.data)
     } catch (error) {
-      toast.error('Failed to fetch analytics')
+      if (user && !authLoading) {
+        toast.error('Failed to fetch analytics')
+      }
       console.error(error)
     } finally {
       setAnalyticsLoading(false)
@@ -498,8 +508,18 @@ export default function CustomersPage() {
     return { trendData, pieData }
   }
 
-  if (!user) {
-    return null
+  // Show loading while checking authentication
+  if (authLoading || !user) {
+    return (
+      <div className="p-6 bg-background h-auto">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   const { trendData, pieData } = prepareChartData()

@@ -22,6 +22,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from './ui/button'
+import { useAuth } from '@/context/AuthContext'
 
 // Define the type for a single product
 type ProductAnalytics = {
@@ -44,6 +45,7 @@ const formatCurrency = (amount: number) => {
 
 // TopProductsTable Component
 const TopProductsTable = () => {
+	const { user, loading: authLoading } = useAuth()
 	const [days, setDays] = useState('7');
 	const [products, setProducts] = useState<ProductAnalytics[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -51,6 +53,8 @@ const TopProductsTable = () => {
 
 	useEffect(() => {
 		const fetchProductAnalytics = async () => {
+			if (!user || authLoading) return
+			
 			setLoading(true);
 			setError(null);
 			try {
@@ -58,7 +62,9 @@ const TopProductsTable = () => {
 				setProducts(response.data.bestSellers);
 			} catch (err) {
 				setError('Failed to fetch product analytics.');
-				toast.error('Failed to fetch product analytics.');
+				if (user && !authLoading) {
+					toast.error('Failed to fetch product analytics.');
+				}
 				console.error(err);
 			} finally {
 				setLoading(false);
@@ -66,7 +72,7 @@ const TopProductsTable = () => {
 		};
 
 		fetchProductAnalytics();
-	}, [days]);
+	}, [days, user, authLoading]);
 
 	return (
 		<div className="bg-primary p-4 rounded-lg h-full flex flex-col">

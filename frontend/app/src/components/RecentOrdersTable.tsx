@@ -25,6 +25,7 @@ import {
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/context/AuthContext'
 
 type OrderItem = {
     product: {
@@ -71,6 +72,7 @@ const getStatusVariant = (status: string): 'default' | 'secondary' | 'destructiv
 }
 
 const RecentOrdersTable = () => {
+    const { user, loading: authLoading } = useAuth()
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
     const [sortConfig, setSortConfig] = useState({ sortBy: 'createdAt', sortOrder: 'DESC' });
@@ -78,20 +80,24 @@ const RecentOrdersTable = () => {
 
     useEffect(() => {
         const fetchRecentOrders = async () => {
+            if (!user || authLoading) return
+            
             try {
                 setLoading(true);
                 const { sortBy, sortOrder } = sortConfig;
                 const response = await api.get(`/admin/orders?limit=10&sortBy=${sortBy}&sortOrder=${sortOrder}`);
                 setOrders(response.data.data);
             } catch (error) {
-                toast.error('Failed to fetch recent orders.');
+                if (user && !authLoading) {
+                    toast.error('Failed to fetch recent orders.');
+                }
                 console.error(error);
             } finally {
                 setLoading(false);
             }
         };
         fetchRecentOrders();
-    }, [sortConfig]);
+    }, [sortConfig, user, authLoading]);
 
     const handleSortChange = (sortBy: string, sortOrder: 'ASC' | 'DESC') => {
         setSortConfig({ sortBy, sortOrder });

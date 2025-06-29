@@ -7,22 +7,21 @@ import ProductDeleteModal from '@/components/ProductDeleteModal'
 import ProductAddModal from '@/components/ProductAddModal'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
+import { Product, ProductFilters as ProductFiltersType } from '@/types'
 
 export default function ProductsPage() {
-  const [editProduct, setEditProduct] = useState(null)
-  const [deleteProduct, setDeleteProduct] = useState(null)
-  const [filters, setFilters] = useState({})
+  const [editProduct, setEditProduct] = useState<Product | null>(null)
+  const [deleteProduct, setDeleteProduct] = useState<Product | null>(null)
+  const [filters, setFilters] = useState<ProductFiltersType>({})
   const [refreshKey, setRefreshKey] = useState(0)
-  const [page, setPage] = useState(1)
   const [addProductModal, setAddProductModal] = useState(false)
 
   // Helper to set filters and reset page
-  const setFiltersAndResetPage = (updater) => {
+  const setFiltersAndResetPage = (updater: ProductFiltersType | ((prev: ProductFiltersType) => ProductFiltersType)) => {
     setFilters(prev => {
       const next = typeof updater === 'function' ? updater(prev) : updater
       return next
     })
-    setPage(1)
   }
 
   return (
@@ -54,10 +53,13 @@ export default function ProductsPage() {
         onEdit={setEditProduct} 
         onDelete={setDeleteProduct} 
         refreshKey={refreshKey}
-        page={page}
-        setPage={setPage}
       />
-      <ProductEditModal product={editProduct} onClose={() => setEditProduct(null)} onSaved={() => setRefreshKey(k => k + 1)} />
+      <ProductEditModal 
+        product={editProduct} 
+        isOpen={!!editProduct}
+        onClose={() => setEditProduct(null)} 
+        onSave={() => setRefreshKey(k => k + 1)} 
+      />
       <ProductDeleteModal product={deleteProduct} onClose={() => setDeleteProduct(null)} onDeleted={() => setRefreshKey(k => k + 1)} />
       <ProductAddModal open={addProductModal} onClose={() => setAddProductModal(false)} onCreated={() => { setAddProductModal(false); setRefreshKey(k => k + 1); }} />
     </div>

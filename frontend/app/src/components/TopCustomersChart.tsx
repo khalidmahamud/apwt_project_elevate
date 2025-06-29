@@ -12,6 +12,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { ListFilter } from 'lucide-react'
+import { useAuth } from '@/context/AuthContext'
 
 type CustomerAnalytics = {
 	id: string;
@@ -29,24 +30,29 @@ const formatCurrency = (amount: number) => {
 };
 
 const TopCustomersChart = () => {
+    const { user, loading: authLoading } = useAuth()
     const [days, setDays] = useState('30');
     const [customers, setCustomers] = useState<CustomerAnalytics[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        if (!user || authLoading) return
+        
         setLoading(true);
         api.get(`/admin/orders/analytics/customer?days=${days}`)
             .then(res => {
                 setCustomers(res.data);
             })
             .catch(err => {
-                toast.error('Failed to fetch top customers.');
+                if (user && !authLoading) {
+                    toast.error('Failed to fetch top customers.');
+                }
                 console.error(err);
             })
             .finally(() => {
                 setLoading(false);
             });
-    }, [days]);
+    }, [days, user, authLoading]);
 
     const getDaysLabel = (days: string) => {
         switch (days) {

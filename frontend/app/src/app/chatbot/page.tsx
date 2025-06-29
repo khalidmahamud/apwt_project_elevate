@@ -32,7 +32,7 @@ export default function ChatbotPage() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: "Hello! I'm your AI assistant. I can help you with analytics, orders, products, and customer insights. What would you like to know?",
+      content: 'Hello',
       role: 'assistant',
       timestamp: new Date(),
       formattedTime: '',
@@ -210,11 +210,33 @@ export default function ChatbotPage() {
   }
 
   const suggestedQueries = [
+    // Analytics & Overview
     "Show me today's orders",
     "What's our total revenue this month?",
+    "Give me a business overview",
+    "How are we performing?",
+    
+    // Product Management
     "Which products are selling best?",
-    "How many customers do we have?",
     "Show low stock products",
+    "What's out of stock?",
+    "Give me product recommendations",
+    "Show category performance",
+    
+    // Customer Insights
+    "Who are our best customers?",
+    "Show recent customers",
+    "Give me customer insights",
+    "How many customers do we have?",
+    
+    // Order Management
+    "Show recent orders",
+    "What's our order status breakdown?",
+    "Show pending orders",
+    
+    // Financial Analysis
+    "What's our profit margin?",
+    "Show revenue trends",
     "What's our average order value?"
   ]
 
@@ -225,8 +247,8 @@ export default function ChatbotPage() {
           <Bot className="w-5 h-5 text-primary-foreground" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold">AI Analytics Assistant</h1>
-          <p className="text-muted-foreground">Ask me anything about your business data</p>
+          <h1 className="text-2xl font-bold">AI Business Analytics Assistant</h1>
+          <p className="text-muted-foreground">Get comprehensive insights about products, customers, orders, and revenue</p>
         </div>
       </div>
 
@@ -277,7 +299,7 @@ export default function ChatbotPage() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="Ask about orders, revenue, products, customers..."
+          placeholder="Ask about products, customers, orders, revenue, inventory, trends..."
           disabled={isLoading}
           className="flex-1"
         />

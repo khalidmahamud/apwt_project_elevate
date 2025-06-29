@@ -4,19 +4,20 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api';
 import { setAccessToken, getAccessToken } from '@/lib/token';
+import { getDefaultRoute, User } from '@/utils/auth';
 
 interface AuthContextType {
-  user: any;
+  user: User | null;
   loading: boolean;
   login: (credentials: any) => Promise<void>;
   logout: (isForced?: boolean) => void;
-  updateUser: (userData: any) => void;
+  updateUser: (userData: User) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -50,13 +51,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const initializeAuth = async () => {
-      // Try to refresh token on initial load
       try {
+        // Check if we have a token in localStorage
+        const existingToken = getAccessToken();
+        
+        if (existingToken) {
+          // Try to get user profile with existing token
+          try {
+            const profileRes = await api.get('/auth/profile');
+            setUser(profileRes.data);
+            setLoading(false);
+            return;
+          } catch (profileError) {
+            // If profile fetch fails, try to refresh token
+            console.log('Profile fetch failed, attempting token refresh');
+          }
+        }
+        
+        // Try to refresh token
         const { data } = await api.post('/auth/refresh');
         setAccessToken(data.access_token);
         const profileRes = await api.get('/auth/profile');
         setUser(profileRes.data);
       } catch (error) {
+        console.log('Authentication failed:', error);
         setAccessToken(null);
         setUser(null);
       } finally {
@@ -70,11 +88,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const res = await api.post('/auth/login', credentials);
     setAccessToken(res.data.access_token);
     const profileRes = await api.get('/auth/profile');
-    setUser(profileRes.data);
-    router.push('/');
+    const userData = profileRes.data;
+    setUser(userData);
+    
+    // Role-based routing using utility function
+    const defaultRoute = getDefaultRoute(userData);
+    router.push(defaultRoute);
   };
 
-  const updateUser = (userData: any) => {
+  const updateUser = (userData: User) => {
     setUser(userData);
   };
 

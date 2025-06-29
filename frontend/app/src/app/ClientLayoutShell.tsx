@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 
 export default function ClientLayoutShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const showLayout = pathname !== '/login';
+  const showLayout = pathname !== '/login' && pathname !== '/customer-profile';
   const defaultOpen = true; 
 
   return (
