@@ -8,6 +8,7 @@ import {
 	IdCard,
 	Settings,
 	LogOut,
+	Bot,
 } from 'lucide-react'
 import {
 	Sidebar,
@@ -38,11 +39,6 @@ const items = [
 		icon: Package,
 	},
 	{
-		title: 'Categories',
-		url: '/categories',
-		icon: Tag,
-	},
-	{
 		title: 'Orders',
 		url: '/orders',
 		icon: ClipboardList,
@@ -53,9 +49,9 @@ const items = [
 		icon: Users,
 	},
 	{
-		title: 'Staff',
-		url: '/staff',
-		icon: IdCard,
+		title: 'AI Assistant',
+		url: '/chatbot',
+		icon: Bot,
 	},
 	{
 		title: 'Settings',

@@ -328,8 +328,8 @@ function HomePage() {
 	}
 
 	return (
-		<div className='p-4 grid grid-cols-1 lg:grid-cols-3 gap-6'>
-			<div className='lg:col-span-3 flex justify-between items-center'>
+		<div className='p-4 grid grid-cols-1 lg:grid-cols-4 gap-6'>
+			<div className='lg:col-span-4 flex justify-between items-center'>
 				<div>
 					{user ? (
 						<>
@@ -361,7 +361,7 @@ function HomePage() {
 				</Button>
 			</div>
 
-			<div className='lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+			<div className='lg:col-span-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
 				<AnalyticsCard
 					title='Avg. Order Value'
 					value={orderSummary?.avgOrderValue ?? 0}
@@ -436,7 +436,7 @@ function HomePage() {
 			</div>
 
 			{/* MAIN CONTENT AREA */}
-			<div className='grid grid-cols-1 lg:grid-cols-4 col-span-4 gap-4'>
+			<div className='grid grid-cols-1 lg:grid-cols-4 lg:col-span-4 gap-4'>
 				{/* LEFT (MAIN) */}
 				<div className='lg:col-span-2 flex flex-col gap-4'>
 					<RevenueBreakdownChart />

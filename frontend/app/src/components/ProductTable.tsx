@@ -83,6 +83,33 @@ export default function ProductTable({ filters, onEdit, onDelete, refreshKey, pa
 
   const totalPages = Math.ceil(total / PAGE_SIZE)
 
+  // Helper for windowed pagination (same as orders page)
+  function getPageNumbers(current: number, total: number) {
+    const delta = 2
+    const range: (number | string)[] = []
+    for (
+      let i = Math.max(1, current - delta);
+      i <= Math.min(total, current + delta);
+      i++
+    ) {
+      range.push(i)
+    }
+    if (typeof range[0] === 'number' && range[0] > 2) {
+      range.unshift('...')
+    }
+    if (typeof range[0] === 'number' && range[0] !== 1) {
+      range.unshift(1)
+    }
+    const last = range[range.length - 1]
+    if (typeof last === 'number' && last < total - 1) {
+      range.push('...')
+    }
+    if (typeof last === 'number' && last !== total) {
+      range.push(total)
+    }
+    return range
+  }
+
   return (
     <>
       <div className="bg-primary rounded-lg p-4">
@@ -137,15 +164,50 @@ export default function ProductTable({ filters, onEdit, onDelete, refreshKey, pa
           </TableBody>
         </Table>
       </div>
-      <div className="flex justify-start mt-4 gap-2">
-        <Button variant="outline" disabled={page === 1} onClick={() => setPage(page - 1)} className="cursor-pointer">Prev</Button>
-        {Array.from({ length: totalPages }).map((_, i) => (
-          <Button key={i} variant={page === i + 1 ? "default" : "outline"} onClick={() => setPage(i + 1)} className="cursor-pointer">
-            {i + 1}
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className='flex justify-start mt-4 gap-2'>
+          <Button
+            variant='outline'
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+            className='cursor-pointer bg-[var(--accent)] hover:opacity-80'
+            style={{ background: 'var(--accent)', color: 'var(--accent-foreground)' }}
+          >
+            Prev
           </Button>
-        ))}
-        <Button variant="outline" disabled={page === totalPages} onClick={() => setPage(page + 1)} className="cursor-pointer">Next</Button>
-      </div>
+          {getPageNumbers(page, totalPages).map((p, idx) =>
+            p === '...' ? (
+              <span
+                key={'ellipsis-' + idx}
+                className='px-2 py-1 text-muted-foreground'
+              >
+                ...
+              </span>
+            ) : (
+              <Button
+                key={p}
+                variant={page === p ? 'default' : 'outline'}
+                onClick={() => setPage(Number(p))}
+                className={`cursor-pointer ${
+                  page == p ? 'text-accent border-1 border-accent' : ''
+                }`}
+              >
+                {p}
+              </Button>
+            )
+          )}
+          <Button
+            variant='outline'
+            disabled={page === totalPages}
+            onClick={() => setPage(page + 1)}
+            className='cursor-pointer bg-[var(--accent)] hover:opacity-80'
+            style={{ background: 'var(--accent)', color: 'var(--accent-foreground)' }}
+          >
+            Next
+          </Button>
+        </div>
+      )}
     </>
   )
 } 

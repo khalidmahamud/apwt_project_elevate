@@ -10,8 +10,9 @@ import {
   HttpStatus,
   HttpCode,
   ParseUUIDPipe,
+  Res,
 } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
+import { UsersService, CustomerReportRow } from 'src/users/users.service';
 import { AdminUpdateUserDto } from '../../users/dto/admin-user.dto';
 import { AdminUserQueryDto } from '../../users/dto/admin-user-query.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
@@ -28,6 +29,8 @@ import {
   ApiQuery,
   ApiBearerAuth,
 } from '@nestjs/swagger';
+import { Response } from 'express';
+import * as Papa from 'papaparse';
 
 /**
  * Controller handling admin user management operations.
@@ -57,6 +60,44 @@ export class AdminUserController {
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden' })
   async findAll(@Query() queryDto: AdminUserQueryDto) {
     return this.usersService.findAll(queryDto);
+  }
+
+  @Get('analytics')
+  @ApiOperation({ summary: 'Get user analytics' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User analytics retrieved successfully',
+  })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+  @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden' })
+  async getUserAnalytics() {
+    return this.usersService.getUserAnalytics();
+  }
+
+  @Get('customer-report')
+  @ApiOperation({ summary: 'Generate customer report' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Customer report generated successfully',
+  })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+  @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden' })
+  async generateCustomerReport() {
+    return this.usersService.generateCustomerReport();
+  }
+
+  @Get('customer-report/download')
+  @ApiOperation({ summary: 'Download customer report as CSV' })
+  async downloadCustomerReport(@Res() res: Response) {
+    const customerData = await this.usersService.generateCustomerReport();
+    const csv = Papa.unparse(customerData);
+    const filename = `customer-report-${new Date().toISOString().split('T')[0]}.csv`;
+    
+    res.set({
+      'Content-Type': 'text/csv',
+      'Content-Disposition': `attachment; filename=${filename}`,
+    });
+    res.send(csv);
   }
 
   /**
@@ -166,5 +207,73 @@ export class AdminUserController {
     @Body('role') role: Role,
   ) {
     return this.usersService.updateUserRole(id, role);
+  }
+
+  @Patch(':id/profile-image')
+  @ApiOperation({ summary: 'Update user profile image' })
+  @ApiParam({
+    name: 'id',
+    description: 'User ID',
+    type: 'string',
+    format: 'uuid',
+  })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        profileImage: {
+          type: 'string',
+          description: 'URL or base64 string of the profile image',
+          example: 'https://example.com/profile.jpg',
+        },
+      },
+      required: ['profileImage'],
+    },
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Profile image updated successfully',
+  })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'User not found' })
+  @HttpCode(HttpStatus.OK)
+  async updateProfileImage(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('profileImage') profileImage: string,
+  ) {
+    return this.usersService.updateProfileImage(id, profileImage);
+  }
+
+  @Patch(':id/password')
+  @ApiOperation({ summary: 'Change user password' })
+  @ApiParam({
+    name: 'id',
+    description: 'User ID',
+    type: 'string',
+    format: 'uuid',
+  })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        password: {
+          type: 'string',
+          description: 'New password for the user',
+          example: 'newpassword123',
+        },
+      },
+      required: ['password'],
+    },
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Password changed successfully',
+  })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'User not found' })
+  @HttpCode(HttpStatus.OK)
+  async changePassword(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('password') password: string,
+  ) {
+    return this.usersService.changePassword(id, password);
   }
 }

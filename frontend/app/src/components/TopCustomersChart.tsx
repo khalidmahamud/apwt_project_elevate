@@ -4,6 +4,14 @@ import { useState, useEffect } from 'react'
 import api from '@/lib/api'
 import { toast } from 'sonner'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Button } from '@/components/ui/button'
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { ListFilter } from 'lucide-react'
 
 type CustomerAnalytics = {
 	id: string;
@@ -40,19 +48,34 @@ const TopCustomersChart = () => {
             });
     }, [days]);
 
+    const getDaysLabel = (days: string) => {
+        switch (days) {
+            case '7': return 'Last 7 Days';
+            case '30': return 'Last 30 Days';
+            case '90': return 'Last 90 Days';
+            default: return 'Last 30 Days';
+        }
+    };
+
     return (
         <div className="bg-primary p-4 rounded-lg flex flex-col">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold text-primary-foreground">Top Customers</h2>
-                <select
-                    value={days}
-                    onChange={(e) => setDays(e.target.value)}
-                    className="bg-primary-foreground/10 text-primary-foreground rounded p-1"
-                >
-                    <option value="7">Last 7 Days</option>
-                    <option value="30">Last 30 Days</option>
-                    <option value="90">Last 90 Days</option>
-                </select>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="sm" className="ml-auto gap-1">
+                            <ListFilter className="h-3.5 w-3.5" />
+                            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                                {getDaysLabel(days)}
+                            </span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => setDays('7')}>Last 7 Days</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setDays('30')}>Last 30 Days</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setDays('90')}>Last 90 Days</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
             <div className="overflow-auto">
                 {loading ? (

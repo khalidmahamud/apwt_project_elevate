@@ -40,6 +40,7 @@
     "D": "^1.0.0",
     "date-fns": "^4.1.0",
     "exceljs": "^4.4.0",
+    "openai": "^5.8.2",
     "papaparse": "^5.4.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",

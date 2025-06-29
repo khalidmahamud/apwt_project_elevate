@@ -1,0 +1,57 @@
+### Variables
+@baseUrl = http://localhost:3000
+@authToken = {{login.response.body.access_token}}
+
+### Test Chatbot Query - Today's Orders
+POST {{baseUrl}}/admin/chatbot/query
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "message": "Show me today's orders"
+}
+
+### Test Chatbot Query - Revenue
+POST {{baseUrl}}/admin/chatbot/query
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "message": "What's our total revenue this month?"
+}
+
+### Test Chatbot Query - Best Selling Products
+POST {{baseUrl}}/admin/chatbot/query
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "message": "Which products are selling best?"
+}
+
+### Test Chatbot Query - Customer Count
+POST {{baseUrl}}/admin/chatbot/query
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "message": "How many customers do we have?"
+}
+
+### Test Chatbot Query - Low Stock
+POST {{baseUrl}}/admin/chatbot/query
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "message": "Show me products with low stock"
+}
+
+### Test Chatbot Query - General Question
+POST {{baseUrl}}/admin/chatbot/query
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "message": "What can you help me with?"
+} 

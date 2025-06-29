@@ -13,6 +13,14 @@ import { useEffect, useState } from 'react'
 import api from '@/lib/api'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useAuth } from '@/context/AuthContext'
+import { Button } from '@/components/ui/button'
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { ListFilter } from 'lucide-react'
 
 type RevenueBreakdownData = {
 	categories: string[]
@@ -55,6 +63,15 @@ const RevenueBreakdownChart = () => {
 		'#facc15',
 	]
 
+	const getDaysLabel = (days: number) => {
+		switch (days) {
+			case 7: return 'Last 7 days';
+			case 30: return 'Last 30 days';
+			case 90: return 'Last 90 days';
+			default: return 'Last 7 days';
+		}
+	};
+
 	if (loading)
 		return (
 			<div className='bg-primary p-4 rounded-lg h-full flex flex-col'>
@@ -75,15 +92,21 @@ const RevenueBreakdownChart = () => {
 				<h2 className='text-xl font-bold text-primary-foreground'>
 					Revenue Breakdown
 				</h2>
-				<select
-					value={days}
-					onChange={(e) => setDays(Number(e.target.value))}
-					className='bg-primary-foreground/10 text-primary-foreground rounded p-1'
-				>
-					<option value={7}>Last 7 days</option>
-					<option value={30}>Last 30 days</option>
-					<option value={90}>Last 90 days</option>
-				</select>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button variant="outline" size="sm" className="ml-auto gap-1">
+							<ListFilter className="h-3.5 w-3.5" />
+							<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+								{getDaysLabel(days)}
+							</span>
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="end">
+						<DropdownMenuItem onClick={() => setDays(7)}>Last 7 days</DropdownMenuItem>
+						<DropdownMenuItem onClick={() => setDays(30)}>Last 30 days</DropdownMenuItem>
+						<DropdownMenuItem onClick={() => setDays(90)}>Last 90 days</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
 			</div>
 			<ResponsiveContainer
 				width='100%'

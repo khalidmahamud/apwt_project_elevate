@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 type OrderItem = {
     product: {
@@ -73,6 +74,7 @@ const RecentOrdersTable = () => {
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
     const [sortConfig, setSortConfig] = useState({ sortBy: 'createdAt', sortOrder: 'DESC' });
+    const router = useRouter();
 
     useEffect(() => {
         const fetchRecentOrders = async () => {
@@ -93,6 +95,14 @@ const RecentOrdersTable = () => {
 
     const handleSortChange = (sortBy: string, sortOrder: 'ASC' | 'DESC') => {
         setSortConfig({ sortBy, sortOrder });
+    };
+
+    const handleViewDetails = (orderId: string) => {
+        router.push(`/orders?orderId=${orderId}`);
+    };
+
+    const handleUpdateStatus = (orderId: string) => {
+        router.push(`/orders?orderId=${orderId}&action=update`);
     };
 
     const renderSkeleton = () => (
@@ -151,9 +161,12 @@ const RecentOrdersTable = () => {
                         {orders.map((order) => (
                             <TableRow key={order.id}>
                                 <TableCell className="font-medium">
-                                    <Link href={`/orders/${order.id}`} className="hover:underline">
+                                    <button 
+                                        onClick={() => handleViewDetails(order.id)}
+                                        className="hover:underline cursor-pointer"
+                                    >
                                         {order.id.substring(0, 8)}...
-                                    </Link>
+                                    </button>
                                 </TableCell>
                                 <TableCell>
                                     {order.items.length > 1
@@ -176,10 +189,12 @@ const RecentOrdersTable = () => {
                                             </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
-                                            <DropdownMenuItem asChild>
-                                                <Link href={`/orders/${order.id}`}>View Details</Link>
+                                            <DropdownMenuItem onClick={() => handleViewDetails(order.id)}>
+                                                View Details
                                             </DropdownMenuItem>
-                                            <DropdownMenuItem>Update Status</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => handleUpdateStatus(order.id)}>
+                                                Update Status
+                                            </DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </TableCell>

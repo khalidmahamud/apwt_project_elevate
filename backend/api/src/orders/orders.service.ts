@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between, LessThanOrEqual, MoreThanOrEqual, In } from 'typeorm';
+import { Repository, Between, LessThanOrEqual, MoreThanOrEqual, In, LessThan } from 'typeorm';
 import { Order } from './entities/order.entity';
 import { OrderItem } from './entities/order-item.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -366,51 +366,45 @@ export class OrdersService {
   // Analytics methods
   async getOrderAnalytics(startDate?: Date, endDate?: Date) {
     // 1. Set date ranges
-    const end = endDate ? endOfDay(endDate) : endOfDay(new Date());
-    const start = startDate ? startOfDay(startDate) : startOfDay(subDays(end, 6)); // Default to last 7 days
-    const prevStart = subDays(start, (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
-    const prevEnd = subDays(end, (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
-
-    const whereCurrent = { createdAt: Between(start, end) };
-    const wherePrevious = { createdAt: Between(prevStart, prevEnd) };
-
-    // 2. Fetch data
-    const [currentOrders, prevOrders] = await Promise.all([
-      this.orderRepository.find({ where: whereCurrent }),
-      this.orderRepository.find({ where: wherePrevious }),
-    ]);
-
-    // 3. Calculate metrics
-    const totalOrders = currentOrders.length;
-    const totalRevenue = currentOrders.reduce((sum, order) => sum + Number(order.totalAmount), 0);
-    const prevTotalOrders = prevOrders.length;
-    const prevTotalRevenue = prevOrders.reduce((sum, order) => sum + Number(order.totalAmount), 0);
-
-    const ordersChangePercent = prevTotalOrders > 0 ? ((totalOrders - prevTotalOrders) / prevTotalOrders) * 100 : 0;
-    const revenueChangePercent = prevTotalRevenue > 0 ? ((totalRevenue - prevTotalRevenue) / prevTotalRevenue) * 100 : 0;
-
-    // 4. Generate trends
-    const getDailyTrends = async (from: Date, to: Date) => {
+    let end: Date, start: Date, prevStart: Date, prevEnd: Date;
+    
+    if (!startDate && !endDate) {
+      // All time - no date filtering
+      const [currentOrders, prevOrders] = await Promise.all([
+        this.orderRepository.find(),
+        this.orderRepository.find({ where: { createdAt: LessThan(subDays(new Date(), 7)) } })
+      ]);
+      
+      const totalOrders = currentOrders.length;
+      const totalRevenue = currentOrders.reduce((sum, order) => sum + Number(order.totalAmount), 0);
+      const prevTotalOrders = prevOrders.length;
+      const prevTotalRevenue = prevOrders.reduce((sum, order) => sum + Number(order.totalAmount), 0);
+      
+      const ordersChangePercent = prevTotalOrders > 0 ? ((totalOrders - prevTotalOrders) / prevTotalOrders) * 100 : 0;
+      const revenueChangePercent = prevTotalRevenue > 0 ? ((totalRevenue - prevTotalRevenue) / prevTotalRevenue) * 100 : 0;
+      
+      // For all time, we'll use the last 7 days for trends
+      end = endOfDay(new Date());
+      start = startOfDay(subDays(end, 6));
+      
+      const getDailyTrends = async (from: Date, to: Date) => {
         return this.orderRepository.createQueryBuilder('order')
-            .select(`DATE_TRUNC('day', "createdAt") as date, COUNT(id) as orders, SUM("totalAmount") as revenue`)
-            .where(`"createdAt" BETWEEN :from AND :to`, { from, to })
-            .groupBy('date')
-            .getRawMany();
-    };
-    
-    const currentTrendRaw = await getDailyTrends(start, end);
-    const ordersTrend = this.fillTrend(currentTrendRaw, start, end, 'orders');
-    const revenueTrend = this.fillTrend(currentTrendRaw, start, end, 'revenue');
-
-    // 5. Calculate Average Order Value
-    const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
-    const prevAvgOrderValue = prevTotalOrders > 0 ? prevTotalRevenue / prevTotalOrders : 0;
-    const avgOrderValueChange = prevAvgOrderValue > 0 ? ((avgOrderValue - prevAvgOrderValue) / prevAvgOrderValue) * 100 : 0;
-    
-    // Create AOV trend by dividing daily revenue by daily orders
-    const avgOrderValueTrend = revenueTrend.map((rev, i) => ordersTrend[i] > 0 ? rev / ordersTrend[i] : 0);
-
-    return {
+          .select(`DATE_TRUNC('day', "createdAt") as date, COUNT(id) as orders, SUM("totalAmount") as revenue`)
+          .where(`"createdAt" BETWEEN :from AND :to`, { from, to })
+          .groupBy('date')
+          .getRawMany();
+      };
+      
+      const currentTrendRaw = await getDailyTrends(start, end);
+      const ordersTrend = this.fillTrend(currentTrendRaw, start, end, 'orders');
+      const revenueTrend = this.fillTrend(currentTrendRaw, start, end, 'revenue');
+      
+      const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+      const prevAvgOrderValue = prevTotalOrders > 0 ? prevTotalRevenue / prevTotalOrders : 0;
+      const avgOrderValueChange = prevAvgOrderValue > 0 ? ((avgOrderValue - prevAvgOrderValue) / prevAvgOrderValue) * 100 : 0;
+      const avgOrderValueTrend = revenueTrend.map((rev, i) => ordersTrend[i] > 0 ? rev / ordersTrend[i] : 0);
+      
+      return {
         totalOrders,
         totalRevenue,
         ordersChangePercent,
@@ -420,7 +414,65 @@ export class OrdersService {
         avgOrderValue,
         avgOrderValueChange,
         avgOrderValueTrend
-    };
+      };
+    } else {
+      // Date range specified
+      end = endDate ? endOfDay(endDate) : endOfDay(new Date());
+      start = startDate ? startOfDay(startDate) : startOfDay(subDays(end, 6));
+      prevStart = subDays(start, (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
+      prevEnd = subDays(end, (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
+
+      const whereCurrent = { createdAt: Between(start, end) };
+      const wherePrevious = { createdAt: Between(prevStart, prevEnd) };
+
+      // 2. Fetch data
+      const [currentOrders, prevOrders] = await Promise.all([
+        this.orderRepository.find({ where: whereCurrent }),
+        this.orderRepository.find({ where: wherePrevious }),
+      ]);
+
+      // 3. Calculate metrics
+      const totalOrders = currentOrders.length;
+      const totalRevenue = currentOrders.reduce((sum, order) => sum + Number(order.totalAmount), 0);
+      const prevTotalOrders = prevOrders.length;
+      const prevTotalRevenue = prevOrders.reduce((sum, order) => sum + Number(order.totalAmount), 0);
+
+      const ordersChangePercent = prevTotalOrders > 0 ? ((totalOrders - prevTotalOrders) / prevTotalOrders) * 100 : 0;
+      const revenueChangePercent = prevTotalRevenue > 0 ? ((totalRevenue - prevTotalRevenue) / prevTotalRevenue) * 100 : 0;
+
+      // 4. Generate trends
+      const getDailyTrends = async (from: Date, to: Date) => {
+        return this.orderRepository.createQueryBuilder('order')
+          .select(`DATE_TRUNC('day', "createdAt") as date, COUNT(id) as orders, SUM("totalAmount") as revenue`)
+          .where(`"createdAt" BETWEEN :from AND :to`, { from, to })
+          .groupBy('date')
+          .getRawMany();
+      };
+      
+      const currentTrendRaw = await getDailyTrends(start, end);
+      const ordersTrend = this.fillTrend(currentTrendRaw, start, end, 'orders');
+      const revenueTrend = this.fillTrend(currentTrendRaw, start, end, 'revenue');
+
+      // 5. Calculate Average Order Value
+      const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+      const prevAvgOrderValue = prevTotalOrders > 0 ? prevTotalRevenue / prevTotalOrders : 0;
+      const avgOrderValueChange = prevAvgOrderValue > 0 ? ((avgOrderValue - prevAvgOrderValue) / prevAvgOrderValue) * 100 : 0;
+      
+      // Create AOV trend by dividing daily revenue by daily orders
+      const avgOrderValueTrend = revenueTrend.map((rev, i) => ordersTrend[i] > 0 ? rev / ordersTrend[i] : 0);
+
+      return {
+        totalOrders,
+        totalRevenue,
+        ordersChangePercent,
+        revenueChangePercent,
+        ordersTrend,
+        revenueTrend,
+        avgOrderValue,
+        avgOrderValueChange,
+        avgOrderValueTrend
+      };
+    }
   }
 
   private fillTrend(trendArr: any[], from: Date, to: Date, key: string): number[] {

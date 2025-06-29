@@ -30,7 +30,9 @@ import {
 	DropdownMenuContent,
 	DropdownMenuItem,
 } from '@/components/ui/dropdown-menu'
-import { Check, Download } from 'lucide-react'
+import { Check, Download, Printer, ChevronDown } from 'lucide-react'
+import { subDays, startOfDay, endOfDay } from 'date-fns'
+import { useSearchParams } from 'next/navigation'
 
 const statusOptions = [
 	'ALL',
@@ -138,6 +140,32 @@ export default function OrdersPage() {
 	const [bulkNotes, setBulkNotes] = useState('')
 	const [bulkUpdating, setBulkUpdating] = useState(false)
 	const [showBulkConfirm, setShowBulkConfirm] = useState(false)
+	const [orderStats, setOrderStats] = useState<any>(null)
+	const [statsLoading, setStatsLoading] = useState(true)
+	const [statsDays, setStatsDays] = useState<'7' | '30' | 'all'>('7')
+	const searchParams = useSearchParams()
+
+	// Handle URL parameters for order details/update
+	useEffect(() => {
+		const orderId = searchParams.get('orderId')
+		const action = searchParams.get('action')
+		
+		if (orderId && orders.length > 0) {
+			const order = orders.find(o => o.id === orderId)
+			if (order) {
+				setSelectedOrder(order)
+				setNewStatus(order.status)
+				setAdminNotes('')
+				setDetailsOpen(true)
+				initialStatusRef.current = order.status
+				
+				// If action is update, focus on status update
+				if (action === 'update') {
+					// The modal will open and user can update status
+				}
+			}
+		}
+	}, [searchParams, orders])
 
 	useEffect(() => {
 		const fetchOrders = async () => {
@@ -158,6 +186,29 @@ export default function OrdersPage() {
 		}
 		fetchOrders()
 	}, [page, limit, status, sortBy, sortOrder])
+
+	useEffect(() => {
+		// Fetch order statistics for selected period
+		const fetchStats = async () => {
+			setStatsLoading(true)
+			try {
+				let url = '/admin/orders/analytics/summary'
+				if (statsDays !== 'all') {
+					const now = new Date()
+					const endDate = endOfDay(now).toISOString()
+					const startDate = startOfDay(subDays(now, parseInt(statsDays, 10) - 1)).toISOString()
+					url += `?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`
+				}
+				const res = await api.get(url)
+				setOrderStats(res.data)
+			} catch (e) {
+				setOrderStats(null)
+			} finally {
+				setStatsLoading(false)
+			}
+		}
+		fetchStats()
+	}, [statsDays])
 
 	const renderSkeleton = () => (
 		<div className='space-y-2'>
@@ -335,8 +386,92 @@ export default function OrdersPage() {
 		URL.revokeObjectURL(url)
 	}
 
+	const handlePrintInvoice = () => {
+		if (!selectedOrder) return
+		// Create a printable invoice window
+		const invoiceWindow = window.open('', '_blank', 'width=800,height=600')
+		if (!invoiceWindow) return
+		const productsList = selectedOrder.items.map(
+			(item) => `<li>${item.product.name}</li>`
+		).join('')
+		invoiceWindow.document.write(`
+			<html>
+				<head>
+					<title>Invoice - ${selectedOrder.id}</title>
+					<style>
+						body { font-family: Arial, sans-serif; padding: 40px; }
+						h2 { color: #333; }
+						.section { margin-bottom: 20px; }
+						.label { color: #888; font-size: 13px; }
+						.value { font-size: 16px; margin-bottom: 8px; }
+						ul { margin: 0; padding-left: 20px; }
+					</style>
+				</head>
+				<body>
+					<h2>Order Invoice</h2>
+					<div class='section'><span class='label'>Order ID:</span> <span class='value'>${selectedOrder.id}</span></div>
+					<div class='section'><span class='label'>User:</span> <span class='value'>${selectedOrder.user?.email || 'N/A'}</span></div>
+					<div class='section'><span class='label'>Products:</span><ul>${productsList}</ul></div>
+					<div class='section'><span class='label'>Amount:</span> <span class='value'>${formatCurrency(selectedOrder.totalAmount)}</span></div>
+					<div class='section'><span class='label'>Created At:</span> <span class='value'>${formatDate(selectedOrder.createdAt)}</span></div>
+					<div class='section'><span class='label'>Status:</span> <span class='value'>${selectedOrder.status}</span></div>
+				</body>
+			</html>
+		`)
+		invoiceWindow.document.close()
+		invoiceWindow.print()
+	}
+
 	return (
 		<div className='p-6 bg-background h-auto'>
+			{/* Order Statistics Filter */}
+			<div className='flex gap-2 mb-2'>
+				<Button
+					variant={statsDays === '7' ? 'default' : 'outline'}
+					size='sm'
+					className='cursor-pointer'
+					onClick={() => setStatsDays('7')}
+				>
+					Last 7 Days
+				</Button>
+				<Button
+					variant={statsDays === '30' ? 'default' : 'outline'}
+					size='sm'
+					className='cursor-pointer'
+					onClick={() => setStatsDays('30')}
+				>
+					Last 30 Days
+				</Button>
+				<Button
+					variant={statsDays === 'all' ? 'default' : 'outline'}
+					size='sm'
+					className='cursor-pointer'
+					onClick={() => setStatsDays('all')}
+				>
+					All Time
+				</Button>
+			</div>
+			{/* Order Statistics Summary */}
+			<div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-6'>
+				<div className='bg-primary rounded-lg p-4 flex flex-col items-center'>
+					<div className='text-lg font-semibold text-primary-foreground'>Total Orders</div>
+					<div className='text-2xl font-bold text-accent mt-2'>
+						{statsLoading ? <Skeleton className='h-8 w-20' /> : orderStats?.totalOrders ?? '-'}
+					</div>
+				</div>
+				<div className='bg-primary rounded-lg p-4 flex flex-col items-center'>
+					<div className='text-lg font-semibold text-primary-foreground'>Total Revenue</div>
+					<div className='text-2xl font-bold text-accent mt-2'>
+						{statsLoading ? <Skeleton className='h-8 w-32' /> : formatCurrency(orderStats?.totalRevenue ?? 0)}
+					</div>
+				</div>
+				<div className='bg-primary rounded-lg p-4 flex flex-col items-center'>
+					<div className='text-lg font-semibold text-primary-foreground'>Avg. Order Value</div>
+					<div className='text-2xl font-bold text-accent mt-2'>
+						{statsLoading ? <Skeleton className='h-8 w-24' /> : formatCurrency(orderStats?.avgOrderValue ?? 0)}
+					</div>
+				</div>
+			</div>
 			<div className='flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2'>
 				<h2 className='text-2xl font-bold text-primary-foreground'>
 					All Orders
@@ -349,22 +484,20 @@ export default function OrdersPage() {
 								variant='outline'
 								className='cursor-pointer'
 							>
-								Status: {statusOptions.find((opt) => opt === status) || 'ALL'}
+								{statusOptions.find((opt) => opt === status) || 'ALL'}
+								<ChevronDown className="h-4 w-4 ml-2 opacity-50" />
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
 							{statusOptions.map((opt) => (
 								<DropdownMenuItem
-									className='cursor-pointer'
+									className={`cursor-pointer ${status === opt ? 'bg-accent text-accent-foreground' : ''}`}
 									key={opt}
 									onClick={() => {
 										setStatus(opt)
 										setPage(1)
 									}}
 								>
-									{status === opt && (
-										<Check className='w-4 h-4 mr-2 text-primary' />
-									)}
 									{opt}
 								</DropdownMenuItem>
 							))}
@@ -377,21 +510,18 @@ export default function OrdersPage() {
 								variant='outline'
 								className='cursor-pointer'
 							>
-								Sort By:{' '}
 								{sortByOptions.find((opt) => opt.value === sortBy)?.label ||
 									'Date'}
+								<ChevronDown className="h-4 w-4 ml-2 opacity-50" />
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
 							{sortByOptions.map((opt) => (
 								<DropdownMenuItem
-									className='cursor-pointer'
+									className={`cursor-pointer ${sortBy === opt.value ? 'bg-accent text-accent-foreground' : ''}`}
 									key={opt.value}
 									onClick={() => setSortBy(opt.value)}
 								>
-									{sortBy === opt.value && (
-										<Check className='w-4 h-4 mr-2 text-primary' />
-									)}
 									{opt.label}
 								</DropdownMenuItem>
 							))}
@@ -406,18 +536,16 @@ export default function OrdersPage() {
 							>
 								{sortOrderOptions.find((opt) => opt.value === sortOrder)
 									?.label || 'Desc'}
+								<ChevronDown className="h-4 w-4 ml-2 opacity-50" />
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
 							{sortOrderOptions.map((opt) => (
 								<DropdownMenuItem
-									className='cursor-pointer'
+									className={`cursor-pointer ${sortOrder === opt.value ? 'bg-accent text-accent-foreground' : ''}`}
 									key={opt.value}
 									onClick={() => setSortOrder(opt.value as 'ASC' | 'DESC')}
 								>
-									{sortOrder === opt.value && (
-										<Check className='w-4 h-4 mr-2 text-primary' />
-									)}
 									{opt.label}
 								</DropdownMenuItem>
 							))}
@@ -692,6 +820,16 @@ export default function OrdersPage() {
 									rows={2}
 									disabled={updating}
 								/>
+							</div>
+							<div className='flex gap-2 mt-4'>
+								<Button
+									variant='outline'
+									size='sm'
+									className='cursor-pointer flex gap-2 items-center'
+									onClick={handlePrintInvoice}
+								>
+									<Printer className='w-4 h-4' /> Print Invoice
+								</Button>
 							</div>
 						</div>
 					)}

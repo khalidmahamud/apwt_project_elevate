@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
-import { Check } from 'lucide-react'
+import { Check, ChevronDown } from 'lucide-react'
 
 interface ProductFiltersProps {
   appliedFilters: Record<string, any>
@@ -63,12 +63,22 @@ export default function ProductFilters({ appliedFilters, onApply }: ProductFilte
     <div className="flex flex-wrap gap-2 mb-4 items-center">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className={(localFilters.sortBy ? 'ring-2 ring-primary-foreground border-primary-foreground ' : '') + 'cursor-pointer'}>Sort By: {getSortLabel(localFilters.sortBy)}</Button>
+          <Button 
+            variant="outline" 
+            className={`cursor-pointer ${localFilters.sortBy ? 'bg-accent text-accent-foreground border-accent' : ''}`}
+            style={localFilters.sortBy ? { backgroundColor: 'var(--accent)', color: 'var(--accent-foreground)', borderColor: 'var(--accent)' } : {}}
+          >
+            {getSortLabel(localFilters.sortBy)}
+            <ChevronDown className="h-4 w-4 ml-2 opacity-50" />
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           {sortOptions.map(opt => (
-            <DropdownMenuItem className="cursor-pointer" key={opt.value} onClick={() => setLocalFilters(f => ({ ...f, sortBy: opt.value }))}>
-              {localFilters.sortBy === opt.value && <Check className="w-4 h-4 mr-2 text-primary" />}
+            <DropdownMenuItem 
+              className={`cursor-pointer ${localFilters.sortBy === opt.value ? 'bg-accent text-accent-foreground' : ''}`}
+              key={opt.value} 
+              onClick={() => setLocalFilters(f => ({ ...f, sortBy: opt.value }))}
+            >
               {opt.label}
             </DropdownMenuItem>
           ))}
@@ -77,12 +87,22 @@ export default function ProductFilters({ appliedFilters, onApply }: ProductFilte
       {localFilters.sortBy === 'name' && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className={(localFilters.orderDirection ? 'ring-2 ring-primary-foreground border-primary-foreground ' : '') + 'cursor-pointer'}>{orderOptions.find(o => o.value === localFilters.orderDirection)?.label || 'A → Z'}</Button>
+            <Button 
+              variant="outline" 
+              className={`cursor-pointer ${localFilters.orderDirection ? 'bg-accent text-accent-foreground border-accent' : ''}`}
+              style={localFilters.orderDirection ? { backgroundColor: 'var(--accent)', color: 'var(--accent-foreground)', borderColor: 'var(--accent)' } : {}}
+            >
+              {orderOptions.find(o => o.value === localFilters.orderDirection)?.label || 'A → Z'}
+              <ChevronDown className="h-4 w-4 ml-2 opacity-50" />
+            </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {orderOptions.map(opt => (
-              <DropdownMenuItem className="cursor-pointer" key={opt.value} onClick={() => setLocalFilters(f => ({ ...f, orderDirection: opt.value }))}>
-                {localFilters.orderDirection === opt.value && <Check className="w-4 h-4 mr-2 text-primary" />}
+              <DropdownMenuItem 
+                className={`cursor-pointer ${localFilters.orderDirection === opt.value ? 'bg-accent text-accent-foreground' : ''}`}
+                key={opt.value} 
+                onClick={() => setLocalFilters(f => ({ ...f, orderDirection: opt.value }))}
+              >
                 {opt.label}
               </DropdownMenuItem>
             ))}
@@ -91,16 +111,28 @@ export default function ProductFilters({ appliedFilters, onApply }: ProductFilte
       )}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className={(localFilters.category ? 'ring-2 ring-primary-foreground border-primary-foreground ' : '') + 'cursor-pointer'}>{categoryOptions.find(opt => opt.value === localFilters.category)?.label || 'Product Category'}</Button>
+          <Button 
+            variant="outline" 
+            className={`cursor-pointer ${localFilters.category ? 'bg-accent text-accent-foreground border-accent' : ''}`}
+            style={localFilters.category ? { backgroundColor: 'var(--accent)', color: 'var(--accent-foreground)', borderColor: 'var(--accent)' } : {}}
+          >
+            {categoryOptions.find(opt => opt.value === localFilters.category)?.label || 'All Categories'}
+            <ChevronDown className="h-4 w-4 ml-2 opacity-50" />
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem className="cursor-pointer" onClick={() => setLocalFilters(f => ({ ...f, category: '' }))}>
-            {localFilters.category === '' && <Check className="w-4 h-4 mr-2 text-primary" />}
+          <DropdownMenuItem 
+            className={`cursor-pointer ${localFilters.category === '' ? 'bg-accent text-accent-foreground' : ''}`}
+            onClick={() => setLocalFilters(f => ({ ...f, category: '' }))}
+          >
             All
           </DropdownMenuItem>
           {categoryOptions.map(opt => (
-            <DropdownMenuItem className="cursor-pointer" key={opt.value} onClick={() => setLocalFilters(f => ({ ...f, category: opt.value }))}>
-              {localFilters.category === opt.value && <Check className="w-4 h-4 mr-2 text-primary" />}
+            <DropdownMenuItem 
+              className={`cursor-pointer ${localFilters.category === opt.value ? 'bg-accent text-accent-foreground' : ''}`}
+              key={opt.value} 
+              onClick={() => setLocalFilters(f => ({ ...f, category: opt.value }))}
+            >
               {opt.label}
             </DropdownMenuItem>
           ))}
@@ -108,34 +140,58 @@ export default function ProductFilters({ appliedFilters, onApply }: ProductFilte
       </DropdownMenu>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className={(localFilters.stockStatus ? 'ring-2 ring-primary-foreground border-primary-foreground ' : '') + 'cursor-pointer'}>{localFilters.stockStatus || 'Stock Status'}</Button>
+          <Button 
+            variant="outline" 
+            className={`cursor-pointer ${localFilters.stockStatus ? 'bg-accent text-accent-foreground border-accent' : ''}`}
+            style={localFilters.stockStatus ? { backgroundColor: 'var(--accent)', color: 'var(--accent-foreground)', borderColor: 'var(--accent)' } : {}}
+          >
+            {localFilters.stockStatus || 'All Stock'}
+            <ChevronDown className="h-4 w-4 ml-2 opacity-50" />
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem className="cursor-pointer" onClick={() => setLocalFilters(f => ({ ...f, stockStatus: '' }))}>
-            {localFilters.stockStatus === '' && <Check className="w-4 h-4 mr-2 text-primary" />}
+          <DropdownMenuItem 
+            className={`cursor-pointer ${localFilters.stockStatus === '' ? 'bg-accent text-accent-foreground' : ''}`}
+            onClick={() => setLocalFilters(f => ({ ...f, stockStatus: '' }))}
+          >
             All
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer" onClick={() => setLocalFilters(f => ({ ...f, stockStatus: 'inStock' }))}>
-            {localFilters.stockStatus === 'inStock' && <Check className="w-4 h-4 mr-2 text-primary" />}
+          <DropdownMenuItem 
+            className={`cursor-pointer ${localFilters.stockStatus === 'inStock' ? 'bg-accent text-accent-foreground' : ''}`}
+            onClick={() => setLocalFilters(f => ({ ...f, stockStatus: 'inStock' }))}
+          >
             In Stock
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer" onClick={() => setLocalFilters(f => ({ ...f, stockStatus: 'outOfStock' }))}>
-            {localFilters.stockStatus === 'outOfStock' && <Check className="w-4 h-4 mr-2 text-primary" />}
+          <DropdownMenuItem 
+            className={`cursor-pointer ${localFilters.stockStatus === 'outOfStock' ? 'bg-accent text-accent-foreground' : ''}`}
+            onClick={() => setLocalFilters(f => ({ ...f, stockStatus: 'outOfStock' }))}
+          >
             Out of Stock
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className={(localFilters.lastModified ? 'ring-2 ring-primary-foreground border-primary-foreground ' : '') + 'cursor-pointer'}>Last Modified: {localFilters.lastModified === 'desc' ? 'Newest' : 'Oldest'}</Button>
+          <Button 
+            variant="outline" 
+            className={`cursor-pointer ${localFilters.lastModified ? 'bg-accent text-accent-foreground border-accent' : ''}`}
+            style={localFilters.lastModified ? { backgroundColor: 'var(--accent)', color: 'var(--accent-foreground)', borderColor: 'var(--accent)' } : {}}
+          >
+            {localFilters.lastModified === 'desc' ? 'Newest' : 'Oldest'}
+            <ChevronDown className="h-4 w-4 ml-2 opacity-50" />
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem className="cursor-pointer" onClick={() => setLocalFilters(f => ({ ...f, lastModified: 'desc' }))}>
-            {localFilters.lastModified === 'desc' && <Check className="w-4 h-4 mr-2 text-primary" />}
+          <DropdownMenuItem 
+            className={`cursor-pointer ${localFilters.lastModified === 'desc' ? 'bg-accent text-accent-foreground' : ''}`}
+            onClick={() => setLocalFilters(f => ({ ...f, lastModified: 'desc' }))}
+          >
             Newest
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer" onClick={() => setLocalFilters(f => ({ ...f, lastModified: 'asc' }))}>
-            {localFilters.lastModified === 'asc' && <Check className="w-4 h-4 mr-2 text-primary" />}
+          <DropdownMenuItem 
+            className={`cursor-pointer ${localFilters.lastModified === 'asc' ? 'bg-accent text-accent-foreground' : ''}`}
+            onClick={() => setLocalFilters(f => ({ ...f, lastModified: 'asc' }))}
+          >
             Oldest
           </DropdownMenuItem>
         </DropdownMenuContent>

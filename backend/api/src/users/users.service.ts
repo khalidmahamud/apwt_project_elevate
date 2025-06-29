@@ -18,7 +18,7 @@ import { Order } from 'src/orders/entities/order.entity';
 import { AdminUpdateUserDto } from './dto/admin-user.dto';
 import { AdminUserQueryDto } from './dto/admin-user-query.dto';
 
-interface CustomerReportRow {
+export interface CustomerReportRow {
   'Customer ID': string;
   'First Name': string;
   'Last Name': string;
@@ -187,7 +187,8 @@ export class UsersService {
     } = queryDto;
 
     const queryBuilder = this.usersRepository.createQueryBuilder('user')
-      .leftJoinAndSelect('user.roles', 'roles');
+      .leftJoinAndSelect('user.roles', 'roles')
+      .leftJoinAndSelect('user.orders', 'orders');
 
     if (search) {
       queryBuilder.andWhere(
@@ -204,9 +205,15 @@ export class UsersService {
       queryBuilder.andWhere('user.isActive = :isActive', { isActive });
     }
 
-    const validSortFields = ['createdAt', 'lastLoginAt', 'firstName', 'lastName', 'email'];
-    const finalSortBy = validSortFields.includes(sortBy) ? sortBy : 'createdAt';
-    queryBuilder.orderBy(`user.${finalSortBy}`, sortOrder.toUpperCase() as 'ASC' | 'DESC');
+    if (sortBy === 'spendings') {
+      queryBuilder.addSelect('COALESCE(SUM(orders.totalAmount), 0)', 'totalSpent')
+        .groupBy('user.id')
+        .orderBy('totalSpent', sortOrder.toUpperCase() as 'ASC' | 'DESC');
+    } else {
+      const validSortFields = ['createdAt', 'lastLoginAt', 'firstName', 'lastName', 'email'];
+      const finalSortBy = validSortFields.includes(sortBy) ? sortBy : 'createdAt';
+      queryBuilder.orderBy(`user.${finalSortBy}`, sortOrder.toUpperCase() as 'ASC' | 'DESC');
+    }
     
     queryBuilder.skip((page - 1) * limit).take(limit);
 

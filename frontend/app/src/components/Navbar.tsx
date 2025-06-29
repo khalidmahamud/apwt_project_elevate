@@ -22,10 +22,19 @@ import { Button } from './ui/button'
 import { useTheme } from 'next-themes'
 import { SidebarTrigger } from './ui/sidebar'
 import { useAuth } from '@/context/AuthContext'
+import Link from 'next/link'
 
 const Navbar = () => {
 	const { theme, setTheme } = useTheme()
 	const { user, loading, logout } = useAuth()
+
+	const getFullUrl = (url: string) => {
+		if (!url) return '';
+		if (!url.startsWith('http')) {
+			return `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}${url}`;
+		}
+		return url;
+	};
 
 	return (
 		<nav className='w-full p-4 flex items-center justify-between bg-primary'>
@@ -89,22 +98,27 @@ const Navbar = () => {
 				<DropdownMenu>
 					<DropdownMenuTrigger>
 						<Avatar>
-							<AvatarImage src='https://github.com/shadcn.png' />
-							<AvatarFallback>CN</AvatarFallback>
+							<AvatarImage src={getFullUrl(user?.profileImage) || 'https://github.com/shadcn.png'} />
+							<AvatarFallback>
+								{user?.firstName?.[0]?.toUpperCase()}
+								{user?.lastName?.[0]?.toUpperCase()}
+							</AvatarFallback>
 						</Avatar>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent sideOffset={10}>
 						<DropdownMenuLabel>My Account</DropdownMenuLabel>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>
-							<User className='h-[1.2rem w-[1.2rem] mr-2' />
-							Profile
+						<DropdownMenuItem asChild>
+							<Link href="/profile">
+								<User className='h-[1.2rem w-[1.2rem] mr-2' />
+								Profile
+							</Link>
 						</DropdownMenuItem>
 						<DropdownMenuItem>
 							<Settings className='h-[1.2rem w-[1.2rem] mr-2' />
 							Settings
 						</DropdownMenuItem>
-						<DropdownMenuItem variant='destructive' onClick={logout} className="cursor-pointer">
+						<DropdownMenuItem variant='destructive' onClick={() => logout()} className="cursor-pointer">
 							<LogOut className='h-[1.2rem w-[1.2rem] mr-2' />
 							Log Out
 						</DropdownMenuItem>
