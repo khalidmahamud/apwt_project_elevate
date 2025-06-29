@@ -1,0 +1,774 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Elvate-Rest-Api documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Elvate-Rest-Api documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  ProductPerformanceRow</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/products/products.service.ts</code>
+        </p>
+
+
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#Category" 
+>
+                                            Category
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Price" 
+>
+                                            Price
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Product ID" 
+>
+                                            Product ID
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Product Name" 
+>
+                                            Product Name
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Stock Quantity" 
+>
+                                            Stock Quantity
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Total Revenue" 
+>
+                                            Total Revenue
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Units Sold" 
+>
+                                            Units Sold
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Category"></a>
+                                        <span class="name "><b>Category</b>
+                                            <a href="#Category">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Category:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Price"></a>
+                                        <span class="name "><b>Price</b>
+                                            <a href="#Price">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Price:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Product ID"></a>
+                                        <span class="name "><b>Product ID</b>
+                                            <a href="#Product ID">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Product ID:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Product Name"></a>
+                                        <span class="name "><b>Product Name</b>
+                                            <a href="#Product Name">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Product Name:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Stock Quantity"></a>
+                                        <span class="name "><b>Stock Quantity</b>
+                                            <a href="#Stock Quantity">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Stock Quantity:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Total Revenue"></a>
+                                        <span class="name "><b>Total Revenue</b>
+                                            <a href="#Total Revenue">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Total Revenue:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Units Sold"></a>
+                                        <span class="name "><b>Units Sold</b>
+                                            <a href="#Units Sold">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Units Sold:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, NotFoundException } from &#x27;@nestjs/common&#x27;;
+import { InjectRepository } from &#x27;@nestjs/typeorm&#x27;;
+import { Repository, FindOptionsWhere, Between, MoreThanOrEqual, LessThanOrEqual } from &#x27;typeorm&#x27;;
+import { Product, ProductCategory } from &#x27;./entities/product.entity&#x27;;
+import { CreateProductDto } from &#x27;./dto/create-product.dto&#x27;;
+import { UpdateProductDto } from &#x27;./dto/update-product.dto&#x27;;
+import { OrderItem } from &#x27;../orders/entities/order-item.entity&#x27;;
+import { Order } from &#x27;src/orders/entities/order.entity&#x27;;
+import { AdminProductQueryDto } from &#x27;./dto/admin-product-query.dto&#x27;;
+
+interface ProductPerformanceRow {
+  &#x27;Product ID&#x27;: string;
+  &#x27;Product Name&#x27;: string;
+  &#x27;Category&#x27;: string;
+  &#x27;Stock Quantity&#x27;: number;
+  &#x27;Price&#x27;: number;
+  &#x27;Units Sold&#x27;: number;
+  &#x27;Total Revenue&#x27;: number;
+}
+
+@Injectable()
+export class ProductsService {
+  constructor(
+    @InjectRepository(Product)
+    private readonly productRepository: Repository&lt;Product&gt;,
+    @InjectRepository(OrderItem)
+    private readonly orderItemRepository: Repository&lt;OrderItem&gt;,
+    @InjectRepository(Order)
+    private readonly orderRepository: Repository&lt;Order&gt;,
+  ) {}
+
+  async create(createProductDto: CreateProductDto): Promise&lt;Product&gt; {
+    const product &#x3D; this.productRepository.create(createProductDto);
+    return await this.productRepository.save(product);
+  }
+
+  async findAll(
+    queryDto: AdminProductQueryDto,
+  ): Promise&lt;{ data: Product[]; total: number }&gt; {
+    const {
+      page &#x3D; 1,
+      limit &#x3D; 10,
+      name,
+      category,
+      brand,
+      isFeatured,
+      isNewArrival,
+      isOnSale,
+      isBestSeller,
+      isActive,
+      minPrice,
+      maxPrice,
+      minStock,
+      maxStock,
+      minRating,
+      maxRating,
+      sortBy &#x3D; &#x27;createdAt&#x27;,
+      orderDirection &#x3D; &#x27;DESC&#x27;,
+    } &#x3D; queryDto;
+
+    const query &#x3D; this.productRepository.createQueryBuilder(&#x27;product&#x27;);
+
+    if (name) {
+      query.andWhere(&#x27;product.name ILIKE :name&#x27;, { name: &#x60;%${name}%&#x60; });
+    }
+    if (category) {
+      query.andWhere(&#x27;product.category &#x3D; :category&#x27;, { category });
+    }
+    if (brand) {
+      query.andWhere(&#x27;product.brand ILIKE :brand&#x27;, { brand: &#x60;%${brand}%&#x60; });
+    }
+    if (isFeatured !&#x3D;&#x3D; undefined) {
+      query.andWhere(&#x27;product.isFeatured &#x3D; :isFeatured&#x27;, { isFeatured });
+    }
+    if (isNewArrival !&#x3D;&#x3D; undefined) {
+      query.andWhere(&#x27;product.isNewArrival &#x3D; :isNewArrival&#x27;, { isNewArrival });
+    }
+    if (isOnSale !&#x3D;&#x3D; undefined) {
+      query.andWhere(&#x27;product.isOnSale &#x3D; :isOnSale&#x27;, { isOnSale });
+    }
+    if (isBestSeller !&#x3D;&#x3D; undefined) {
+      query.andWhere(&#x27;product.isBestSeller &#x3D; :isBestSeller&#x27;, { isBestSeller });
+    }
+    if (isActive !&#x3D;&#x3D; undefined) {
+      query.andWhere(&#x27;product.isActive &#x3D; :isActive&#x27;, { isActive });
+    }
+    if (minPrice !&#x3D;&#x3D; undefined) {
+      query.andWhere(&#x27;product.price &gt;&#x3D; :minPrice&#x27;, { minPrice });
+    }
+    if (maxPrice !&#x3D;&#x3D; undefined) {
+      query.andWhere(&#x27;product.price &lt;&#x3D; :maxPrice&#x27;, { maxPrice });
+    }
+    if (minStock !&#x3D;&#x3D; undefined) {
+      query.andWhere(&#x27;product.stockQuantity &gt;&#x3D; :minStock&#x27;, { minStock });
+    }
+    if (maxStock !&#x3D;&#x3D; undefined) {
+      query.andWhere(&#x27;product.stockQuantity &lt;&#x3D; :maxStock&#x27;, { maxStock });
+    }
+    if (minRating !&#x3D;&#x3D; undefined) {
+      query.andWhere(&#x27;product.rating &gt;&#x3D; :minRating&#x27;, { minRating });
+    }
+    if (maxRating !&#x3D;&#x3D; undefined) {
+      query.andWhere(&#x27;product.rating &lt;&#x3D; :maxRating&#x27;, { maxRating });
+    }
+
+    query.orderBy(&#x60;product.${sortBy}&#x60;, orderDirection);
+
+    if (limit &gt; 0) {
+      query.skip((page - 1) * limit).take(limit);
+    }
+
+    const [data, total] &#x3D; await query.getManyAndCount();
+
+    return { data, total };
+  }
+
+  async findOne(id: string): Promise&lt;Product&gt; {
+    const product &#x3D; await this.productRepository.findOne({ where: { id } });
+    if (!product) {
+      throw new NotFoundException(&#x60;Product with ID ${id} not found&#x60;);
+    }
+    return product;
+  }
+
+  async update(id: string, updateProductDto: UpdateProductDto): Promise&lt;Product&gt; {
+    const product &#x3D; await this.findOne(id);
+    Object.assign(product, updateProductDto);
+    return await this.productRepository.save(product);
+  }
+
+  async remove(id: string): Promise&lt;void&gt; {
+    const product &#x3D; await this.findOne(id);
+    await this.productRepository.remove(product);
+  }
+
+  async getFeatured(): Promise&lt;Product[]&gt; {
+    return await this.productRepository.find({
+      where: { isFeatured: true },
+      take: 10,
+    });
+  }
+
+  async getNewArrivals(): Promise&lt;Product[]&gt; {
+    return await this.productRepository.find({
+      order: { createdAt: &#x27;DESC&#x27; },
+      take: 10,
+    });
+  }
+
+  async getBestSellers(): Promise&lt;Product[]&gt; {
+    return await this.productRepository.find({
+      where: { isBestSeller: true },
+      take: 10,
+    });
+  }
+
+  async getOnSale(): Promise&lt;Product[]&gt; {
+    return await this.productRepository.find({
+      where: { isOnSale: true },
+      take: 10,
+    });
+  }
+
+  async getByCategory(category: ProductCategory): Promise&lt;Product[]&gt; {
+    const where: FindOptionsWhere&lt;Product&gt; &#x3D; {
+      category: category
+    };
+    return await this.productRepository.find({ where });
+  }
+
+  async getProductAnalytics(startDate?: Date, endDate?: Date) {
+    const where: any &#x3D; {};
+    if (startDate &amp;&amp; endDate) {
+      where.createdAt &#x3D; Between(startDate, endDate);
+    } else if (startDate) {
+      where.createdAt &#x3D; MoreThanOrEqual(startDate);
+    } else if (endDate) {
+      where.createdAt &#x3D; LessThanOrEqual(endDate);
+    }
+
+    // Best-selling products
+    const bestSellers &#x3D; await this.orderItemRepository
+      .createQueryBuilder(&#x27;orderItem&#x27;)
+      .select(&#x27;orderItem.productId&#x27;, &#x27;productId&#x27;)
+      .addSelect(&#x27;SUM(orderItem.quantity)&#x27;, &#x27;totalQuantity&#x27;)
+      .addSelect(&#x27;SUM(orderItem.total)&#x27;, &#x27;totalRevenue&#x27;)
+      .leftJoin(&#x27;orderItem.product&#x27;, &#x27;product&#x27;)
+      .leftJoin(&#x27;orderItem.order&#x27;, &#x27;order&#x27;)
+      .addSelect([&#x27;product.name&#x27;, &#x27;product.images&#x27;])
+      .where(where.createdAt ? &#x27;order.createdAt BETWEEN :startDate AND :endDate&#x27; : &#x27;1&#x3D;1&#x27;, { startDate, endDate })
+      .groupBy(&#x27;orderItem.productId, product.name, product.images&#x27;)
+      .orderBy(&#x27;&quot;totalQuantity&quot;&#x27;, &#x27;DESC&#x27;)
+      .limit(10)
+      .getRawMany();
+
+    // Most profitable products
+    const mostProfitable &#x3D; await this.orderItemRepository
+      .createQueryBuilder(&#x27;orderItem&#x27;)
+      .select(&#x27;orderItem.productId&#x27;, &#x27;productId&#x27;)
+      .addSelect(&#x27;SUM(orderItem.total)&#x27;, &#x27;totalRevenue&#x27;)
+      .leftJoin(&#x27;orderItem.product&#x27;, &#x27;product&#x27;)
+      .leftJoin(&#x27;orderItem.order&#x27;, &#x27;order&#x27;)
+      .addSelect([&#x27;product.name&#x27;, &#x27;product.images&#x27;])
+      .where(where.createdAt ? &#x27;order.createdAt BETWEEN :startDate AND :endDate&#x27; : &#x27;1&#x3D;1&#x27;, { startDate, endDate })
+      .groupBy(&#x27;orderItem.productId, product.name, product.images&#x27;)
+      .orderBy(&#x27;&quot;totalRevenue&quot;&#x27;, &#x27;DESC&#x27;)
+      .limit(10)
+      .getRawMany();
+
+    const lowStock &#x3D; await this.productRepository
+      .createQueryBuilder(&#x27;product&#x27;)
+      .where(&#x27;product.stockQuantity &lt; :stock&#x27;, { stock: 10 })
+      .orderBy(&#x27;product.stockQuantity&#x27;, &#x27;ASC&#x27;)
+      .limit(10)
+      .getMany();
+
+    const outOfStock &#x3D; await this.productRepository.count({ where: { stockQuantity: 0 } });
+    const totalProducts &#x3D; await this.productRepository.count();
+
+    return {
+      bestSellers,
+      mostProfitable,
+      lowStock,
+      outOfStock,
+      totalProducts,
+      startDate,
+      endDate,
+    };
+  }
+
+  async updateStock(id: string, stockQuantity: number): Promise&lt;Product&gt; {
+    const product &#x3D; await this.findOne(id);
+    product.stockQuantity &#x3D; stockQuantity;
+    return await this.productRepository.save(product);
+  }
+
+  async generateProductPerformanceReport(): Promise&lt;ProductPerformanceRow[]&gt; {
+    const products &#x3D; await this.productRepository.find();
+    const report: ProductPerformanceRow[] &#x3D; [];
+
+    for (const product of products) {
+      const salesData &#x3D; await this.orderItemRepository
+        .createQueryBuilder(&#x27;orderItem&#x27;)
+        .select(&#x27;SUM(orderItem.quantity)&#x27;, &#x27;unitsSold&#x27;)
+        .addSelect(&#x27;SUM(orderItem.total)&#x27;, &#x27;totalRevenue&#x27;)
+        .where(&#x27;orderItem.productId &#x3D; :productId&#x27;, { productId: product.id })
+        .getRawOne();
+
+      report.push({
+        &#x27;Product ID&#x27;: product.id,
+        &#x27;Product Name&#x27;: product.name,
+        &#x27;Category&#x27;: product.category,
+        &#x27;Stock Quantity&#x27;: product.stockQuantity,
+        &#x27;Price&#x27;: product.price,
+        &#x27;Units Sold&#x27;: parseInt(salesData.unitsSold, 10) || 0,
+        &#x27;Total Revenue&#x27;: parseFloat(salesData.totalRevenue) || 0,
+      });
+    }
+
+    return report;
+  }
+} </code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'ProductPerformanceRow.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

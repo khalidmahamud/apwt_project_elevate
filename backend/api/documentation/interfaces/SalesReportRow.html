@@ -1,0 +1,1160 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Elvate-Rest-Api documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Elvate-Rest-Api documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  SalesReportRow</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/orders/orders.service.ts</code>
+        </p>
+
+
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#Customer Email" 
+>
+                                            Customer Email
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Customer Name" 
+>
+                                            Customer Name
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Line Item Total" 
+>
+                                            Line Item Total
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Order Date" 
+>
+                                            Order Date
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Order ID" 
+>
+                                            Order ID
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Order Status" 
+>
+                                            Order Status
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Order Total" 
+>
+                                            Order Total
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Price Per Item" 
+>
+                                            Price Per Item
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Product Name" 
+>
+                                            Product Name
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#Quantity" 
+>
+                                            Quantity
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Customer Email"></a>
+                                        <span class="name "><b>Customer Email</b>
+                                            <a href="#Customer Email">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Customer Email:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Customer Name"></a>
+                                        <span class="name "><b>Customer Name</b>
+                                            <a href="#Customer Name">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Customer Name:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Line Item Total"></a>
+                                        <span class="name "><b>Line Item Total</b>
+                                            <a href="#Line Item Total">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Line Item Total:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Order Date"></a>
+                                        <span class="name "><b>Order Date</b>
+                                            <a href="#Order Date">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Order Date:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Order ID"></a>
+                                        <span class="name "><b>Order ID</b>
+                                            <a href="#Order ID">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Order ID:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Order Status"></a>
+                                        <span class="name "><b>Order Status</b>
+                                            <a href="#Order Status">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Order Status:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Order Total"></a>
+                                        <span class="name "><b>Order Total</b>
+                                            <a href="#Order Total">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Order Total:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Price Per Item"></a>
+                                        <span class="name "><b>Price Per Item</b>
+                                            <a href="#Price Per Item">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Price Per Item:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Product Name"></a>
+                                        <span class="name "><b>Product Name</b>
+                                            <a href="#Product Name">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Product Name:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="Quantity"></a>
+                                        <span class="name "><b>Quantity</b>
+                                            <a href="#Quantity">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>Quantity:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, NotFoundException } from &#x27;@nestjs/common&#x27;;
+import { InjectRepository } from &#x27;@nestjs/typeorm&#x27;;
+import { Repository, Between, LessThanOrEqual, MoreThanOrEqual, In } from &#x27;typeorm&#x27;;
+import { Order } from &#x27;./entities/order.entity&#x27;;
+import { OrderItem } from &#x27;./entities/order-item.entity&#x27;;
+import { CreateOrderDto } from &#x27;./dto/create-order.dto&#x27;;
+import { UpdateOrderDto } from &#x27;./dto/update-order.dto&#x27;;
+import { OrderStatus } from &#x27;./enums/order-status.enum&#x27;;
+import { Product } from &#x27;../products/entities/product.entity&#x27;;
+import { Users } from &#x27;../users/entities/users.entity&#x27;;
+import { Address } from &#x27;../users/entities/address.entity&#x27;;
+import { ProductsService } from &#x27;../products/products.service&#x27;;
+import { subDays, endOfDay, startOfDay, addDays, format } from &#x27;date-fns&#x27;;
+import * as Papa from &#x27;papaparse&#x27;;
+import * as ExcelJS from &#x27;exceljs&#x27;;
+import { UsersService } from &#x27;../users/users.service&#x27;;
+
+interface SalesReportRow {
+  &#x27;Order ID&#x27;: string;
+  &#x27;Order Date&#x27;: string;
+  &#x27;Customer Name&#x27;: string;
+  &#x27;Customer Email&#x27;: string;
+  &#x27;Order Status&#x27;: string;
+  &#x27;Product Name&#x27;: string;
+  &#x27;Quantity&#x27;: number;
+  &#x27;Price Per Item&#x27;: number;
+  &#x27;Line Item Total&#x27;: number;
+  &#x27;Order Total&#x27;: number;
+}
+
+@Injectable()
+export class OrdersService {
+  constructor(
+    @InjectRepository(Order)
+    private readonly orderRepository: Repository&lt;Order&gt;,
+    @InjectRepository(OrderItem)
+    private readonly orderItemRepository: Repository&lt;OrderItem&gt;,
+    @InjectRepository(Product)
+    private readonly productRepository: Repository&lt;Product&gt;,
+    @InjectRepository(Users)
+    private readonly userRepository: Repository&lt;Users&gt;,
+    @InjectRepository(Address)
+    private readonly addressRepository: Repository&lt;Address&gt;,
+    private readonly productsService: ProductsService,
+    private readonly usersService: UsersService,
+  ) {}
+
+  async create(createOrderDto: CreateOrderDto, userId: string) {
+    // Check stock availability for all products first
+    for (const item of createOrderDto.items) {
+      const product &#x3D; await this.productRepository.findOne({
+        where: { id: item.productId },
+      });
+
+      if (!product) {
+        throw new NotFoundException(&#x60;Product with ID ${item.productId} not found&#x60;);
+      }
+
+      if (product.stockQuantity &lt; item.quantity) {
+        throw new NotFoundException(
+          &#x60;Insufficient stock for product ${product.name}. Available: ${product.stockQuantity}, Requested: ${item.quantity}&#x60;
+        );
+      }
+    }
+
+    // Create initial order
+    const order &#x3D; new Order();
+    order.userId &#x3D; userId;
+    order.status &#x3D; OrderStatus.PENDING;
+    order.notes &#x3D; createOrderDto.notes ?? null;
+    order.paymentDetails &#x3D; {
+      method: createOrderDto.paymentMethod,
+      status: &#x27;PENDING&#x27;,
+      amount: 0,
+      transactionId: &#x27;&#x27;
+    };
+    order.totalAmount &#x3D; 0; // Initial amount, will be updated after calculating items
+
+    const savedOrder &#x3D; await this.orderRepository.save(order);
+
+    let totalAmount &#x3D; 0;
+    const orderItems: OrderItem[] &#x3D; [];
+
+    for (const item of createOrderDto.items) {
+      const product &#x3D; await this.productRepository.findOne({
+        where: { id: item.productId },
+      });
+
+      if (!product) {
+        throw new NotFoundException(&#x60;Product with ID ${item.productId} not found&#x60;);
+      }
+
+      // Update stock quantity
+      product.stockQuantity -&#x3D; item.quantity;
+      await this.productRepository.save(product);
+
+      const orderItem &#x3D; this.orderItemRepository.create({
+        orderId: savedOrder.id,
+        productId: item.productId,
+        quantity: item.quantity,
+        price: product.price,
+        total: product.price * item.quantity,
+      });
+
+      totalAmount +&#x3D; orderItem.total;
+      orderItems.push(orderItem);
+    }
+
+    await this.orderItemRepository.save(orderItems);
+    
+    // Update order with final amount
+    savedOrder.totalAmount &#x3D; totalAmount;
+    
+    // Update payment details with final amount
+    if (!savedOrder.paymentDetails) {
+      savedOrder.paymentDetails &#x3D; {
+        method: createOrderDto.paymentMethod,
+        status: &#x27;PENDING&#x27;,
+        amount: totalAmount,
+        transactionId: &#x27;&#x27;
+      };
+    } else {
+      savedOrder.paymentDetails.amount &#x3D; totalAmount;
+    }
+    
+    return this.orderRepository.save(savedOrder);
+  }
+
+  async findAll(
+    page &#x3D; 1,
+    limit &#x3D; 10,
+    status?: OrderStatus,
+    startDate?: Date,
+    endDate?: Date,
+    userId?: string,
+    sortBy &#x3D; &#x27;createdAt&#x27;,
+    sortOrder: &#x27;ASC&#x27; | &#x27;DESC&#x27; &#x3D; &#x27;DESC&#x27;
+  ) {
+    const where: any &#x3D; {};
+    
+    if (status) {
+      where.status &#x3D; status;
+    }
+
+    if (userId) {
+      where.userId &#x3D; userId;
+    }
+
+    if (startDate &amp;&amp; endDate) {
+      where.createdAt &#x3D; Between(startDate, endDate);
+    } else if (startDate) {
+      where.createdAt &#x3D; MoreThanOrEqual(startDate);
+    } else if (endDate) {
+      where.createdAt &#x3D; LessThanOrEqual(endDate);
+    }
+
+    const orderOptions: { [key: string]: &#x27;ASC&#x27; | &#x27;DESC&#x27; } &#x3D; {};
+    if (sortBy &amp;&amp; [&#x27;createdAt&#x27;, &#x27;totalAmount&#x27;, &#x27;status&#x27;].includes(sortBy)) {
+      orderOptions[sortBy] &#x3D; sortOrder;
+    } else {
+      orderOptions[&#x27;createdAt&#x27;] &#x3D; &#x27;DESC&#x27;;
+    }
+
+    const [orders, total] &#x3D; await this.orderRepository.findAndCount({
+      where,
+      relations: [&#x27;items&#x27;, &#x27;items.product&#x27;, &#x27;user&#x27;],
+      select: {
+        id: true,
+        status: true,
+        totalAmount: true,
+        createdAt: true,
+        items: {
+          id: true,
+          quantity: true,
+          price: true,
+          product: {
+            id: true,
+            name: true,
+            images: true,
+          }
+        },
+        user: {
+          id: true,
+          email: true,
+        }
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+      order: orderOptions,
+    });
+
+    return {
+      data: orders,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  async findOne(id: string) {
+    const order &#x3D; await this.orderRepository.findOne({
+      where: { id },
+      relations: [&#x27;items&#x27;, &#x27;items.product&#x27;, &#x27;user&#x27;],
+    });
+
+    if (!order) {
+      throw new NotFoundException(&#x60;Order with ID ${id} not found&#x60;);
+    }
+
+    return order;
+  }
+
+  async update(id: string, updateOrderDto: UpdateOrderDto) {
+    const order &#x3D; await this.findOne(id);
+
+    if (updateOrderDto.status) {
+      order.status &#x3D; updateOrderDto.status;
+    }
+
+    if (updateOrderDto.notes) {
+      order.notes &#x3D; updateOrderDto.notes;
+    }
+
+    if (updateOrderDto.refundAmount) {
+      order.refundAmount &#x3D; updateOrderDto.refundAmount;
+      order.status &#x3D; OrderStatus.REFUNDED;
+    }
+
+    return this.orderRepository.save(order);
+  }
+
+  async updateStatus(id: string, status: OrderStatus, adminNotes?: string) {
+    const order &#x3D; await this.orderRepository.findOne({ where: { id } });
+    if (!order) {
+      throw new NotFoundException(&#x60;Order with ID ${id} not found&#x60;);
+    }
+
+    order.status &#x3D; status;
+    if (adminNotes) {
+      order.notes &#x3D; order.notes 
+        ? &#x60;${order.notes}\n[Admin Note]: ${adminNotes}&#x60;
+        : &#x60;[Admin Note]: ${adminNotes}&#x60;;
+    }
+
+    return this.orderRepository.save(order);
+  }
+
+  async updateBulkStatus(orderIds: string[], status: OrderStatus, adminNotes?: string) {
+    const orders &#x3D; await this.orderRepository.find({
+      where: { id: In(orderIds) },
+    });
+
+    if (orders.length !&#x3D;&#x3D; orderIds.length) {
+      throw new NotFoundException(&#x27;Some orders not found&#x27;);
+    }
+
+    const updatedOrders &#x3D; orders.map(order &#x3D;&gt; {
+      order.status &#x3D; status;
+      if (adminNotes) {
+        order.notes &#x3D; order.notes 
+          ? &#x60;${order.notes}\n[Admin Note]: ${adminNotes}&#x60;
+          : &#x60;[Admin Note]: ${adminNotes}&#x60;;
+      }
+      return order;
+    });
+
+    return this.orderRepository.save(updatedOrders);
+  }
+
+  async generateSalesReport(): Promise&lt;string&gt; {
+    const orders &#x3D; await this.orderRepository.find({
+      relations: [&#x27;items&#x27;, &#x27;items.product&#x27;, &#x27;user&#x27;],
+      order: {
+        createdAt: &#x27;DESC&#x27;,
+      },
+    });
+
+    if (orders.length &#x3D;&#x3D;&#x3D; 0) {
+      return &#x27;&#x27;;
+    }
+
+    const reportData: SalesReportRow[] &#x3D; [];
+    for (const order of orders) {
+      for (const item of order.items) {
+        reportData.push({
+          &#x27;Order ID&#x27;: order.id,
+          &#x27;Order Date&#x27;: format(new Date(order.createdAt), &#x27;yyyy-MM-dd HH:mm:ss&#x27;),
+          &#x27;Customer Name&#x27;: &#x60;${order.user.firstName || &#x27;&#x27;} ${order.user.lastName || &#x27;&#x27;}&#x60;.trim(),
+          &#x27;Customer Email&#x27;: order.user.email,
+          &#x27;Order Status&#x27;: order.status,
+          &#x27;Product Name&#x27;: item.product.name,
+          &#x27;Quantity&#x27;: item.quantity,
+          &#x27;Price Per Item&#x27;: item.price,
+          &#x27;Line Item Total&#x27;: item.total,
+          &#x27;Order Total&#x27;: order.totalAmount,
+        });
+      }
+    }
+
+    return Papa.unparse(reportData);
+  }
+
+  async generateMasterReport(): Promise&lt;Buffer&gt; {
+    const workbook &#x3D; new ExcelJS.Workbook();
+    workbook.creator &#x3D; &#x27;Elevate&#x27;;
+    workbook.created &#x3D; new Date();
+
+    // 1. Sales Report Sheet
+    const salesSheet &#x3D; workbook.addWorksheet(&#x27;Sales Report&#x27;);
+    const salesData &#x3D; await this.getSalesReportData();
+    if (salesData.length &gt; 0) {
+      salesSheet.columns &#x3D; Object.keys(salesData[0]).map(key &#x3D;&gt; ({ header: key, key, width: 20 }));
+      salesSheet.addRows(salesData);
+    }
+
+    // 2. Customer Summary Sheet
+    const customerSheet &#x3D; workbook.addWorksheet(&#x27;Customer Summary&#x27;);
+    const customerData &#x3D; await this.usersService.generateCustomerReport();
+    if (customerData.length &gt; 0) {
+      customerSheet.columns &#x3D; Object.keys(customerData[0]).map(key &#x3D;&gt; ({ header: key, key, width: 25 }));
+      customerSheet.addRows(customerData);
+    }
+
+    // 3. Product Performance Sheet
+    const productSheet &#x3D; workbook.addWorksheet(&#x27;Product Performance&#x27;);
+    const productData &#x3D; await this.productsService.generateProductPerformanceReport();
+    if (productData.length &gt; 0) {
+      productSheet.columns &#x3D; Object.keys(productData[0]).map(key &#x3D;&gt; ({ header: key, key, width: 20 }));
+      productSheet.addRows(productData);
+    }
+
+    return await workbook.xlsx.writeBuffer() as Buffer;
+  }
+
+  private async getSalesReportData() {
+    const orders &#x3D; await this.orderRepository.find({
+      relations: [&#x27;items&#x27;, &#x27;items.product&#x27;, &#x27;user&#x27;],
+      order: {
+        createdAt: &#x27;DESC&#x27;,
+      },
+    });
+
+    const reportData: SalesReportRow[] &#x3D; [];
+    for (const order of orders) {
+      for (const item of order.items) {
+        reportData.push({
+          &#x27;Order ID&#x27;: order.id,
+          &#x27;Order Date&#x27;: format(new Date(order.createdAt), &#x27;yyyy-MM-dd HH:mm:ss&#x27;),
+          &#x27;Customer Name&#x27;: &#x60;${order.user?.firstName || &#x27;&#x27;} ${order.user?.lastName || &#x27;&#x27;}&#x60;.trim(),
+          &#x27;Customer Email&#x27;: order.user?.email,
+          &#x27;Order Status&#x27;: order.status,
+          &#x27;Product Name&#x27;: item.product.name,
+          &#x27;Quantity&#x27;: item.quantity,
+          &#x27;Price Per Item&#x27;: item.price,
+          &#x27;Line Item Total&#x27;: item.total,
+          &#x27;Order Total&#x27;: order.totalAmount,
+        });
+      }
+    }
+    return reportData;
+  }
+
+  // Analytics methods
+  async getOrderAnalytics(startDate?: Date, endDate?: Date) {
+    // 1. Set date ranges
+    const end &#x3D; endDate ? endOfDay(endDate) : endOfDay(new Date());
+    const start &#x3D; startDate ? startOfDay(startDate) : startOfDay(subDays(end, 6)); // Default to last 7 days
+    const prevStart &#x3D; subDays(start, (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
+    const prevEnd &#x3D; subDays(end, (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
+
+    const whereCurrent &#x3D; { createdAt: Between(start, end) };
+    const wherePrevious &#x3D; { createdAt: Between(prevStart, prevEnd) };
+
+    // 2. Fetch data
+    const [currentOrders, prevOrders] &#x3D; await Promise.all([
+      this.orderRepository.find({ where: whereCurrent }),
+      this.orderRepository.find({ where: wherePrevious }),
+    ]);
+
+    // 3. Calculate metrics
+    const totalOrders &#x3D; currentOrders.length;
+    const totalRevenue &#x3D; currentOrders.reduce((sum, order) &#x3D;&gt; sum + order.totalAmount, 0);
+    const prevTotalOrders &#x3D; prevOrders.length;
+    const prevTotalRevenue &#x3D; prevOrders.reduce((sum, order) &#x3D;&gt; sum + order.totalAmount, 0);
+
+    const ordersChangePercent &#x3D; prevTotalOrders &gt; 0 ? ((totalOrders - prevTotalOrders) / prevTotalOrders) * 100 : (totalOrders &gt; 0 ? 100 : 0);
+    const revenueChangePercent &#x3D; prevTotalRevenue &gt; 0 ? ((totalRevenue - prevTotalRevenue) / prevTotalRevenue) * 100 : (totalRevenue &gt; 0 ? 100 : 0);
+
+    // 4. Generate trends
+    const getDailyTrends &#x3D; async (from: Date, to: Date) &#x3D;&gt; {
+        return this.orderRepository.createQueryBuilder(&#x27;order&#x27;)
+            .select(&#x60;DATE_TRUNC(&#x27;day&#x27;, &quot;createdAt&quot;) as date, COUNT(id) as orders, SUM(&quot;totalAmount&quot;) as revenue&#x60;)
+            .where(&#x60;&quot;createdAt&quot; BETWEEN :from AND :to&#x60;, { from, to })
+            .groupBy(&#x27;date&#x27;)
+            .getRawMany();
+    };
+    
+    const currentTrendRaw &#x3D; await getDailyTrends(start, end);
+    const ordersTrend &#x3D; this.fillTrend(currentTrendRaw, start, end, &#x27;orders&#x27;);
+    const revenueTrend &#x3D; this.fillTrend(currentTrendRaw, start, end, &#x27;revenue&#x27;);
+
+    // 5. Calculate Average Order Value
+    const avgOrderValue &#x3D; totalOrders &gt; 0 ? totalRevenue / totalOrders : 0;
+    const prevAvgOrderValue &#x3D; prevTotalOrders &gt; 0 ? prevTotalRevenue / prevTotalOrders : 0;
+    const avgOrderValueChange &#x3D; prevAvgOrderValue &gt; 0 ? ((avgOrderValue - prevAvgOrderValue) / prevAvgOrderValue) * 100 : (avgOrderValue &gt; 0 ? 100 : 0);
+    
+    // Create AOV trend by dividing daily revenue by daily orders
+    const avgOrderValueTrend &#x3D; revenueTrend.map((rev, i) &#x3D;&gt; ordersTrend[i] &gt; 0 ? rev / ordersTrend[i] : 0);
+
+    return {
+        totalOrders,
+        totalRevenue,
+        ordersChangePercent,
+        revenueChangePercent,
+        ordersTrend,
+        revenueTrend,
+        avgOrderValue,
+        avgOrderValueChange,
+        avgOrderValueTrend
+    };
+  }
+
+  private fillTrend(trendArr: any[], from: Date, to: Date, key: string): number[] {
+    const trendMap &#x3D; new Map(
+      trendArr.map(item &#x3D;&gt; [startOfDay(item.date).toISOString(), parseFloat(item[key]) || 0])
+    );
+    const filledTrend: number[] &#x3D; [];
+    for (let d &#x3D; startOfDay(from); d &lt;&#x3D; to; d &#x3D; addDays(d, 1)) {
+        const dateKey &#x3D; d.toISOString();
+        filledTrend.push(trendMap.get(dateKey) || 0);
+    }
+    return filledTrend;
+  }
+
+  async getSalesTrends(startDate: Date, endDate: Date, interval: &#x27;day&#x27; | &#x27;week&#x27; | &#x27;month&#x27; &#x3D; &#x27;day&#x27;) {
+    const query &#x3D; this.orderRepository
+      .createQueryBuilder(&#x27;order&#x27;)
+      .select(&#x60;DATE_TRUNC(&#x27;${interval}&#x27;, order.createdAt) as date&#x60;)
+      .addSelect(&#x27;COUNT(*) as orderCount&#x27;)
+      .addSelect(&#x27;SUM(order.totalAmount) as totalRevenue&#x27;)
+      .where(&#x27;order.createdAt &gt;&#x3D; :startDate AND order.createdAt &lt;&#x3D; :endDate&#x27;, { startDate, endDate })
+      .groupBy(&#x27;date&#x27;)
+      .orderBy(&#x27;date&#x27;, &#x27;ASC&#x27;);
+
+    return query.getRawMany();
+  }
+
+  async getRevenueAnalytics(startDate: Date, endDate: Date, interval: &#x27;day&#x27; | &#x27;week&#x27; | &#x27;month&#x27; &#x3D; &#x27;day&#x27;) {
+    const query &#x3D; this.orderRepository
+      .createQueryBuilder(&#x27;order&#x27;)
+      .select([
+        &#x60;DATE_TRUNC(&#x27;${interval}&#x27;, order.createdAt) as period&#x60;,
+        &#x27;SUM(order.totalAmount) as revenue&#x27;,
+        &#x27;COUNT(order.id) as orderCount&#x27;,
+        &#x27;AVG(order.totalAmount) as averageOrderValue&#x27;
+      ])
+      .where(&#x27;order.createdAt &gt;&#x3D; :startDate AND order.createdAt &lt;&#x3D; :endDate&#x27;, { startDate, endDate })
+      .andWhere(&#x27;order.status !&#x3D; :cancelled&#x27;, { cancelled: OrderStatus.CANCELLED })
+      .groupBy(&#x27;period&#x27;)
+      .orderBy(&#x27;period&#x27;, &#x27;ASC&#x27;);
+
+    return query.getRawMany();
+  }
+
+  async getCustomerAnalytics(startDate?: Date, endDate?: Date) {
+    const query &#x3D; this.userRepository
+      .createQueryBuilder(&#x27;user&#x27;)
+      .select([
+        &#x27;user.id&#x27;,
+        &#x27;user.email&#x27;,
+        &#x27;COUNT(order.id) as ordercount&#x27;,
+        &#x27;COALESCE(SUM(order.totalAmount), 0) as totalspent&#x27;,
+      ])
+      .innerJoin(&#x27;user.orders&#x27;, &#x27;order&#x27;)
+      .groupBy(&#x27;user.id&#x27;)
+      .orderBy(&#x27;totalspent&#x27;, &#x27;DESC&#x27;)
+      .limit(10);
+
+    if (startDate &amp;&amp; endDate) {
+      query.andWhere(&#x27;order.createdAt BETWEEN :startDate AND :endDate&#x27;, { startDate, endDate });
+    }
+
+    const results &#x3D; await query.getRawMany();
+
+    return results.map(result &#x3D;&gt; ({
+      id: result.user_id,
+      email: result.user_email,
+      orderCount: parseInt(result.ordercount, 10) || 0,
+      totalSpent: parseFloat(result.totalspent) || 0,
+    }));
+  }
+
+  async getRevenueBreakdown(days: number &#x3D; 7) {
+    const endDate &#x3D; endOfDay(new Date());
+    const startDate &#x3D; startOfDay(subDays(endDate, days - 1));
+
+    const revenueData &#x3D; await this.orderItemRepository
+      .createQueryBuilder(&#x27;orderItem&#x27;)
+      .select([
+        &#x60;DATE_TRUNC(&#x27;day&#x27;, &quot;order&quot;.&quot;createdAt&quot;) AS date&#x60;,
+        &#x27;product.category AS category&#x27;,
+        &#x27;SUM(orderItem.total) AS dailyRevenue&#x27;,
+      ])
+      .innerJoin(&#x27;orderItem.order&#x27;, &#x27;order&#x27;)
+      .innerJoin(&#x27;orderItem.product&#x27;, &#x27;product&#x27;)
+      .where(&#x27;order.createdAt BETWEEN :startDate AND :endDate&#x27;, { startDate, endDate })
+      .groupBy(&#x27;date, product.category&#x27;)
+      .orderBy(&#x27;date&#x27;, &#x27;ASC&#x27;)
+      .getRawMany();
+
+    const categories &#x3D; [...new Set(revenueData.map(item &#x3D;&gt; item.category))];
+    const breakdown &#x3D; {};
+
+    revenueData.forEach(item &#x3D;&gt; {
+      const dateStr &#x3D; format(item.date, &#x27;MM-dd&#x27;);
+      if (!breakdown[dateStr]) {
+        breakdown[dateStr] &#x3D; { date: dateStr };
+        categories.forEach(cat &#x3D;&gt; (breakdown[dateStr][cat] &#x3D; 0));
+      }
+      breakdown[dateStr][item.category] &#x3D; parseFloat(item.dailyrevenue);
+    });
+
+    return {
+        categories,
+        data: Object.values(breakdown),
+    };
+  }
+} </code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'SalesReportRow.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

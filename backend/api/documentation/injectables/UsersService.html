@@ -1,0 +1,1568 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Elvate-Rest-Api documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Elvate-Rest-Api documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >UsersService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/users/users.service.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#changePassword" >changePassword</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#create" >create</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#fillTrend" >fillTrend</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#findAll" >findAll</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#findOne" >findOne</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#generateCustomerReport" >generateCustomerReport</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getAllUsers" >getAllUsers</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getUserAnalytics" >getUserAnalytics</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#setStatus" >setStatus</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#update" >update</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateProfileImage" >updateProfileImage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateUserRole" >updateUserRole</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(usersRepository: <a href="../entitys/Users.html" target="_self">Repository&lt;Users&gt;</a>, rolesRepository: <a href="../entitys/Roles.html" target="_self">Repository&lt;Roles&gt;</a>, orderRepository: <a href="../entitys/Order.html" target="_self">Repository&lt;Order&gt;</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/users/users.service.ts:32</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>usersRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../entitys/Users.html" target="_self" >Repository&lt;Users&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>rolesRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../entitys/Roles.html" target="_self" >Repository&lt;Roles&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>orderRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../entitys/Order.html" target="_self" >Repository&lt;Order&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changePassword"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>changePassword</b></span>
+                        <a href="#changePassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>changePassword(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, password: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="160"
+                                    class="link-to-prism">src/users/users.service.ts:160</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>password</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../entitys/Users.html" target="_self" >Promise&lt;Users&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="create"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>create</b></span>
+                        <a href="#create"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>create(createUserDto: <a href="../classes/CreateUserDto.html" target="_self">CreateUserDto</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="45"
+                                    class="link-to-prism">src/users/users.service.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>createUserDto</td>
+                                            <td>
+                                                            <code><a href="../classes/CreateUserDto.html" target="_self" >CreateUserDto</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../entitys/Users.html" target="_self" >Promise&lt;Users&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fillTrend"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>fillTrend</b></span>
+                        <a href="#fillTrend"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>fillTrend(trendArr: any[], from: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, to: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="284"
+                                    class="link-to-prism">src/users/users.service.ts:284</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>trendArr</td>
+                                            <td>
+                                                        <code>any[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>from</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>to</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>key</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>number[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findAll"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>findAll</b></span>
+                        <a href="#findAll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>findAll(queryDto: <a href="../classes/AdminUserQueryDto.html" target="_self">AdminUserQueryDto</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="178"
+                                    class="link-to-prism">src/users/users.service.ts:178</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>queryDto</td>
+                                            <td>
+                                                            <code><a href="../classes/AdminUserQueryDto.html" target="_self" >AdminUserQueryDto</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findOne"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>findOne</b></span>
+                        <a href="#findOne"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>findOne(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="109"
+                                    class="link-to-prism">src/users/users.service.ts:109</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../entitys/Users.html" target="_self" >Promise&lt;Users&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateCustomerReport"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>generateCustomerReport</b></span>
+                        <a href="#generateCustomerReport"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>generateCustomerReport()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="296"
+                                    class="link-to-prism">src/users/users.service.ts:296</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/CustomerReportRow.html" target="_self" >Promise&lt;CustomerReportRow[]&gt;</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAllUsers"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>getAllUsers</b></span>
+                        <a href="#getAllUsers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAllUsers(userQueryDto: <a href="../classes/UserQueryDto.html" target="_self">UserQueryDto</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="74"
+                                    class="link-to-prism">src/users/users.service.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>userQueryDto</td>
+                                            <td>
+                                                            <code><a href="../classes/UserQueryDto.html" target="_self" >UserQueryDto</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../entitys/Users.html" target="_self" >Promise&lt;Users[]&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getUserAnalytics"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>getUserAnalytics</b></span>
+                        <a href="#getUserAnalytics"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getUserAnalytics()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="226"
+                                    class="link-to-prism">src/users/users.service.ts:226</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setStatus"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>setStatus</b></span>
+                        <a href="#setStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setStatus(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, isActive: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="319"
+                                    class="link-to-prism">src/users/users.service.ts:319</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>isActive</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../entitys/Users.html" target="_self" >Promise&lt;Users&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="update"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>update</b></span>
+                        <a href="#update"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>update(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, updateDto: <a href="../classes/AdminUpdateUserDto.html" target="_self">AdminUpdateUserDto</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="123"
+                                    class="link-to-prism">src/users/users.service.ts:123</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>updateDto</td>
+                                            <td>
+                                                            <code><a href="../classes/AdminUpdateUserDto.html" target="_self" >AdminUpdateUserDto</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../entitys/Users.html" target="_self" >Promise&lt;Users&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateProfileImage"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>updateProfileImage</b></span>
+                        <a href="#updateProfileImage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateProfileImage(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, profileImage: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="141"
+                                    class="link-to-prism">src/users/users.service.ts:141</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>profileImage</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../entitys/Users.html" target="_self" >Promise&lt;Users&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateUserRole"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>updateUserRole</b></span>
+                        <a href="#updateUserRole"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateUserRole(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, role: <a href="../undefineds/Role.html" target="_self">Role</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="324"
+                                    class="link-to-prism">src/users/users.service.ts:324</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>role</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#Role" target="_self" >Role</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../entitys/Users.html" target="_self" >Promise&lt;Users&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  InternalServerErrorException,
+} from &#x27;@nestjs/common&#x27;;
+import { InjectRepository } from &#x27;@nestjs/typeorm&#x27;;
+import { Repository, Like, Between, LessThan } from &#x27;typeorm&#x27;;
+import { Users } from &#x27;./entities/users.entity&#x27;;
+import { CreateUserDto } from &#x27;./dto/create-user.dto&#x27;;
+import { UpdateUserDto } from &#x27;./dto/update-user.dto&#x27;;
+import * as bcrypt from &#x27;bcrypt&#x27;;
+import { UserQueryDto } from &#x27;./dto/user-query.dto&#x27;;
+import { Roles } from &#x27;./entities/roles.entity&#x27;;
+import { Role } from &#x27;./enums/roles.enum&#x27;;
+import { subDays, endOfDay, startOfDay, addDays } from &#x27;date-fns&#x27;;
+import { Order } from &#x27;src/orders/entities/order.entity&#x27;;
+import { AdminUpdateUserDto } from &#x27;./dto/admin-user.dto&#x27;;
+import { AdminUserQueryDto } from &#x27;./dto/admin-user-query.dto&#x27;;
+
+interface CustomerReportRow {
+  &#x27;Customer ID&#x27;: string;
+  &#x27;First Name&#x27;: string;
+  &#x27;Last Name&#x27;: string;
+  &#x27;Email&#x27;: string;
+  &#x27;Total Orders&#x27;: number;
+  &#x27;Total Spent&#x27;: number;
+  &#x27;Joined On&#x27;: Date;
+}
+
+@Injectable()
+export class UsersService {
+  constructor(
+    @InjectRepository(Users)
+    private readonly usersRepository: Repository&lt;Users&gt;,
+
+    @InjectRepository(Roles)
+    private readonly rolesRepository: Repository&lt;Roles&gt;,
+
+    @InjectRepository(Order)
+    private readonly orderRepository: Repository&lt;Order&gt;,
+  ) {}
+
+  // Create a new user
+  async create(createUserDto: CreateUserDto): Promise&lt;Users&gt; {
+    const { email, phone } &#x3D; createUserDto;
+
+    const existingUser &#x3D; await this.usersRepository.findOne({
+      where: [{ email }, { phone }],
+    });
+
+    if (existingUser) {
+      throw new BadRequestException(&#x27;Email or Phone number already in use.&#x27;);
+    }
+
+    const hashedPassword &#x3D; await bcrypt.hash(createUserDto.password, 10);
+
+    const defaultRole &#x3D; await this.rolesRepository.findOne({ where: { name: Role.CUSTOMER } });
+    if (!defaultRole) {
+      throw new Error(&#x27;Default role not found&#x27;);
+    }
+
+    const newUser &#x3D; this.usersRepository.create({
+      ...createUserDto,
+      password: hashedPassword,
+      profileImage: createUserDto.profileImage || &#x27;profile.jpg&#x27;,
+      roles: [defaultRole],
+    });
+
+    return this.usersRepository.save(newUser);
+  }
+
+  // Get a list of users
+  async getAllUsers(userQueryDto: UserQueryDto): Promise&lt;Users[]&gt; {
+    const {
+      search,
+      page &#x3D; 1,
+      limit &#x3D; 10,
+      order_by &#x3D; &#x27;id&#x27;,
+      order_direction &#x3D; &#x27;ASC&#x27;,
+    } &#x3D; userQueryDto;
+
+    const whereCondition &#x3D; search
+      ? [
+          { email: Like(&#x60;%${search}%&#x60;) },
+          { phone: Like(&#x60;%${search}%&#x60;) },
+          { firstName: Like(&#x60;%${search}%&#x60;) },
+          { lastName: Like(&#x60;%${search}%&#x60;) },
+        ]
+      : undefined;
+
+    const [users, total] &#x3D; await this.usersRepository.findAndCount({
+      where: whereCondition,
+      order: {
+        [order_by]: order_direction.toUpperCase() &#x3D;&#x3D;&#x3D; &#x27;DESC&#x27; ? &#x27;DESC&#x27; : &#x27;ASC&#x27;,
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    if (total &#x3D;&#x3D;&#x3D; 0) {
+      throw new NotFoundException(&#x27;No users found.&#x27;);
+    }
+
+    return users;
+  }
+
+  // Get user by ID
+  async findOne(id: string): Promise&lt;Users&gt; {
+    const user &#x3D; await this.usersRepository.findOne({
+      where: { id },
+      relations: [&#x27;roles&#x27;],
+    });
+
+    if (!user) {
+      throw new NotFoundException(&#x60;User with ID ${id} not found.&#x60;);
+    }
+
+    return user;
+  }
+
+  // Update user
+  async update(id: string, updateDto: AdminUpdateUserDto): Promise&lt;Users&gt; {
+    const user &#x3D; await this.findOne(id);
+    Object.assign(user, updateDto);
+
+    if (updateDto.role) {
+      const roleEntity &#x3D; await this.rolesRepository.findOne({
+        where: { name: updateDto.role },
+      });
+      if (!roleEntity) {
+        throw new BadRequestException(&#x60;Role ${updateDto.role} not found&#x60;);
+      }
+      user.roles &#x3D; [roleEntity];
+    }
+
+    return this.usersRepository.save(user);
+  }
+
+  // Update profile image
+  async updateProfileImage(id: string, profileImage: string): Promise&lt;Users&gt; {
+    const user &#x3D; await this.usersRepository.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException(
+        &#x60;Cannot update image: User with ID ${id} not found.&#x60;,
+      );
+    }
+
+    user.profileImage &#x3D; profileImage;
+
+    try {
+      return await this.usersRepository.save(user);
+    } catch (error) {
+      throw new InternalServerErrorException(&#x27;Failed to update profile image.&#x27;);
+    }
+  }
+
+  // Change user password
+  async changePassword(id: string, password: string): Promise&lt;Users&gt; {
+    const user &#x3D; await this.usersRepository.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException(
+        &#x60;Cannot change password: User with ID ${id} not found.&#x60;,
+      );
+    }
+
+    user.password &#x3D; await bcrypt.hash(password, 10);
+
+    try {
+      return await this.usersRepository.save(user);
+    } catch (error) {
+      throw new InternalServerErrorException(&#x27;Failed to change password.&#x27;);
+    }
+  }
+
+  async findAll(queryDto: AdminUserQueryDto): Promise&lt;{ items: Users[]; meta: any }&gt; {
+    const {
+      page &#x3D; 1,
+      limit &#x3D; 10,
+      search,
+      role,
+      isActive,
+      sortBy &#x3D; &#x27;createdAt&#x27;,
+      sortOrder &#x3D; &#x27;desc&#x27;,
+    } &#x3D; queryDto;
+
+    const queryBuilder &#x3D; this.usersRepository.createQueryBuilder(&#x27;user&#x27;)
+      .leftJoinAndSelect(&#x27;user.roles&#x27;, &#x27;roles&#x27;);
+
+    if (search) {
+      queryBuilder.andWhere(
+        &#x27;(user.firstName ILIKE :search OR user.lastName ILIKE :search OR user.email ILIKE :search)&#x27;,
+        { search: &#x60;%${search}%&#x60; },
+      );
+    }
+
+    if (role) {
+      queryBuilder.andWhere(&#x27;roles.name &#x3D; :role&#x27;, { role });
+    }
+
+    if (isActive !&#x3D;&#x3D; undefined) {
+      queryBuilder.andWhere(&#x27;user.isActive &#x3D; :isActive&#x27;, { isActive });
+    }
+
+    const validSortFields &#x3D; [&#x27;createdAt&#x27;, &#x27;lastLoginAt&#x27;, &#x27;firstName&#x27;, &#x27;lastName&#x27;, &#x27;email&#x27;];
+    const finalSortBy &#x3D; validSortFields.includes(sortBy) ? sortBy : &#x27;createdAt&#x27;;
+    queryBuilder.orderBy(&#x60;user.${finalSortBy}&#x60;, sortOrder.toUpperCase() as &#x27;ASC&#x27; | &#x27;DESC&#x27;);
+    
+    queryBuilder.skip((page - 1) * limit).take(limit);
+
+    const [items, total] &#x3D; await queryBuilder.getManyAndCount();
+
+    return {
+      items,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  async getUserAnalytics() {
+    // 1. Date setup
+    const endDate &#x3D; endOfDay(new Date());
+    const startDate &#x3D; startOfDay(subDays(endDate, 6)); // Last 7 days
+    const prevStartDate &#x3D; startOfDay(subDays(startDate, 7));
+    const prevEndDate &#x3D; endOfDay(subDays(startDate, 1));
+
+    // 2. Total user stats
+    const totalUsers &#x3D; await this.usersRepository.count();
+    const prevTotalUsers &#x3D; await this.usersRepository.count({ where: { createdAt: LessThan(startDate) } });
+    const totalUsersChangePercent &#x3D; prevTotalUsers &gt; 0 ? ((totalUsers - prevTotalUsers) / prevTotalUsers) * 100 : (totalUsers &gt; 0 ? 100 : 0);
+
+    // 3. New user trend (for Total Visitors chart)
+    const getDailyNewUsers &#x3D; (from: Date, to: Date) &#x3D;&gt; {
+        return this.usersRepository.createQueryBuilder(&#x27;user&#x27;)
+            .select(&#x60;DATE_TRUNC(&#x27;day&#x27;, &quot;createdAt&quot;) as date, COUNT(id) as count&#x60;)
+            .where(&#x60;&quot;createdAt&quot; BETWEEN :from AND :to&#x60;, { from, to })
+            .groupBy(&#x27;date&#x27;)
+            .getRawMany();
+    };
+
+    const newUsersTrendRaw &#x3D; await getDailyNewUsers(startDate, endDate);
+    const totalUsersTrend &#x3D; this.fillTrend(newUsersTrendRaw, startDate, endDate, &#x27;count&#x27;);
+
+    // 4. Conversion Rate stats
+    const totalPurchasingUsers &#x3D; await this.orderRepository.createQueryBuilder(&quot;order&quot;)
+        .select(&#x27;COUNT(DISTINCT &quot;userId&quot;)&#x27;)
+        .getRawOne()
+        .then(result &#x3D;&gt; parseInt(result.count, 10) || 0);
+    
+    const conversionRate &#x3D; totalUsers &gt; 0 ? (totalPurchasingUsers / totalUsers) * 100 : 0;
+    
+    // 5. Conversion rate change and trend
+    const getDailyActiveCustomers &#x3D; (from: Date, to: Date) &#x3D;&gt; {
+        return this.orderRepository.createQueryBuilder(&#x27;order&#x27;)
+            .select(&#x60;DATE_TRUNC(&#x27;day&#x27;, &quot;createdAt&quot;) as date, COUNT(DISTINCT &quot;userId&quot;) as count&#x60;)
+            .where(&#x60;&quot;createdAt&quot; BETWEEN :from AND :to&#x60;, { from, to })
+            .groupBy(&#x27;date&#x27;)
+            .getRawMany();
+    }
+    const activeCustomersCurrentPeriodRaw &#x3D; await getDailyActiveCustomers(startDate, endDate);
+    
+    const activeCustomersCurrentPeriod &#x3D; await this.orderRepository.createQueryBuilder(&quot;order&quot;).select(&#x27;COUNT(DISTINCT &quot;userId&quot;)&#x27;).where({ createdAt: Between(startDate, endDate) }).getRawOne().then(r &#x3D;&gt; parseInt(r.count, 10) || 0);
+    const activeCustomersPrevPeriod &#x3D; await this.orderRepository.createQueryBuilder(&quot;order&quot;).select(&#x27;COUNT(DISTINCT &quot;userId&quot;)&#x27;).where({ createdAt: Between(prevStartDate, prevEndDate) }).getRawOne().then(r &#x3D;&gt; parseInt(r.count, 10) || 0);
+    
+    const conversionRateChangePercent &#x3D; activeCustomersPrevPeriod &gt; 0 ? ((activeCustomersCurrentPeriod - activeCustomersPrevPeriod) / activeCustomersPrevPeriod) * 100 : (activeCustomersCurrentPeriod &gt; 0 ? 100 : 0);
+    const conversionRateTrend &#x3D; this.fillTrend(activeCustomersCurrentPeriodRaw, startDate, endDate, &#x27;count&#x27;);
+
+    return {
+        totalUsers,
+        totalUsersChangePercent,
+        totalUsersTrend,
+        conversionRate,
+        conversionRateChangePercent,
+        conversionRateTrend,
+    };
+  }
+
+  private fillTrend(trendArr: any[], from: Date, to: Date, key: string): number[] {
+    const trendMap &#x3D; new Map(
+      trendArr.map(item &#x3D;&gt; [startOfDay(item.date).toISOString(), parseInt(item[key], 10) || 0])
+    );
+    const filledTrend: number[] &#x3D; [];
+    for (let d &#x3D; startOfDay(from); d &lt;&#x3D; to; d &#x3D; addDays(d, 1)) {
+        const dateKey &#x3D; d.toISOString();
+        filledTrend.push(trendMap.get(dateKey) || 0);
+    }
+    return filledTrend;
+  }
+
+  async generateCustomerReport(): Promise&lt;CustomerReportRow[]&gt; {
+    const users &#x3D; await this.usersRepository.find({
+      relations: [&#x27;orders&#x27;],
+    });
+
+    const reportData: CustomerReportRow[] &#x3D; users.map(user &#x3D;&gt; {
+      const totalOrders &#x3D; user.orders.length;
+      const totalSpent &#x3D; user.orders.reduce((sum, order) &#x3D;&gt; sum + order.totalAmount, 0);
+
+      return {
+        &#x27;Customer ID&#x27;: user.id,
+        &#x27;First Name&#x27;: user.firstName,
+        &#x27;Last Name&#x27;: user.lastName || &#x27;&#x27;,
+        &#x27;Email&#x27;: user.email,
+        &#x27;Total Orders&#x27;: totalOrders,
+        &#x27;Total Spent&#x27;: totalSpent,
+        &#x27;Joined On&#x27;: user.createdAt,
+      };
+    });
+
+    return reportData;
+  }
+
+  async setStatus(id: string, isActive: boolean): Promise&lt;Users&gt; {
+    await this.usersRepository.update(id, { isActive });
+    return this.findOne(id);
+  }
+
+  async updateUserRole(id: string, role: Role): Promise&lt;Users&gt; {
+    const user &#x3D; await this.findOne(id);
+    const roleEntity &#x3D; await this.rolesRepository.findOne({
+      where: { name: role },
+    });
+    if (!roleEntity) {
+      throw new BadRequestException(&#x60;Role ${role} not found&#x60;);
+    }
+    user.roles &#x3D; [roleEntity];
+    return this.usersRepository.save(user);
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'UsersService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,2211 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Elvate-Rest-Api documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Elvate-Rest-Api documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >OrdersService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/orders/orders.service.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#create" >create</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#fillTrend" >fillTrend</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#findAll" >findAll</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#findOne" >findOne</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#generateMasterReport" >generateMasterReport</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#generateSalesReport" >generateSalesReport</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getCustomerAnalytics" >getCustomerAnalytics</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getOrderAnalytics" >getOrderAnalytics</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getRevenueAnalytics" >getRevenueAnalytics</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getRevenueBreakdown" >getRevenueBreakdown</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#getSalesReportData" >getSalesReportData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getSalesTrends" >getSalesTrends</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#update" >update</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateBulkStatus" >updateBulkStatus</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateStatus" >updateStatus</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(orderRepository: <a href="../entitys/Order.html" target="_self">Repository&lt;Order&gt;</a>, orderItemRepository: Repository<OrderItem>, productRepository: <a href="../entitys/Product.html" target="_self">Repository&lt;Product&gt;</a>, userRepository: <a href="../entitys/Users.html" target="_self">Repository&lt;Users&gt;</a>, addressRepository: <a href="../entitys/Address.html" target="_self">Repository&lt;Address&gt;</a>, productsService: <a href="../injectables/ProductsService.html" target="_self">ProductsService</a>, usersService: <a href="../injectables/UsersService.html" target="_self">UsersService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/orders/orders.service.ts:32</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>orderRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../entitys/Order.html" target="_self" >Repository&lt;Order&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>orderItemRepository</td>
+                                                  
+                                                        <td>
+                                                                    <code>Repository&lt;OrderItem&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>productRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../entitys/Product.html" target="_self" >Repository&lt;Product&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>userRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../entitys/Users.html" target="_self" >Repository&lt;Users&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>addressRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../entitys/Address.html" target="_self" >Repository&lt;Address&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>productsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ProductsService.html" target="_self" >ProductsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>usersService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UsersService.html" target="_self" >UsersService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="create"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>create</b></span>
+                        <a href="#create"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>create(createOrderDto: <a href="../classes/CreateOrderDto.html" target="_self">CreateOrderDto</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="48"
+                                    class="link-to-prism">src/orders/orders.service.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>createOrderDto</td>
+                                            <td>
+                                                            <code><a href="../classes/CreateOrderDto.html" target="_self" >CreateOrderDto</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fillTrend"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>fillTrend</b></span>
+                        <a href="#fillTrend"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>fillTrend(trendArr: any[], from: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, to: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="426"
+                                    class="link-to-prism">src/orders/orders.service.ts:426</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>trendArr</td>
+                                            <td>
+                                                        <code>any[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>from</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>to</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>key</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>number[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findAll"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>findAll</b></span>
+                        <a href="#findAll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>findAll(page: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, limit: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, status?: <a href="../undefineds/OrderStatus.html" target="_self">OrderStatus</a>, startDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, endDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, userId?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, sortBy: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, sortOrder: "ASC" | "DESC")</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="129"
+                                    class="link-to-prism">src/orders/orders.service.ts:129</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>page</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>1</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>limit</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>10</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>status</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#OrderStatus" target="_self" >OrderStatus</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>startDate</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>endDate</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>sortBy</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;createdAt&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>sortOrder</td>
+                                            <td>
+                                                        <code>&quot;ASC&quot; | &quot;DESC&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;DESC&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findOne"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>findOne</b></span>
+                        <a href="#findOne"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>findOne(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="203"
+                                    class="link-to-prism">src/orders/orders.service.ts:203</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateMasterReport"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>generateMasterReport</b></span>
+                        <a href="#generateMasterReport"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>generateMasterReport()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="306"
+                                    class="link-to-prism">src/orders/orders.service.ts:306</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;Buffer&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateSalesReport"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>generateSalesReport</b></span>
+                        <a href="#generateSalesReport"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>generateSalesReport()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="273"
+                                    class="link-to-prism">src/orders/orders.service.ts:273</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCustomerAnalytics"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>getCustomerAnalytics</b></span>
+                        <a href="#getCustomerAnalytics"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCustomerAnalytics(startDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, endDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="468"
+                                    class="link-to-prism">src/orders/orders.service.ts:468</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>startDate</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>endDate</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getOrderAnalytics"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>getOrderAnalytics</b></span>
+                        <a href="#getOrderAnalytics"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getOrderAnalytics(startDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, endDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="367"
+                                    class="link-to-prism">src/orders/orders.service.ts:367</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>startDate</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>endDate</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRevenueAnalytics"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>getRevenueAnalytics</b></span>
+                        <a href="#getRevenueAnalytics"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getRevenueAnalytics(startDate: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, endDate: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, interval: "day" | "week" | "month")</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="451"
+                                    class="link-to-prism">src/orders/orders.service.ts:451</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>startDate</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>endDate</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>interval</td>
+                                            <td>
+                                                        <code>&quot;day&quot; | &quot;week&quot; | &quot;month&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;day&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRevenueBreakdown"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>getRevenueBreakdown</b></span>
+                        <a href="#getRevenueBreakdown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getRevenueBreakdown(days: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="496"
+                                    class="link-to-prism">src/orders/orders.service.ts:496</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>days</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>7</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSalesReportData"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>getSalesReportData</b></span>
+                        <a href="#getSalesReportData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSalesReportData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="338"
+                                    class="link-to-prism">src/orders/orders.service.ts:338</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSalesTrends"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>getSalesTrends</b></span>
+                        <a href="#getSalesTrends"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSalesTrends(startDate: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, endDate: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, interval: "day" | "week" | "month")</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="438"
+                                    class="link-to-prism">src/orders/orders.service.ts:438</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>startDate</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>endDate</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>interval</td>
+                                            <td>
+                                                        <code>&quot;day&quot; | &quot;week&quot; | &quot;month&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;day&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="update"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>update</b></span>
+                        <a href="#update"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>update(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, updateOrderDto: <a href="../classes/UpdateOrderDto.html" target="_self">UpdateOrderDto</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="216"
+                                    class="link-to-prism">src/orders/orders.service.ts:216</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>updateOrderDto</td>
+                                            <td>
+                                                            <code><a href="../classes/UpdateOrderDto.html" target="_self" >UpdateOrderDto</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateBulkStatus"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>updateBulkStatus</b></span>
+                        <a href="#updateBulkStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateBulkStatus(orderIds: string[], status: <a href="../undefineds/OrderStatus.html" target="_self">OrderStatus</a>, adminNotes?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="251"
+                                    class="link-to-prism">src/orders/orders.service.ts:251</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>orderIds</td>
+                                            <td>
+                                                        <code>string[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>status</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#OrderStatus" target="_self" >OrderStatus</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>adminNotes</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateStatus"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>updateStatus</b></span>
+                        <a href="#updateStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateStatus(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, status: <a href="../undefineds/OrderStatus.html" target="_self">OrderStatus</a>, adminNotes?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="235"
+                                    class="link-to-prism">src/orders/orders.service.ts:235</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>status</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#OrderStatus" target="_self" >OrderStatus</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>adminNotes</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, NotFoundException } from &#x27;@nestjs/common&#x27;;
+import { InjectRepository } from &#x27;@nestjs/typeorm&#x27;;
+import { Repository, Between, LessThanOrEqual, MoreThanOrEqual, In } from &#x27;typeorm&#x27;;
+import { Order } from &#x27;./entities/order.entity&#x27;;
+import { OrderItem } from &#x27;./entities/order-item.entity&#x27;;
+import { CreateOrderDto } from &#x27;./dto/create-order.dto&#x27;;
+import { UpdateOrderDto } from &#x27;./dto/update-order.dto&#x27;;
+import { OrderStatus } from &#x27;./enums/order-status.enum&#x27;;
+import { Product } from &#x27;../products/entities/product.entity&#x27;;
+import { Users } from &#x27;../users/entities/users.entity&#x27;;
+import { Address } from &#x27;../users/entities/address.entity&#x27;;
+import { ProductsService } from &#x27;../products/products.service&#x27;;
+import { subDays, endOfDay, startOfDay, addDays, format } from &#x27;date-fns&#x27;;
+import * as Papa from &#x27;papaparse&#x27;;
+import * as ExcelJS from &#x27;exceljs&#x27;;
+import { UsersService } from &#x27;../users/users.service&#x27;;
+
+interface SalesReportRow {
+  &#x27;Order ID&#x27;: string;
+  &#x27;Order Date&#x27;: string;
+  &#x27;Customer Name&#x27;: string;
+  &#x27;Customer Email&#x27;: string;
+  &#x27;Order Status&#x27;: string;
+  &#x27;Product Name&#x27;: string;
+  &#x27;Quantity&#x27;: number;
+  &#x27;Price Per Item&#x27;: number;
+  &#x27;Line Item Total&#x27;: number;
+  &#x27;Order Total&#x27;: number;
+}
+
+@Injectable()
+export class OrdersService {
+  constructor(
+    @InjectRepository(Order)
+    private readonly orderRepository: Repository&lt;Order&gt;,
+    @InjectRepository(OrderItem)
+    private readonly orderItemRepository: Repository&lt;OrderItem&gt;,
+    @InjectRepository(Product)
+    private readonly productRepository: Repository&lt;Product&gt;,
+    @InjectRepository(Users)
+    private readonly userRepository: Repository&lt;Users&gt;,
+    @InjectRepository(Address)
+    private readonly addressRepository: Repository&lt;Address&gt;,
+    private readonly productsService: ProductsService,
+    private readonly usersService: UsersService,
+  ) {}
+
+  async create(createOrderDto: CreateOrderDto, userId: string) {
+    // Check stock availability for all products first
+    for (const item of createOrderDto.items) {
+      const product &#x3D; await this.productRepository.findOne({
+        where: { id: item.productId },
+      });
+
+      if (!product) {
+        throw new NotFoundException(&#x60;Product with ID ${item.productId} not found&#x60;);
+      }
+
+      if (product.stockQuantity &lt; item.quantity) {
+        throw new NotFoundException(
+          &#x60;Insufficient stock for product ${product.name}. Available: ${product.stockQuantity}, Requested: ${item.quantity}&#x60;
+        );
+      }
+    }
+
+    // Create initial order
+    const order &#x3D; new Order();
+    order.userId &#x3D; userId;
+    order.status &#x3D; OrderStatus.PENDING;
+    order.notes &#x3D; createOrderDto.notes ?? null;
+    order.paymentDetails &#x3D; {
+      method: createOrderDto.paymentMethod,
+      status: &#x27;PENDING&#x27;,
+      amount: 0,
+      transactionId: &#x27;&#x27;
+    };
+    order.totalAmount &#x3D; 0; // Initial amount, will be updated after calculating items
+
+    const savedOrder &#x3D; await this.orderRepository.save(order);
+
+    let totalAmount &#x3D; 0;
+    const orderItems: OrderItem[] &#x3D; [];
+
+    for (const item of createOrderDto.items) {
+      const product &#x3D; await this.productRepository.findOne({
+        where: { id: item.productId },
+      });
+
+      if (!product) {
+        throw new NotFoundException(&#x60;Product with ID ${item.productId} not found&#x60;);
+      }
+
+      // Update stock quantity
+      product.stockQuantity -&#x3D; item.quantity;
+      await this.productRepository.save(product);
+
+      const orderItem &#x3D; this.orderItemRepository.create({
+        orderId: savedOrder.id,
+        productId: item.productId,
+        quantity: item.quantity,
+        price: product.price,
+        total: product.price * item.quantity,
+      });
+
+      totalAmount +&#x3D; orderItem.total;
+      orderItems.push(orderItem);
+    }
+
+    await this.orderItemRepository.save(orderItems);
+    
+    // Update order with final amount
+    savedOrder.totalAmount &#x3D; totalAmount;
+    
+    // Update payment details with final amount
+    if (!savedOrder.paymentDetails) {
+      savedOrder.paymentDetails &#x3D; {
+        method: createOrderDto.paymentMethod,
+        status: &#x27;PENDING&#x27;,
+        amount: totalAmount,
+        transactionId: &#x27;&#x27;
+      };
+    } else {
+      savedOrder.paymentDetails.amount &#x3D; totalAmount;
+    }
+    
+    return this.orderRepository.save(savedOrder);
+  }
+
+  async findAll(
+    page &#x3D; 1,
+    limit &#x3D; 10,
+    status?: OrderStatus,
+    startDate?: Date,
+    endDate?: Date,
+    userId?: string,
+    sortBy &#x3D; &#x27;createdAt&#x27;,
+    sortOrder: &#x27;ASC&#x27; | &#x27;DESC&#x27; &#x3D; &#x27;DESC&#x27;
+  ) {
+    const where: any &#x3D; {};
+    
+    if (status) {
+      where.status &#x3D; status;
+    }
+
+    if (userId) {
+      where.userId &#x3D; userId;
+    }
+
+    if (startDate &amp;&amp; endDate) {
+      where.createdAt &#x3D; Between(startDate, endDate);
+    } else if (startDate) {
+      where.createdAt &#x3D; MoreThanOrEqual(startDate);
+    } else if (endDate) {
+      where.createdAt &#x3D; LessThanOrEqual(endDate);
+    }
+
+    const orderOptions: { [key: string]: &#x27;ASC&#x27; | &#x27;DESC&#x27; } &#x3D; {};
+    if (sortBy &amp;&amp; [&#x27;createdAt&#x27;, &#x27;totalAmount&#x27;, &#x27;status&#x27;].includes(sortBy)) {
+      orderOptions[sortBy] &#x3D; sortOrder;
+    } else {
+      orderOptions[&#x27;createdAt&#x27;] &#x3D; &#x27;DESC&#x27;;
+    }
+
+    const [orders, total] &#x3D; await this.orderRepository.findAndCount({
+      where,
+      relations: [&#x27;items&#x27;, &#x27;items.product&#x27;, &#x27;user&#x27;],
+      select: {
+        id: true,
+        status: true,
+        totalAmount: true,
+        createdAt: true,
+        items: {
+          id: true,
+          quantity: true,
+          price: true,
+          product: {
+            id: true,
+            name: true,
+            images: true,
+          }
+        },
+        user: {
+          id: true,
+          email: true,
+        }
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+      order: orderOptions,
+    });
+
+    return {
+      data: orders,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  async findOne(id: string) {
+    const order &#x3D; await this.orderRepository.findOne({
+      where: { id },
+      relations: [&#x27;items&#x27;, &#x27;items.product&#x27;, &#x27;user&#x27;],
+    });
+
+    if (!order) {
+      throw new NotFoundException(&#x60;Order with ID ${id} not found&#x60;);
+    }
+
+    return order;
+  }
+
+  async update(id: string, updateOrderDto: UpdateOrderDto) {
+    const order &#x3D; await this.findOne(id);
+
+    if (updateOrderDto.status) {
+      order.status &#x3D; updateOrderDto.status;
+    }
+
+    if (updateOrderDto.notes) {
+      order.notes &#x3D; updateOrderDto.notes;
+    }
+
+    if (updateOrderDto.refundAmount) {
+      order.refundAmount &#x3D; updateOrderDto.refundAmount;
+      order.status &#x3D; OrderStatus.REFUNDED;
+    }
+
+    return this.orderRepository.save(order);
+  }
+
+  async updateStatus(id: string, status: OrderStatus, adminNotes?: string) {
+    const order &#x3D; await this.orderRepository.findOne({ where: { id } });
+    if (!order) {
+      throw new NotFoundException(&#x60;Order with ID ${id} not found&#x60;);
+    }
+
+    order.status &#x3D; status;
+    if (adminNotes) {
+      order.notes &#x3D; order.notes 
+        ? &#x60;${order.notes}\n[Admin Note]: ${adminNotes}&#x60;
+        : &#x60;[Admin Note]: ${adminNotes}&#x60;;
+    }
+
+    return this.orderRepository.save(order);
+  }
+
+  async updateBulkStatus(orderIds: string[], status: OrderStatus, adminNotes?: string) {
+    const orders &#x3D; await this.orderRepository.find({
+      where: { id: In(orderIds) },
+    });
+
+    if (orders.length !&#x3D;&#x3D; orderIds.length) {
+      throw new NotFoundException(&#x27;Some orders not found&#x27;);
+    }
+
+    const updatedOrders &#x3D; orders.map(order &#x3D;&gt; {
+      order.status &#x3D; status;
+      if (adminNotes) {
+        order.notes &#x3D; order.notes 
+          ? &#x60;${order.notes}\n[Admin Note]: ${adminNotes}&#x60;
+          : &#x60;[Admin Note]: ${adminNotes}&#x60;;
+      }
+      return order;
+    });
+
+    return this.orderRepository.save(updatedOrders);
+  }
+
+  async generateSalesReport(): Promise&lt;string&gt; {
+    const orders &#x3D; await this.orderRepository.find({
+      relations: [&#x27;items&#x27;, &#x27;items.product&#x27;, &#x27;user&#x27;],
+      order: {
+        createdAt: &#x27;DESC&#x27;,
+      },
+    });
+
+    if (orders.length &#x3D;&#x3D;&#x3D; 0) {
+      return &#x27;&#x27;;
+    }
+
+    const reportData: SalesReportRow[] &#x3D; [];
+    for (const order of orders) {
+      for (const item of order.items) {
+        reportData.push({
+          &#x27;Order ID&#x27;: order.id,
+          &#x27;Order Date&#x27;: format(new Date(order.createdAt), &#x27;yyyy-MM-dd HH:mm:ss&#x27;),
+          &#x27;Customer Name&#x27;: &#x60;${order.user.firstName || &#x27;&#x27;} ${order.user.lastName || &#x27;&#x27;}&#x60;.trim(),
+          &#x27;Customer Email&#x27;: order.user.email,
+          &#x27;Order Status&#x27;: order.status,
+          &#x27;Product Name&#x27;: item.product.name,
+          &#x27;Quantity&#x27;: item.quantity,
+          &#x27;Price Per Item&#x27;: item.price,
+          &#x27;Line Item Total&#x27;: item.total,
+          &#x27;Order Total&#x27;: order.totalAmount,
+        });
+      }
+    }
+
+    return Papa.unparse(reportData);
+  }
+
+  async generateMasterReport(): Promise&lt;Buffer&gt; {
+    const workbook &#x3D; new ExcelJS.Workbook();
+    workbook.creator &#x3D; &#x27;Elevate&#x27;;
+    workbook.created &#x3D; new Date();
+
+    // 1. Sales Report Sheet
+    const salesSheet &#x3D; workbook.addWorksheet(&#x27;Sales Report&#x27;);
+    const salesData &#x3D; await this.getSalesReportData();
+    if (salesData.length &gt; 0) {
+      salesSheet.columns &#x3D; Object.keys(salesData[0]).map(key &#x3D;&gt; ({ header: key, key, width: 20 }));
+      salesSheet.addRows(salesData);
+    }
+
+    // 2. Customer Summary Sheet
+    const customerSheet &#x3D; workbook.addWorksheet(&#x27;Customer Summary&#x27;);
+    const customerData &#x3D; await this.usersService.generateCustomerReport();
+    if (customerData.length &gt; 0) {
+      customerSheet.columns &#x3D; Object.keys(customerData[0]).map(key &#x3D;&gt; ({ header: key, key, width: 25 }));
+      customerSheet.addRows(customerData);
+    }
+
+    // 3. Product Performance Sheet
+    const productSheet &#x3D; workbook.addWorksheet(&#x27;Product Performance&#x27;);
+    const productData &#x3D; await this.productsService.generateProductPerformanceReport();
+    if (productData.length &gt; 0) {
+      productSheet.columns &#x3D; Object.keys(productData[0]).map(key &#x3D;&gt; ({ header: key, key, width: 20 }));
+      productSheet.addRows(productData);
+    }
+
+    return await workbook.xlsx.writeBuffer() as Buffer;
+  }
+
+  private async getSalesReportData() {
+    const orders &#x3D; await this.orderRepository.find({
+      relations: [&#x27;items&#x27;, &#x27;items.product&#x27;, &#x27;user&#x27;],
+      order: {
+        createdAt: &#x27;DESC&#x27;,
+      },
+    });
+
+    const reportData: SalesReportRow[] &#x3D; [];
+    for (const order of orders) {
+      for (const item of order.items) {
+        reportData.push({
+          &#x27;Order ID&#x27;: order.id,
+          &#x27;Order Date&#x27;: format(new Date(order.createdAt), &#x27;yyyy-MM-dd HH:mm:ss&#x27;),
+          &#x27;Customer Name&#x27;: &#x60;${order.user?.firstName || &#x27;&#x27;} ${order.user?.lastName || &#x27;&#x27;}&#x60;.trim(),
+          &#x27;Customer Email&#x27;: order.user?.email,
+          &#x27;Order Status&#x27;: order.status,
+          &#x27;Product Name&#x27;: item.product.name,
+          &#x27;Quantity&#x27;: item.quantity,
+          &#x27;Price Per Item&#x27;: item.price,
+          &#x27;Line Item Total&#x27;: item.total,
+          &#x27;Order Total&#x27;: order.totalAmount,
+        });
+      }
+    }
+    return reportData;
+  }
+
+  // Analytics methods
+  async getOrderAnalytics(startDate?: Date, endDate?: Date) {
+    // 1. Set date ranges
+    const end &#x3D; endDate ? endOfDay(endDate) : endOfDay(new Date());
+    const start &#x3D; startDate ? startOfDay(startDate) : startOfDay(subDays(end, 6)); // Default to last 7 days
+    const prevStart &#x3D; subDays(start, (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
+    const prevEnd &#x3D; subDays(end, (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
+
+    const whereCurrent &#x3D; { createdAt: Between(start, end) };
+    const wherePrevious &#x3D; { createdAt: Between(prevStart, prevEnd) };
+
+    // 2. Fetch data
+    const [currentOrders, prevOrders] &#x3D; await Promise.all([
+      this.orderRepository.find({ where: whereCurrent }),
+      this.orderRepository.find({ where: wherePrevious }),
+    ]);
+
+    // 3. Calculate metrics
+    const totalOrders &#x3D; currentOrders.length;
+    const totalRevenue &#x3D; currentOrders.reduce((sum, order) &#x3D;&gt; sum + order.totalAmount, 0);
+    const prevTotalOrders &#x3D; prevOrders.length;
+    const prevTotalRevenue &#x3D; prevOrders.reduce((sum, order) &#x3D;&gt; sum + order.totalAmount, 0);
+
+    const ordersChangePercent &#x3D; prevTotalOrders &gt; 0 ? ((totalOrders - prevTotalOrders) / prevTotalOrders) * 100 : (totalOrders &gt; 0 ? 100 : 0);
+    const revenueChangePercent &#x3D; prevTotalRevenue &gt; 0 ? ((totalRevenue - prevTotalRevenue) / prevTotalRevenue) * 100 : (totalRevenue &gt; 0 ? 100 : 0);
+
+    // 4. Generate trends
+    const getDailyTrends &#x3D; async (from: Date, to: Date) &#x3D;&gt; {
+        return this.orderRepository.createQueryBuilder(&#x27;order&#x27;)
+            .select(&#x60;DATE_TRUNC(&#x27;day&#x27;, &quot;createdAt&quot;) as date, COUNT(id) as orders, SUM(&quot;totalAmount&quot;) as revenue&#x60;)
+            .where(&#x60;&quot;createdAt&quot; BETWEEN :from AND :to&#x60;, { from, to })
+            .groupBy(&#x27;date&#x27;)
+            .getRawMany();
+    };
+    
+    const currentTrendRaw &#x3D; await getDailyTrends(start, end);
+    const ordersTrend &#x3D; this.fillTrend(currentTrendRaw, start, end, &#x27;orders&#x27;);
+    const revenueTrend &#x3D; this.fillTrend(currentTrendRaw, start, end, &#x27;revenue&#x27;);
+
+    // 5. Calculate Average Order Value
+    const avgOrderValue &#x3D; totalOrders &gt; 0 ? totalRevenue / totalOrders : 0;
+    const prevAvgOrderValue &#x3D; prevTotalOrders &gt; 0 ? prevTotalRevenue / prevTotalOrders : 0;
+    const avgOrderValueChange &#x3D; prevAvgOrderValue &gt; 0 ? ((avgOrderValue - prevAvgOrderValue) / prevAvgOrderValue) * 100 : (avgOrderValue &gt; 0 ? 100 : 0);
+    
+    // Create AOV trend by dividing daily revenue by daily orders
+    const avgOrderValueTrend &#x3D; revenueTrend.map((rev, i) &#x3D;&gt; ordersTrend[i] &gt; 0 ? rev / ordersTrend[i] : 0);
+
+    return {
+        totalOrders,
+        totalRevenue,
+        ordersChangePercent,
+        revenueChangePercent,
+        ordersTrend,
+        revenueTrend,
+        avgOrderValue,
+        avgOrderValueChange,
+        avgOrderValueTrend
+    };
+  }
+
+  private fillTrend(trendArr: any[], from: Date, to: Date, key: string): number[] {
+    const trendMap &#x3D; new Map(
+      trendArr.map(item &#x3D;&gt; [startOfDay(item.date).toISOString(), parseFloat(item[key]) || 0])
+    );
+    const filledTrend: number[] &#x3D; [];
+    for (let d &#x3D; startOfDay(from); d &lt;&#x3D; to; d &#x3D; addDays(d, 1)) {
+        const dateKey &#x3D; d.toISOString();
+        filledTrend.push(trendMap.get(dateKey) || 0);
+    }
+    return filledTrend;
+  }
+
+  async getSalesTrends(startDate: Date, endDate: Date, interval: &#x27;day&#x27; | &#x27;week&#x27; | &#x27;month&#x27; &#x3D; &#x27;day&#x27;) {
+    const query &#x3D; this.orderRepository
+      .createQueryBuilder(&#x27;order&#x27;)
+      .select(&#x60;DATE_TRUNC(&#x27;${interval}&#x27;, order.createdAt) as date&#x60;)
+      .addSelect(&#x27;COUNT(*) as orderCount&#x27;)
+      .addSelect(&#x27;SUM(order.totalAmount) as totalRevenue&#x27;)
+      .where(&#x27;order.createdAt &gt;&#x3D; :startDate AND order.createdAt &lt;&#x3D; :endDate&#x27;, { startDate, endDate })
+      .groupBy(&#x27;date&#x27;)
+      .orderBy(&#x27;date&#x27;, &#x27;ASC&#x27;);
+
+    return query.getRawMany();
+  }
+
+  async getRevenueAnalytics(startDate: Date, endDate: Date, interval: &#x27;day&#x27; | &#x27;week&#x27; | &#x27;month&#x27; &#x3D; &#x27;day&#x27;) {
+    const query &#x3D; this.orderRepository
+      .createQueryBuilder(&#x27;order&#x27;)
+      .select([
+        &#x60;DATE_TRUNC(&#x27;${interval}&#x27;, order.createdAt) as period&#x60;,
+        &#x27;SUM(order.totalAmount) as revenue&#x27;,
+        &#x27;COUNT(order.id) as orderCount&#x27;,
+        &#x27;AVG(order.totalAmount) as averageOrderValue&#x27;
+      ])
+      .where(&#x27;order.createdAt &gt;&#x3D; :startDate AND order.createdAt &lt;&#x3D; :endDate&#x27;, { startDate, endDate })
+      .andWhere(&#x27;order.status !&#x3D; :cancelled&#x27;, { cancelled: OrderStatus.CANCELLED })
+      .groupBy(&#x27;period&#x27;)
+      .orderBy(&#x27;period&#x27;, &#x27;ASC&#x27;);
+
+    return query.getRawMany();
+  }
+
+  async getCustomerAnalytics(startDate?: Date, endDate?: Date) {
+    const query &#x3D; this.userRepository
+      .createQueryBuilder(&#x27;user&#x27;)
+      .select([
+        &#x27;user.id&#x27;,
+        &#x27;user.email&#x27;,
+        &#x27;COUNT(order.id) as ordercount&#x27;,
+        &#x27;COALESCE(SUM(order.totalAmount), 0) as totalspent&#x27;,
+      ])
+      .innerJoin(&#x27;user.orders&#x27;, &#x27;order&#x27;)
+      .groupBy(&#x27;user.id&#x27;)
+      .orderBy(&#x27;totalspent&#x27;, &#x27;DESC&#x27;)
+      .limit(10);
+
+    if (startDate &amp;&amp; endDate) {
+      query.andWhere(&#x27;order.createdAt BETWEEN :startDate AND :endDate&#x27;, { startDate, endDate });
+    }
+
+    const results &#x3D; await query.getRawMany();
+
+    return results.map(result &#x3D;&gt; ({
+      id: result.user_id,
+      email: result.user_email,
+      orderCount: parseInt(result.ordercount, 10) || 0,
+      totalSpent: parseFloat(result.totalspent) || 0,
+    }));
+  }
+
+  async getRevenueBreakdown(days: number &#x3D; 7) {
+    const endDate &#x3D; endOfDay(new Date());
+    const startDate &#x3D; startOfDay(subDays(endDate, days - 1));
+
+    const revenueData &#x3D; await this.orderItemRepository
+      .createQueryBuilder(&#x27;orderItem&#x27;)
+      .select([
+        &#x60;DATE_TRUNC(&#x27;day&#x27;, &quot;order&quot;.&quot;createdAt&quot;) AS date&#x60;,
+        &#x27;product.category AS category&#x27;,
+        &#x27;SUM(orderItem.total) AS dailyRevenue&#x27;,
+      ])
+      .innerJoin(&#x27;orderItem.order&#x27;, &#x27;order&#x27;)
+      .innerJoin(&#x27;orderItem.product&#x27;, &#x27;product&#x27;)
+      .where(&#x27;order.createdAt BETWEEN :startDate AND :endDate&#x27;, { startDate, endDate })
+      .groupBy(&#x27;date, product.category&#x27;)
+      .orderBy(&#x27;date&#x27;, &#x27;ASC&#x27;)
+      .getRawMany();
+
+    const categories &#x3D; [...new Set(revenueData.map(item &#x3D;&gt; item.category))];
+    const breakdown &#x3D; {};
+
+    revenueData.forEach(item &#x3D;&gt; {
+      const dateStr &#x3D; format(item.date, &#x27;MM-dd&#x27;);
+      if (!breakdown[dateStr]) {
+        breakdown[dateStr] &#x3D; { date: dateStr };
+        categories.forEach(cat &#x3D;&gt; (breakdown[dateStr][cat] &#x3D; 0));
+      }
+      breakdown[dateStr][item.category] &#x3D; parseFloat(item.dailyrevenue);
+    });
+
+    return {
+        categories,
+        data: Object.values(breakdown),
+    };
+  }
+} </code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'OrdersService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
