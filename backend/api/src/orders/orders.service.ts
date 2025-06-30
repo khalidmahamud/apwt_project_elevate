@@ -1,6 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between, LessThanOrEqual, MoreThanOrEqual, In, LessThan } from 'typeorm';
+import {
+  Repository,
+  Between,
+  LessThanOrEqual,
+  MoreThanOrEqual,
+  In,
+  LessThan,
+} from 'typeorm';
 import { Order } from './entities/order.entity';
 import { OrderItem } from './entities/order-item.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -22,7 +29,7 @@ interface SalesReportRow {
   'Customer Email': string;
   'Order Status': string;
   'Product Name': string;
-  'Quantity': number;
+  Quantity: number;
   'Price Per Item': number;
   'Line Item Total': number;
   'Order Total': number;
@@ -53,12 +60,14 @@ export class OrdersService {
       });
 
       if (!product) {
-        throw new NotFoundException(`Product with ID ${item.productId} not found`);
+        throw new NotFoundException(
+          `Product with ID ${item.productId} not found`,
+        );
       }
 
       if (product.stockQuantity < item.quantity) {
         throw new NotFoundException(
-          `Insufficient stock for product ${product.name}. Available: ${product.stockQuantity}, Requested: ${item.quantity}`
+          `Insufficient stock for product ${product.name}. Available: ${product.stockQuantity}, Requested: ${item.quantity}`,
         );
       }
     }
@@ -72,7 +81,7 @@ export class OrdersService {
       method: createOrderDto.paymentMethod,
       status: 'PENDING',
       amount: 0,
-      transactionId: ''
+      transactionId: '',
     };
     order.totalAmount = 0; // Initial amount, will be updated after calculating items
 
@@ -87,7 +96,9 @@ export class OrdersService {
       });
 
       if (!product) {
-        throw new NotFoundException(`Product with ID ${item.productId} not found`);
+        throw new NotFoundException(
+          `Product with ID ${item.productId} not found`,
+        );
       }
 
       // Update stock quantity
@@ -107,22 +118,22 @@ export class OrdersService {
     }
 
     await this.orderItemRepository.save(orderItems);
-    
+
     // Update order with final amount
     savedOrder.totalAmount = totalAmount;
-    
+
     // Update payment details with final amount
     if (!savedOrder.paymentDetails) {
       savedOrder.paymentDetails = {
         method: createOrderDto.paymentMethod,
         status: 'PENDING',
         amount: totalAmount,
-        transactionId: ''
+        transactionId: '',
       };
     } else {
       savedOrder.paymentDetails.amount = totalAmount;
     }
-    
+
     return this.orderRepository.save(savedOrder);
   }
 
@@ -134,10 +145,10 @@ export class OrdersService {
     endDate?: Date,
     userId?: string,
     sortBy = 'createdAt',
-    sortOrder: 'ASC' | 'DESC' = 'DESC'
+    sortOrder: 'ASC' | 'DESC' = 'DESC',
   ) {
     const where: any = {};
-    
+
     if (status) {
       where.status = status;
     }
@@ -177,12 +188,12 @@ export class OrdersService {
             id: true,
             name: true,
             images: true,
-          }
+          },
         },
         user: {
           id: true,
           email: true,
-        }
+        },
       },
       skip: (page - 1) * limit,
       take: limit,
@@ -240,7 +251,7 @@ export class OrdersService {
 
     order.status = status;
     if (adminNotes) {
-      order.notes = order.notes 
+      order.notes = order.notes
         ? `${order.notes}\n[Admin Note]: ${adminNotes}`
         : `[Admin Note]: ${adminNotes}`;
     }
@@ -248,7 +259,11 @@ export class OrdersService {
     return this.orderRepository.save(order);
   }
 
-  async updateBulkStatus(orderIds: string[], status: OrderStatus, adminNotes?: string) {
+  async updateBulkStatus(
+    orderIds: string[],
+    status: OrderStatus,
+    adminNotes?: string,
+  ) {
     const orders = await this.orderRepository.find({
       where: { id: In(orderIds) },
     });
@@ -257,10 +272,10 @@ export class OrdersService {
       throw new NotFoundException('Some orders not found');
     }
 
-    const updatedOrders = orders.map(order => {
+    const updatedOrders = orders.map((order) => {
       order.status = status;
       if (adminNotes) {
-        order.notes = order.notes 
+        order.notes = order.notes
           ? `${order.notes}\n[Admin Note]: ${adminNotes}`
           : `[Admin Note]: ${adminNotes}`;
       }
@@ -287,12 +302,16 @@ export class OrdersService {
       for (const item of order.items) {
         reportData.push({
           'Order ID': order.id,
-          'Order Date': format(new Date(order.createdAt), 'yyyy-MM-dd HH:mm:ss'),
-          'Customer Name': `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim(),
+          'Order Date': format(
+            new Date(order.createdAt),
+            'yyyy-MM-dd HH:mm:ss',
+          ),
+          'Customer Name':
+            `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim(),
           'Customer Email': order.user.email,
           'Order Status': order.status,
           'Product Name': item.product.name,
-          'Quantity': item.quantity,
+          Quantity: item.quantity,
           'Price Per Item': item.price,
           'Line Item Total': item.total,
           'Order Total': order.totalAmount,
@@ -312,7 +331,11 @@ export class OrdersService {
     const salesSheet = workbook.addWorksheet('Sales Report');
     const salesData = await this.getSalesReportData();
     if (salesData.length > 0) {
-      salesSheet.columns = Object.keys(salesData[0]).map(key => ({ header: key, key, width: 20 }));
+      salesSheet.columns = Object.keys(salesData[0]).map((key) => ({
+        header: key,
+        key,
+        width: 20,
+      }));
       salesSheet.addRows(salesData);
     }
 
@@ -320,19 +343,28 @@ export class OrdersService {
     const customerSheet = workbook.addWorksheet('Customer Summary');
     const customerData = await this.usersService.generateCustomerReport();
     if (customerData.length > 0) {
-      customerSheet.columns = Object.keys(customerData[0]).map(key => ({ header: key, key, width: 25 }));
+      customerSheet.columns = Object.keys(customerData[0]).map((key) => ({
+        header: key,
+        key,
+        width: 25,
+      }));
       customerSheet.addRows(customerData);
     }
 
     // 3. Product Performance Sheet
     const productSheet = workbook.addWorksheet('Product Performance');
-    const productData = await this.productsService.generateProductPerformanceReport();
+    const productData =
+      await this.productsService.generateProductPerformanceReport();
     if (productData.length > 0) {
-      productSheet.columns = Object.keys(productData[0]).map(key => ({ header: key, key, width: 20 }));
+      productSheet.columns = Object.keys(productData[0]).map((key) => ({
+        header: key,
+        key,
+        width: 20,
+      }));
       productSheet.addRows(productData);
     }
 
-    return await workbook.xlsx.writeBuffer() as Buffer;
+    return (await workbook.xlsx.writeBuffer()) as Buffer;
   }
 
   private async getSalesReportData() {
@@ -348,12 +380,16 @@ export class OrdersService {
       for (const item of order.items) {
         reportData.push({
           'Order ID': order.id,
-          'Order Date': format(new Date(order.createdAt), 'yyyy-MM-dd HH:mm:ss'),
-          'Customer Name': `${order.user?.firstName || ''} ${order.user?.lastName || ''}`.trim(),
+          'Order Date': format(
+            new Date(order.createdAt),
+            'yyyy-MM-dd HH:mm:ss',
+          ),
+          'Customer Name':
+            `${order.user?.firstName || ''} ${order.user?.lastName || ''}`.trim(),
           'Customer Email': order.user?.email,
           'Order Status': order.status,
           'Product Name': item.product.name,
-          'Quantity': item.quantity,
+          Quantity: item.quantity,
           'Price Per Item': item.price,
           'Line Item Total': item.total,
           'Order Total': order.totalAmount,
@@ -367,43 +403,71 @@ export class OrdersService {
   async getOrderAnalytics(startDate?: Date, endDate?: Date) {
     // 1. Set date ranges
     let end: Date, start: Date, prevStart: Date, prevEnd: Date;
-    
+
     if (!startDate && !endDate) {
       // All time - no date filtering
       const [currentOrders, prevOrders] = await Promise.all([
         this.orderRepository.find(),
-        this.orderRepository.find({ where: { createdAt: LessThan(subDays(new Date(), 7)) } })
+        this.orderRepository.find({
+          where: { createdAt: LessThan(subDays(new Date(), 7)) },
+        }),
       ]);
-      
+
       const totalOrders = currentOrders.length;
-      const totalRevenue = currentOrders.reduce((sum, order) => sum + Number(order.totalAmount), 0);
+      const totalRevenue = currentOrders.reduce(
+        (sum, order) => sum + Number(order.totalAmount),
+        0,
+      );
       const prevTotalOrders = prevOrders.length;
-      const prevTotalRevenue = prevOrders.reduce((sum, order) => sum + Number(order.totalAmount), 0);
-      
-      const ordersChangePercent = prevTotalOrders > 0 ? ((totalOrders - prevTotalOrders) / prevTotalOrders) * 100 : 0;
-      const revenueChangePercent = prevTotalRevenue > 0 ? ((totalRevenue - prevTotalRevenue) / prevTotalRevenue) * 100 : 0;
-      
+      const prevTotalRevenue = prevOrders.reduce(
+        (sum, order) => sum + Number(order.totalAmount),
+        0,
+      );
+
+      const ordersChangePercent =
+        prevTotalOrders > 0
+          ? ((totalOrders - prevTotalOrders) / prevTotalOrders) * 100
+          : 0;
+      const revenueChangePercent =
+        prevTotalRevenue > 0
+          ? ((totalRevenue - prevTotalRevenue) / prevTotalRevenue) * 100
+          : 0;
+
       // For all time, we'll use the last 7 days for trends
       end = endOfDay(new Date());
       start = startOfDay(subDays(end, 6));
-      
+
       const getDailyTrends = async (from: Date, to: Date) => {
-        return this.orderRepository.createQueryBuilder('order')
-          .select(`DATE_TRUNC('day', "createdAt") as date, COUNT(id) as orders, SUM("totalAmount") as revenue`)
+        return this.orderRepository
+          .createQueryBuilder('order')
+          .select(
+            `DATE_TRUNC('day', "createdAt") as date, COUNT(id) as orders, SUM("totalAmount") as revenue`,
+          )
           .where(`"createdAt" BETWEEN :from AND :to`, { from, to })
           .groupBy('date')
           .getRawMany();
       };
-      
+
       const currentTrendRaw = await getDailyTrends(start, end);
       const ordersTrend = this.fillTrend(currentTrendRaw, start, end, 'orders');
-      const revenueTrend = this.fillTrend(currentTrendRaw, start, end, 'revenue');
-      
+      const revenueTrend = this.fillTrend(
+        currentTrendRaw,
+        start,
+        end,
+        'revenue',
+      );
+
       const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
-      const prevAvgOrderValue = prevTotalOrders > 0 ? prevTotalRevenue / prevTotalOrders : 0;
-      const avgOrderValueChange = prevAvgOrderValue > 0 ? ((avgOrderValue - prevAvgOrderValue) / prevAvgOrderValue) * 100 : 0;
-      const avgOrderValueTrend = revenueTrend.map((rev, i) => ordersTrend[i] > 0 ? rev / ordersTrend[i] : 0);
-      
+      const prevAvgOrderValue =
+        prevTotalOrders > 0 ? prevTotalRevenue / prevTotalOrders : 0;
+      const avgOrderValueChange =
+        prevAvgOrderValue > 0
+          ? ((avgOrderValue - prevAvgOrderValue) / prevAvgOrderValue) * 100
+          : 0;
+      const avgOrderValueTrend = revenueTrend.map((rev, i) =>
+        ordersTrend[i] > 0 ? rev / ordersTrend[i] : 0,
+      );
+
       return {
         totalOrders,
         totalRevenue,
@@ -413,14 +477,20 @@ export class OrdersService {
         revenueTrend,
         avgOrderValue,
         avgOrderValueChange,
-        avgOrderValueTrend
+        avgOrderValueTrend,
       };
     } else {
       // Date range specified
       end = endDate ? endOfDay(endDate) : endOfDay(new Date());
       start = startDate ? startOfDay(startDate) : startOfDay(subDays(end, 6));
-      prevStart = subDays(start, (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
-      prevEnd = subDays(end, (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
+      prevStart = subDays(
+        start,
+        (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1,
+      );
+      prevEnd = subDays(
+        end,
+        (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1,
+      );
 
       const whereCurrent = { createdAt: Between(start, end) };
       const wherePrevious = { createdAt: Between(prevStart, prevEnd) };
@@ -433,33 +503,59 @@ export class OrdersService {
 
       // 3. Calculate metrics
       const totalOrders = currentOrders.length;
-      const totalRevenue = currentOrders.reduce((sum, order) => sum + Number(order.totalAmount), 0);
+      const totalRevenue = currentOrders.reduce(
+        (sum, order) => sum + Number(order.totalAmount),
+        0,
+      );
       const prevTotalOrders = prevOrders.length;
-      const prevTotalRevenue = prevOrders.reduce((sum, order) => sum + Number(order.totalAmount), 0);
+      const prevTotalRevenue = prevOrders.reduce(
+        (sum, order) => sum + Number(order.totalAmount),
+        0,
+      );
 
-      const ordersChangePercent = prevTotalOrders > 0 ? ((totalOrders - prevTotalOrders) / prevTotalOrders) * 100 : 0;
-      const revenueChangePercent = prevTotalRevenue > 0 ? ((totalRevenue - prevTotalRevenue) / prevTotalRevenue) * 100 : 0;
+      const ordersChangePercent =
+        prevTotalOrders > 0
+          ? ((totalOrders - prevTotalOrders) / prevTotalOrders) * 100
+          : 0;
+      const revenueChangePercent =
+        prevTotalRevenue > 0
+          ? ((totalRevenue - prevTotalRevenue) / prevTotalRevenue) * 100
+          : 0;
 
       // 4. Generate trends
       const getDailyTrends = async (from: Date, to: Date) => {
-        return this.orderRepository.createQueryBuilder('order')
-          .select(`DATE_TRUNC('day', "createdAt") as date, COUNT(id) as orders, SUM("totalAmount") as revenue`)
+        return this.orderRepository
+          .createQueryBuilder('order')
+          .select(
+            `DATE_TRUNC('day', "createdAt") as date, COUNT(id) as orders, SUM("totalAmount") as revenue`,
+          )
           .where(`"createdAt" BETWEEN :from AND :to`, { from, to })
           .groupBy('date')
           .getRawMany();
       };
-      
+
       const currentTrendRaw = await getDailyTrends(start, end);
       const ordersTrend = this.fillTrend(currentTrendRaw, start, end, 'orders');
-      const revenueTrend = this.fillTrend(currentTrendRaw, start, end, 'revenue');
+      const revenueTrend = this.fillTrend(
+        currentTrendRaw,
+        start,
+        end,
+        'revenue',
+      );
 
       // 5. Calculate Average Order Value
       const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
-      const prevAvgOrderValue = prevTotalOrders > 0 ? prevTotalRevenue / prevTotalOrders : 0;
-      const avgOrderValueChange = prevAvgOrderValue > 0 ? ((avgOrderValue - prevAvgOrderValue) / prevAvgOrderValue) * 100 : 0;
-      
+      const prevAvgOrderValue =
+        prevTotalOrders > 0 ? prevTotalRevenue / prevTotalOrders : 0;
+      const avgOrderValueChange =
+        prevAvgOrderValue > 0
+          ? ((avgOrderValue - prevAvgOrderValue) / prevAvgOrderValue) * 100
+          : 0;
+
       // Create AOV trend by dividing daily revenue by daily orders
-      const avgOrderValueTrend = revenueTrend.map((rev, i) => ordersTrend[i] > 0 ? rev / ordersTrend[i] : 0);
+      const avgOrderValueTrend = revenueTrend.map((rev, i) =>
+        ordersTrend[i] > 0 ? rev / ordersTrend[i] : 0,
+      );
 
       return {
         totalOrders,
@@ -470,39 +566,60 @@ export class OrdersService {
         revenueTrend,
         avgOrderValue,
         avgOrderValueChange,
-        avgOrderValueTrend
+        avgOrderValueTrend,
       };
     }
   }
 
-  private fillTrend(trendArr: any[], from: Date, to: Date, key: string): number[] {
+  private fillTrend(
+    trendArr: any[],
+    from: Date,
+    to: Date,
+    key: string,
+  ): number[] {
     const trendMap = new Map(
-      trendArr.map(item => [startOfDay(item.date).toISOString(), parseFloat(item[key]) || 0])
+      trendArr.map((item) => [
+        startOfDay(item.date).toISOString(),
+        parseFloat(item[key]) || 0,
+      ]),
     );
     const filledTrend: number[] = [];
     for (let d = startOfDay(from); d <= to; d = addDays(d, 1)) {
-        const dateKey = d.toISOString();
-        filledTrend.push(trendMap.get(dateKey) || 0);
+      const dateKey = d.toISOString();
+      filledTrend.push(trendMap.get(dateKey) || 0);
     }
     return filledTrend;
   }
 
-  async getSalesTrends(startDate: Date, endDate: Date, interval: 'day' | 'week' | 'month' = 'day') {
+  async getSalesTrends(
+    startDate: Date,
+    endDate: Date,
+    interval: 'day' | 'week' | 'month' = 'day',
+  ) {
     const query = this.orderRepository
       .createQueryBuilder('order')
       .select(`DATE_TRUNC('${interval}', order.createdAt) as date`)
       .addSelect('COUNT(*) as orderCount')
       .addSelect('SUM(order.totalAmount) as totalRevenue')
-      .where('order.createdAt >= :startDate AND order.createdAt <= :endDate', { startDate, endDate })
+      .where('order.createdAt >= :startDate AND order.createdAt <= :endDate', {
+        startDate,
+        endDate,
+      })
       .groupBy('date')
       .orderBy('date', 'ASC');
 
     return query.getRawMany();
   }
 
-  async getRevenueAnalytics(startDate?: Date, endDate?: Date, interval: 'day' | 'week' | 'month' = 'day') {
+  async getRevenueAnalytics(
+    startDate?: Date,
+    endDate?: Date,
+    interval: 'day' | 'week' | 'month' = 'day',
+  ) {
     const end = endDate ? endOfDay(endDate) : endOfDay(new Date());
-    const start = startDate ? startOfDay(startDate) : startOfDay(subDays(end, 6));
+    const start = startDate
+      ? startOfDay(startDate)
+      : startOfDay(subDays(end, 6));
 
     const query = this.orderRepository
       .createQueryBuilder('order')
@@ -510,10 +627,15 @@ export class OrdersService {
         `DATE_TRUNC('${interval}', order.createdAt) as period`,
         'SUM(order.totalAmount) as revenue',
         'COUNT(order.id) as orderCount',
-        'AVG(order.totalAmount) as averageOrderValue'
+        'AVG(order.totalAmount) as averageOrderValue',
       ])
-      .where('order.createdAt >= :startDate AND order.createdAt <= :endDate', { startDate: start, endDate: end })
-      .andWhere('order.status != :cancelled', { cancelled: OrderStatus.CANCELLED })
+      .where('order.createdAt >= :startDate AND order.createdAt <= :endDate', {
+        startDate: start,
+        endDate: end,
+      })
+      .andWhere('order.status != :cancelled', {
+        cancelled: OrderStatus.CANCELLED,
+      })
       .groupBy('period')
       .orderBy('period', 'ASC');
 
@@ -535,12 +657,15 @@ export class OrdersService {
       .limit(10);
 
     if (startDate && endDate) {
-      query.andWhere('order.createdAt BETWEEN :startDate AND :endDate', { startDate, endDate });
+      query.andWhere('order.createdAt BETWEEN :startDate AND :endDate', {
+        startDate,
+        endDate,
+      });
     }
 
     const results = await query.getRawMany();
 
-    return results.map(result => ({
+    return results.map((result) => ({
       id: result.user_id,
       email: result.user_email,
       orderCount: parseInt(result.ordercount, 10) || 0,
@@ -561,26 +686,29 @@ export class OrdersService {
       ])
       .innerJoin('orderItem.order', 'order')
       .innerJoin('orderItem.product', 'product')
-      .where('order.createdAt BETWEEN :startDate AND :endDate', { startDate, endDate })
+      .where('order.createdAt BETWEEN :startDate AND :endDate', {
+        startDate,
+        endDate,
+      })
       .groupBy('date, product.category')
       .orderBy('date', 'ASC')
       .getRawMany();
 
-    const categories = [...new Set(revenueData.map(item => item.category))];
+    const categories = [...new Set(revenueData.map((item) => item.category))];
     const breakdown = {};
 
-    revenueData.forEach(item => {
+    revenueData.forEach((item) => {
       const dateStr = format(item.date, 'MM-dd');
       if (!breakdown[dateStr]) {
         breakdown[dateStr] = { date: dateStr };
-        categories.forEach(cat => (breakdown[dateStr][cat] = 0));
+        categories.forEach((cat) => (breakdown[dateStr][cat] = 0));
       }
       breakdown[dateStr][item.category] = parseFloat(item.dailyrevenue);
     });
 
     return {
-        categories,
-        data: Object.values(breakdown),
+      categories,
+      data: Object.values(breakdown),
     };
   }
-} 
+}

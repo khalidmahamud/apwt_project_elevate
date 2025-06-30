@@ -30,12 +30,12 @@
 //       timestamp: new Date().toISOString(),
 //       path: request.url,
 //       method: request.method,
-//       message: typeof exceptionResponse === 'string' 
-//         ? exceptionResponse 
+//       message: typeof exceptionResponse === 'string'
+//         ? exceptionResponse
 //         : (exceptionResponse as any).message || exception.message,
 //       error: (exceptionResponse as any).error || HttpStatus[status],
 //     };
 
 //     response.status(status).json(errorResponse);
 //   }
-// } 
+// }

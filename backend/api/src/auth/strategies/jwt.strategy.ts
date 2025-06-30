@@ -6,7 +6,7 @@ import { ConfigType } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Users } from 'src/users/entities/users.entity';
-import { JwtPayload } from '../interfaces/jwt-payload.interface';  // Import JwtPayload interface
+import { JwtPayload } from '../interfaces/jwt-payload.interface'; // Import JwtPayload interface
 import jwtConfig from '../config/jwt.config';
 
 /**
@@ -25,7 +25,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     const secret = jwtConfiguration.accessTokenSecret;
     if (!secret) {
-      throw new Error('JWT_ACCESS_TOKEN_SECRET is not defined in the environment variables');
+      throw new Error(
+        'JWT_ACCESS_TOKEN_SECRET is not defined in the environment variables',
+      );
     }
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -39,9 +41,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * @param payload - The JWT payload containing user information
    * @returns The validated payload
    */
-  async validate(payload: JwtPayload) {  // Use the JwtPayload type
+  async validate(payload: JwtPayload) {
+    // Use the JwtPayload type
     const { sub: id } = payload;
-    
+
     const user = await this.usersRepository.findOne({
       where: { id },
       relations: ['roles'],

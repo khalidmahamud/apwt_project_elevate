@@ -11,7 +11,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateUserDto {
   @ApiProperty({
     description: 'User first name',
-    example: 'John'
+    example: 'John',
   })
   @IsNotEmpty()
   @IsString()
@@ -20,7 +20,7 @@ export class CreateUserDto {
   @ApiProperty({
     description: 'User last name',
     example: 'Doe',
-    required: false
+    required: false,
   })
   @IsOptional()
   @IsString()
@@ -28,7 +28,7 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: 'Date of birth in ISO format (YYYY-MM-DD)',
-    example: '1990-01-01'
+    example: '1990-01-01',
   })
   @IsNotEmpty()
   @IsDateString({ strict: true })
@@ -36,7 +36,7 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: 'User email address',
-    example: 'john.doe@example.com'
+    example: 'john.doe@example.com',
   })
   @IsNotEmpty()
   @IsEmail()
@@ -45,7 +45,7 @@ export class CreateUserDto {
   @ApiProperty({
     description: 'User phone number (Bangladeshi format)',
     example: '+8801712345678',
-    required: false
+    required: false,
   })
   @IsOptional()
   @IsString()
@@ -56,7 +56,7 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: 'User password',
-    example: 'password123'
+    example: 'password123',
   })
   @IsNotEmpty()
   @IsString()
@@ -65,7 +65,7 @@ export class CreateUserDto {
   @ApiProperty({
     description: 'URL to user profile image',
     example: 'https://example.com/profile.jpg',
-    required: false
+    required: false,
   })
   @IsOptional()
   @IsString()

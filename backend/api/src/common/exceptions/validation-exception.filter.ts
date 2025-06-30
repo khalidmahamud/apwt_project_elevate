@@ -31,10 +31,13 @@ export class ValidationExceptionFilter implements ExceptionFilter {
 
     // Format validation errors
     let validationErrors: ValidationErrorItem[] = [];
-    
-    if (typeof exceptionResponse === 'object' && 'message' in exceptionResponse) {
+
+    if (
+      typeof exceptionResponse === 'object' &&
+      'message' in exceptionResponse
+    ) {
       const messages = (exceptionResponse as any).message;
-      
+
       if (Array.isArray(messages)) {
         // Handle array of validation messages
         validationErrors = this.formatValidationErrors(messages);
@@ -43,7 +46,9 @@ export class ValidationExceptionFilter implements ExceptionFilter {
         validationErrors = [{ message: messages }];
       } else if (typeof messages === 'object') {
         // Handle nested validation errors (from class-validator)
-        validationErrors = this.formatNestedValidationErrors(messages as ValidationError[]);
+        validationErrors = this.formatNestedValidationErrors(
+          messages as ValidationError[],
+        );
       }
     }
 
@@ -61,7 +66,7 @@ export class ValidationExceptionFilter implements ExceptionFilter {
   }
 
   private formatValidationErrors(errors: string[]): ValidationErrorItem[] {
-    return errors.map(error => {
+    return errors.map((error) => {
       // Try to parse constraint error messages
       const constraintMatch = error.match(/^([a-zA-Z0-9_]+):\s*(.+)$/);
       if (constraintMatch) {
@@ -74,29 +79,35 @@ export class ValidationExceptionFilter implements ExceptionFilter {
     });
   }
 
-  private formatNestedValidationErrors(errors: ValidationError[]): ValidationErrorItem[] {
+  private formatNestedValidationErrors(
+    errors: ValidationError[],
+  ): ValidationErrorItem[] {
     const formattedErrors: ValidationErrorItem[] = [];
-    
+
     const extractErrors = (error: ValidationError, parentField = '') => {
-      const field = parentField ? `${parentField}.${error.property}` : error.property;
-      
+      const field = parentField
+        ? `${parentField}.${error.property}`
+        : error.property;
+
       // Use type assertion to handle the constraints property
-      const constraints = error.constraints as Record<string, string> | undefined;
+      const constraints = error.constraints as
+        | Record<string, string>
+        | undefined;
       if (constraints && Object.keys(constraints).length > 0) {
-        Object.keys(constraints).forEach(key => {
+        Object.keys(constraints).forEach((key) => {
           formattedErrors.push({
             field,
             message: constraints[key],
           });
         });
       }
-      
+
       if (error.children && error.children.length > 0) {
-        error.children.forEach(child => extractErrors(child, field));
+        error.children.forEach((child) => extractErrors(child, field));
       }
     };
-    
-    errors.forEach(error => extractErrors(error));
+
+    errors.forEach((error) => extractErrors(error));
     return formattedErrors;
   }
-} 
+}

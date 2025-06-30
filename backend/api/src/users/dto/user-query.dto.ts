@@ -21,6 +21,6 @@ export class UserQueryDto {
   order_by: string = 'created_at';
 
   @IsOptional()
-  @IsEnum(OrderDirection) 
-  order_direction: OrderDirection = OrderDirection.DESC; 
+  @IsEnum(OrderDirection)
+  order_direction: OrderDirection = OrderDirection.DESC;
 }

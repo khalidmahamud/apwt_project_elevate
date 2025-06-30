@@ -1,4 +1,9 @@
-import { Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { Multer } from 'multer';
 
@@ -10,4 +15,4 @@ export class AppController {
     // Return the file path as a URL (adjust if you serve static files differently)
     return { url: `/uploads/${file.filename}` };
   }
-} 
+}

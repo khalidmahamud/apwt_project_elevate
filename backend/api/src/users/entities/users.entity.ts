@@ -26,11 +26,11 @@ export class Users {
   @Column({ nullable: true })
   dob: Date;
 
-  @Column({ 
-    type: 'varchar', 
-    length: 255, 
+  @Column({
+    type: 'varchar',
+    length: 255,
     unique: true,
-    comment: 'User email address'
+    comment: 'User email address',
   })
   email: string;
 

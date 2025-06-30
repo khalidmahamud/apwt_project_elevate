@@ -10,4 +10,4 @@ import { Order } from 'src/orders/entities/order.entity';
   providers: [ProductsService],
   exports: [ProductsService, TypeOrmModule],
 })
-export class ProductsModule {} 
+export class ProductsModule {}

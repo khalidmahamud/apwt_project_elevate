@@ -1,5 +1,14 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsString, IsBoolean, IsDateString, IsEnum, IsInt, Min, Max } from 'class-validator';
+import {
+  IsOptional,
+  IsString,
+  IsBoolean,
+  IsDateString,
+  IsEnum,
+  IsInt,
+  Min,
+  Max,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { Role } from '../../users/enums/roles.enum';
 
@@ -95,7 +104,9 @@ export class AdminUserQueryDto {
    * Search term for filtering users.
    * @type {string}
    */
-  @ApiPropertyOptional({ description: 'Search term for firstName, lastName, or email' })
+  @ApiPropertyOptional({
+    description: 'Search term for firstName, lastName, or email',
+  })
   @IsOptional()
   @IsString()
   search?: string;
@@ -145,18 +156,25 @@ export class AdminUserQueryDto {
   @IsDateString()
   lastLoginBefore?: string;
 
-  @ApiPropertyOptional({ 
+  @ApiPropertyOptional({
     description: 'Sort by field',
-    enum: ['createdAt', 'lastLoginAt', 'firstName', 'lastName', 'email', 'role']
+    enum: [
+      'createdAt',
+      'lastLoginAt',
+      'firstName',
+      'lastName',
+      'email',
+      'role',
+    ],
   })
   @IsOptional()
   @IsString()
   sortBy?: string;
 
-  @ApiPropertyOptional({ 
+  @ApiPropertyOptional({
     description: 'Sort order',
     enum: ['asc', 'desc'],
-    default: 'desc'
+    default: 'desc',
   })
   @IsOptional()
   @IsString()

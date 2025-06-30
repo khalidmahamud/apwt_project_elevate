@@ -13,6 +13,9 @@ import { UsersService } from '../users/users.service';
 import { ProductsService } from '../products/products.service';
 import { OrdersService } from '../orders/orders.service';
 import { ChatbotService } from './services/chatbot.service';
+import { ChatbotLogger } from './services/chatbot-logger.service';
+import { OpenAIService } from './services/openai.service';
+import { AnalyticsHelperService } from './services/analytics-helper.service';
 import { Product } from '../products/entities/product.entity';
 import { Order } from '../orders/entities/order.entity';
 import { OrderItem } from '../orders/entities/order-item.entity';
@@ -21,7 +24,14 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Users, Roles, Product, Order, OrderItem, Address]),
+    TypeOrmModule.forFeature([
+      Users,
+      Roles,
+      Product,
+      Order,
+      OrderItem,
+      Address,
+    ]),
     ProductsModule,
     OrdersModule,
     UsersModule,
@@ -38,6 +48,9 @@ import { ConfigModule } from '@nestjs/config';
     ProductsService,
     OrdersService,
     ChatbotService,
+    ChatbotLogger,
+    OpenAIService,
+    AnalyticsHelperService,
   ],
   exports: [UsersService, ProductsService, OrdersService, ChatbotService],
 })

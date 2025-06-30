@@ -92,7 +92,7 @@ export class AdminUserController {
     const customerData = await this.usersService.generateCustomerReport();
     const csv = Papa.unparse(customerData);
     const filename = `customer-report-${new Date().toISOString().split('T')[0]}.csv`;
-    
+
     res.set({
       'Content-Type': 'text/csv',
       'Content-Disposition': `attachment; filename=${filename}`,

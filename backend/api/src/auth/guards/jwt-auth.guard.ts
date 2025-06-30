@@ -39,7 +39,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
   handleRequest(err: any, user: any, info: any) {
     if (err || !user) {
-      throw new UnauthorizedException('Insufficient authority. Please log in with appropriate credentials.');
+      throw new UnauthorizedException(
+        'Insufficient authority. Please log in with appropriate credentials.',
+      );
     }
     return user;
   }

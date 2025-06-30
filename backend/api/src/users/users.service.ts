@@ -22,7 +22,7 @@ export interface CustomerReportRow {
   'Customer ID': string;
   'First Name': string;
   'Last Name': string;
-  'Email': string;
+  Email: string;
   'Total Orders': number;
   'Total Spent': number;
   'Joined On': Date;
@@ -55,7 +55,9 @@ export class UsersService {
 
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
-    const defaultRole = await this.rolesRepository.findOne({ where: { name: Role.CUSTOMER } });
+    const defaultRole = await this.rolesRepository.findOne({
+      where: { name: Role.CUSTOMER },
+    });
     if (!defaultRole) {
       throw new Error('Default role not found');
     }
@@ -175,7 +177,9 @@ export class UsersService {
     }
   }
 
-  async findAll(queryDto: AdminUserQueryDto): Promise<{ items: Users[]; meta: any }> {
+  async findAll(
+    queryDto: AdminUserQueryDto,
+  ): Promise<{ items: Users[]; meta: any }> {
     const {
       page = 1,
       limit = 10,
@@ -186,7 +190,8 @@ export class UsersService {
       sortOrder = 'desc',
     } = queryDto;
 
-    const queryBuilder = this.usersRepository.createQueryBuilder('user')
+    const queryBuilder = this.usersRepository
+      .createQueryBuilder('user')
       .leftJoinAndSelect('user.roles', 'roles')
       .leftJoinAndSelect('user.orders', 'orders');
 
@@ -206,15 +211,27 @@ export class UsersService {
     }
 
     if (sortBy === 'spendings') {
-      queryBuilder.addSelect('COALESCE(SUM(orders.totalAmount), 0)', 'totalSpent')
+      queryBuilder
+        .addSelect('COALESCE(SUM(orders.totalAmount), 0)', 'totalSpent')
         .groupBy('user.id')
         .orderBy('totalSpent', sortOrder.toUpperCase() as 'ASC' | 'DESC');
     } else {
-    const validSortFields = ['createdAt', 'lastLoginAt', 'firstName', 'lastName', 'email'];
-    const finalSortBy = validSortFields.includes(sortBy) ? sortBy : 'createdAt';
-    queryBuilder.orderBy(`user.${finalSortBy}`, sortOrder.toUpperCase() as 'ASC' | 'DESC');
+      const validSortFields = [
+        'createdAt',
+        'lastLoginAt',
+        'firstName',
+        'lastName',
+        'email',
+      ];
+      const finalSortBy = validSortFields.includes(sortBy)
+        ? sortBy
+        : 'createdAt';
+      queryBuilder.orderBy(
+        `user.${finalSortBy}`,
+        sortOrder.toUpperCase() as 'ASC' | 'DESC',
+      );
     }
-    
+
     queryBuilder.skip((page - 1) * limit).take(limit);
 
     const [items, total] = await queryBuilder.getManyAndCount();
@@ -239,63 +256,114 @@ export class UsersService {
 
     // 2. Total user stats
     const totalUsers = await this.usersRepository.count();
-    const prevTotalUsers = await this.usersRepository.count({ where: { createdAt: LessThan(startDate) } });
-    const totalUsersChangePercent = prevTotalUsers > 0 ? ((totalUsers - prevTotalUsers) / prevTotalUsers) * 100 : (totalUsers > 0 ? 100 : 0);
+    const prevTotalUsers = await this.usersRepository.count({
+      where: { createdAt: LessThan(startDate) },
+    });
+    const totalUsersChangePercent =
+      prevTotalUsers > 0
+        ? ((totalUsers - prevTotalUsers) / prevTotalUsers) * 100
+        : totalUsers > 0
+          ? 100
+          : 0;
 
     // 3. New user trend (for Total Visitors chart)
     const getDailyNewUsers = (from: Date, to: Date) => {
-        return this.usersRepository.createQueryBuilder('user')
-            .select(`DATE_TRUNC('day', "createdAt") as date, COUNT(id) as count`)
-            .where(`"createdAt" BETWEEN :from AND :to`, { from, to })
-            .groupBy('date')
-            .getRawMany();
+      return this.usersRepository
+        .createQueryBuilder('user')
+        .select(`DATE_TRUNC('day', "createdAt") as date, COUNT(id) as count`)
+        .where(`"createdAt" BETWEEN :from AND :to`, { from, to })
+        .groupBy('date')
+        .getRawMany();
     };
 
     const newUsersTrendRaw = await getDailyNewUsers(startDate, endDate);
-    const totalUsersTrend = this.fillTrend(newUsersTrendRaw, startDate, endDate, 'count');
+    const totalUsersTrend = this.fillTrend(
+      newUsersTrendRaw,
+      startDate,
+      endDate,
+      'count',
+    );
 
     // 4. Conversion Rate stats
-    const totalPurchasingUsers = await this.orderRepository.createQueryBuilder("order")
-        .select('COUNT(DISTINCT "userId")')
-        .getRawOne()
-        .then(result => parseInt(result.count, 10) || 0);
-    
-    const conversionRate = totalUsers > 0 ? (totalPurchasingUsers / totalUsers) * 100 : 0;
-    
+    const totalPurchasingUsers = await this.orderRepository
+      .createQueryBuilder('order')
+      .select('COUNT(DISTINCT "userId")')
+      .getRawOne()
+      .then((result) => parseInt(result.count, 10) || 0);
+
+    const conversionRate =
+      totalUsers > 0 ? (totalPurchasingUsers / totalUsers) * 100 : 0;
+
     // 5. Conversion rate change and trend
     const getDailyActiveCustomers = (from: Date, to: Date) => {
-        return this.orderRepository.createQueryBuilder('order')
-            .select(`DATE_TRUNC('day', "createdAt") as date, COUNT(DISTINCT "userId") as count`)
-            .where(`"createdAt" BETWEEN :from AND :to`, { from, to })
-            .groupBy('date')
-            .getRawMany();
-    }
-    const activeCustomersCurrentPeriodRaw = await getDailyActiveCustomers(startDate, endDate);
-    
-    const activeCustomersCurrentPeriod = await this.orderRepository.createQueryBuilder("order").select('COUNT(DISTINCT "userId")').where({ createdAt: Between(startDate, endDate) }).getRawOne().then(r => parseInt(r.count, 10) || 0);
-    const activeCustomersPrevPeriod = await this.orderRepository.createQueryBuilder("order").select('COUNT(DISTINCT "userId")').where({ createdAt: Between(prevStartDate, prevEndDate) }).getRawOne().then(r => parseInt(r.count, 10) || 0);
-    
-    const conversionRateChangePercent = activeCustomersPrevPeriod > 0 ? ((activeCustomersCurrentPeriod - activeCustomersPrevPeriod) / activeCustomersPrevPeriod) * 100 : (activeCustomersCurrentPeriod > 0 ? 100 : 0);
-    const conversionRateTrend = this.fillTrend(activeCustomersCurrentPeriodRaw, startDate, endDate, 'count');
+      return this.orderRepository
+        .createQueryBuilder('order')
+        .select(
+          `DATE_TRUNC('day', "createdAt") as date, COUNT(DISTINCT "userId") as count`,
+        )
+        .where(`"createdAt" BETWEEN :from AND :to`, { from, to })
+        .groupBy('date')
+        .getRawMany();
+    };
+    const activeCustomersCurrentPeriodRaw = await getDailyActiveCustomers(
+      startDate,
+      endDate,
+    );
+
+    const activeCustomersCurrentPeriod = await this.orderRepository
+      .createQueryBuilder('order')
+      .select('COUNT(DISTINCT "userId")')
+      .where({ createdAt: Between(startDate, endDate) })
+      .getRawOne()
+      .then((r) => parseInt(r.count, 10) || 0);
+    const activeCustomersPrevPeriod = await this.orderRepository
+      .createQueryBuilder('order')
+      .select('COUNT(DISTINCT "userId")')
+      .where({ createdAt: Between(prevStartDate, prevEndDate) })
+      .getRawOne()
+      .then((r) => parseInt(r.count, 10) || 0);
+
+    const conversionRateChangePercent =
+      activeCustomersPrevPeriod > 0
+        ? ((activeCustomersCurrentPeriod - activeCustomersPrevPeriod) /
+            activeCustomersPrevPeriod) *
+          100
+        : activeCustomersCurrentPeriod > 0
+          ? 100
+          : 0;
+    const conversionRateTrend = this.fillTrend(
+      activeCustomersCurrentPeriodRaw,
+      startDate,
+      endDate,
+      'count',
+    );
 
     return {
-        totalUsers,
-        totalUsersChangePercent,
-        totalUsersTrend,
-        conversionRate,
-        conversionRateChangePercent,
-        conversionRateTrend,
+      totalUsers,
+      totalUsersChangePercent,
+      totalUsersTrend,
+      conversionRate,
+      conversionRateChangePercent,
+      conversionRateTrend,
     };
   }
 
-  private fillTrend(trendArr: any[], from: Date, to: Date, key: string): number[] {
+  private fillTrend(
+    trendArr: any[],
+    from: Date,
+    to: Date,
+    key: string,
+  ): number[] {
     const trendMap = new Map(
-      trendArr.map(item => [startOfDay(item.date).toISOString(), parseInt(item[key], 10) || 0])
+      trendArr.map((item) => [
+        startOfDay(item.date).toISOString(),
+        parseInt(item[key], 10) || 0,
+      ]),
     );
     const filledTrend: number[] = [];
     for (let d = startOfDay(from); d <= to; d = addDays(d, 1)) {
-        const dateKey = d.toISOString();
-        filledTrend.push(trendMap.get(dateKey) || 0);
+      const dateKey = d.toISOString();
+      filledTrend.push(trendMap.get(dateKey) || 0);
     }
     return filledTrend;
   }
@@ -305,15 +373,18 @@ export class UsersService {
       relations: ['orders'],
     });
 
-    const reportData: CustomerReportRow[] = users.map(user => {
+    const reportData: CustomerReportRow[] = users.map((user) => {
       const totalOrders = user.orders.length;
-      const totalSpent = user.orders.reduce((sum, order) => sum + order.totalAmount, 0);
+      const totalSpent = user.orders.reduce(
+        (sum, order) => sum + order.totalAmount,
+        0,
+      );
 
       return {
         'Customer ID': user.id,
         'First Name': user.firstName,
         'Last Name': user.lastName || '',
-        'Email': user.email,
+        Email: user.email,
         'Total Orders': totalOrders,
         'Total Spent': totalSpent,
         'Joined On': user.createdAt,

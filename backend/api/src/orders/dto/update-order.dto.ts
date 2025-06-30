@@ -7,7 +7,7 @@ export class UpdateOrderDto {
     description: 'New status of the order',
     enum: OrderStatus,
     example: OrderStatus.PROCESSING,
-    required: false
+    required: false,
   })
   @IsEnum(OrderStatus)
   @IsOptional()
@@ -16,7 +16,7 @@ export class UpdateOrderDto {
   @ApiProperty({
     description: 'Additional notes or comments about the order',
     example: 'Order is being processed',
-    required: false
+    required: false,
   })
   @IsString()
   @IsOptional()
@@ -26,10 +26,10 @@ export class UpdateOrderDto {
     description: 'Amount to be refunded for the order',
     example: 49.99,
     minimum: 0,
-    required: false
+    required: false,
   })
   @IsNumber()
   @Min(0)
   @IsOptional()
   refundAmount?: number;
-} 
+}

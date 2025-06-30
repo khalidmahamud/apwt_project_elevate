@@ -38,7 +38,7 @@ export class Address {
   @Column({ type: 'uuid' })
   userId: string;
 
-  @ManyToOne(() => Users, user => user.addresses)
+  @ManyToOne(() => Users, (user) => user.addresses)
   @JoinColumn({ name: 'userId' })
   user: Users;
 
@@ -47,4 +47,4 @@ export class Address {
 
   @UpdateDateColumn()
   updatedAt: Date;
-} 
+}

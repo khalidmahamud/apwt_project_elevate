@@ -1,4 +1,11 @@
-import { IsBoolean, IsEmail, IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 import { Role } from 'src/users/enums/roles.enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
@@ -87,10 +94,9 @@ export class AdminUpdateUserDto {
   @ApiProperty({
     description: 'User phone verification status',
     example: true,
-    required: false
+    required: false,
   })
   @IsOptional()
   @IsBoolean()
   isPhoneVerified?: boolean;
 }
-

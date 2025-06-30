@@ -19,4 +19,4 @@ export enum ProductCategory {
   KIDS_WEAR = 'KIDS_WEAR',
   MATERNITY_WEAR = 'MATERNITY_WEAR',
   PLUS_SIZE = 'PLUS_SIZE',
-} 
+}

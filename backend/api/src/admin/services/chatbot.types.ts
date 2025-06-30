@@ -4,4 +4,4 @@ export interface AnalyticsData {
   value: string | number;
   change?: number;
   details?: any;
-} 
+}

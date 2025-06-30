@@ -1,6 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindOptionsWhere, Between, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
+import {
+  Repository,
+  FindOptionsWhere,
+  Between,
+  MoreThanOrEqual,
+  LessThanOrEqual,
+} from 'typeorm';
 import { Product, ProductCategory } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -11,9 +17,9 @@ import { AdminProductQueryDto } from './dto/admin-product-query.dto';
 interface ProductPerformanceRow {
   'Product ID': string;
   'Product Name': string;
-  'Category': string;
+  Category: string;
   'Stock Quantity': number;
-  'Price': number;
+  Price: number;
   'Units Sold': number;
   'Total Revenue': number;
 }
@@ -126,7 +132,10 @@ export class ProductsService {
     return product;
   }
 
-  async update(id: string, updateProductDto: UpdateProductDto): Promise<Product> {
+  async update(
+    id: string,
+    updateProductDto: UpdateProductDto,
+  ): Promise<Product> {
     const product = await this.findOne(id);
     Object.assign(product, updateProductDto);
     return await this.productRepository.save(product);
@@ -167,7 +176,7 @@ export class ProductsService {
 
   async getByCategory(category: ProductCategory): Promise<Product[]> {
     const where: FindOptionsWhere<Product> = {
-      category: category
+      category: category,
     };
     return await this.productRepository.find({ where });
   }
@@ -191,7 +200,12 @@ export class ProductsService {
       .leftJoin('orderItem.product', 'product')
       .leftJoin('orderItem.order', 'order')
       .addSelect(['product.name', 'product.images'])
-      .where(where.createdAt ? 'order.createdAt BETWEEN :startDate AND :endDate' : '1=1', { startDate, endDate })
+      .where(
+        where.createdAt
+          ? 'order.createdAt BETWEEN :startDate AND :endDate'
+          : '1=1',
+        { startDate, endDate },
+      )
       .groupBy('orderItem.productId, product.name, product.images')
       .orderBy('"totalQuantity"', 'DESC')
       .limit(10)
@@ -205,7 +219,12 @@ export class ProductsService {
       .leftJoin('orderItem.product', 'product')
       .leftJoin('orderItem.order', 'order')
       .addSelect(['product.name', 'product.images'])
-      .where(where.createdAt ? 'order.createdAt BETWEEN :startDate AND :endDate' : '1=1', { startDate, endDate })
+      .where(
+        where.createdAt
+          ? 'order.createdAt BETWEEN :startDate AND :endDate'
+          : '1=1',
+        { startDate, endDate },
+      )
       .groupBy('orderItem.productId, product.name, product.images')
       .orderBy('"totalRevenue"', 'DESC')
       .limit(10)
@@ -218,7 +237,9 @@ export class ProductsService {
       .limit(10)
       .getMany();
 
-    const outOfStock = await this.productRepository.count({ where: { stockQuantity: 0 } });
+    const outOfStock = await this.productRepository.count({
+      where: { stockQuantity: 0 },
+    });
     const totalProducts = await this.productRepository.count();
 
     return {
@@ -253,9 +274,9 @@ export class ProductsService {
       report.push({
         'Product ID': product.id,
         'Product Name': product.name,
-        'Category': product.category,
+        Category: product.category,
         'Stock Quantity': product.stockQuantity,
-        'Price': product.price,
+        Price: product.price,
         'Units Sold': parseInt(salesData.unitsSold, 10) || 0,
         'Total Revenue': parseFloat(salesData.totalRevenue) || 0,
       });
@@ -278,4 +299,4 @@ export class ProductsService {
       totalRevenue: parseFloat(result.totalRevenue) || 0,
     };
   }
-} 
+}

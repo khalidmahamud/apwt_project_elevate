@@ -1,4 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { Users } from '../../users/entities/users.entity';
 import { OrderItem } from './order-item.entity';
 import { OrderStatus } from '../enums/order-status.enum';
@@ -11,7 +20,7 @@ export class Order {
   @Column({ type: 'uuid' })
   userId: string;
 
-  @ManyToOne(() => Users, user => user.orders)
+  @ManyToOne(() => Users, (user) => user.orders)
   @JoinColumn({ name: 'userId' })
   user: Users;
 
@@ -46,7 +55,7 @@ export class Order {
     notes?: string;
   }> | null;
 
-  @OneToMany(() => OrderItem, orderItem => orderItem.order, {
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {
     cascade: true,
   })
   items: OrderItem[];
@@ -56,4 +65,4 @@ export class Order {
 
   @UpdateDateColumn()
   updatedAt: Date;
-} 
+}

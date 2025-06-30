@@ -20,4 +20,4 @@ import { UsersModule } from '../users/users.module';
   providers: [OrdersService],
   exports: [OrdersService],
 })
-export class OrdersModule {} 
+export class OrdersModule {}

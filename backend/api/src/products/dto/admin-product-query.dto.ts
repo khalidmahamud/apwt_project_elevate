@@ -25,12 +25,17 @@ export enum OrderDirection {
 }
 
 export class AdminProductQueryDto {
-  @ApiPropertyOptional({ description: 'Filter by product name (case-insensitive)' })
+  @ApiPropertyOptional({
+    description: 'Filter by product name (case-insensitive)',
+  })
   @IsOptional()
   @IsString()
   name?: string;
 
-  @ApiPropertyOptional({ description: 'Filter by product category', enum: ProductCategory })
+  @ApiPropertyOptional({
+    description: 'Filter by product category',
+    enum: ProductCategory,
+  })
   @IsOptional()
   @IsEnum(ProductCategory)
   category?: ProductCategory;
@@ -112,27 +117,41 @@ export class AdminProductQueryDto {
   @Transform(({ value }) => parseFloat(value))
   maxRating?: number;
 
-  @ApiPropertyOptional({ description: 'Page number for pagination', default: 1 })
+  @ApiPropertyOptional({
+    description: 'Page number for pagination',
+    default: 1,
+  })
   @IsOptional()
   @IsNumber()
   @Min(1)
   @Transform(({ value }) => parseInt(value, 10))
   page?: number = 1;
 
-  @ApiPropertyOptional({ description: 'Number of items per page. Set to 0 to fetch all items.', default: 10 })
+  @ApiPropertyOptional({
+    description: 'Number of items per page. Set to 0 to fetch all items.',
+    default: 10,
+  })
   @IsOptional()
   @IsNumber()
   @Min(0)
   @Transform(({ value }) => parseInt(value, 10))
   limit?: number = 10;
 
-  @ApiPropertyOptional({ description: 'Field to sort by', enum: ProductSortBy, default: ProductSortBy.CREATED_AT })
+  @ApiPropertyOptional({
+    description: 'Field to sort by',
+    enum: ProductSortBy,
+    default: ProductSortBy.CREATED_AT,
+  })
   @IsOptional()
   @IsEnum(ProductSortBy)
   sortBy?: ProductSortBy = ProductSortBy.CREATED_AT;
 
-  @ApiPropertyOptional({ description: 'Sort order', enum: OrderDirection, default: OrderDirection.DESC })
+  @ApiPropertyOptional({
+    description: 'Sort order',
+    enum: OrderDirection,
+    default: OrderDirection.DESC,
+  })
   @IsOptional()
   @IsEnum(OrderDirection)
   orderDirection?: OrderDirection = OrderDirection.DESC;
-} 
+}

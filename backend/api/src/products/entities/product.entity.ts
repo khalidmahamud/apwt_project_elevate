@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { OrderItem } from '../../orders/entities/order-item.entity';
 
@@ -15,7 +22,7 @@ export enum ProductCategory {
   SPORTS = 'SPORTS',
   BEAUTY = 'BEAUTY',
   FOOD = 'FOOD',
-  OTHER = 'OTHER'
+  OTHER = 'OTHER',
 }
 
 /**
@@ -38,88 +45,161 @@ export class Product {
   @Column({ type: 'text' })
   description: string;
 
-  @ApiProperty({ description: 'The price of the product', type: 'number', format: 'decimal' })
+  @ApiProperty({
+    description: 'The price of the product',
+    type: 'number',
+    format: 'decimal',
+  })
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
 
-  @ApiProperty({ description: 'The discounted price of the product (if available)', type: 'number', format: 'decimal', nullable: true })
+  @ApiProperty({
+    description: 'The discounted price of the product (if available)',
+    type: 'number',
+    format: 'decimal',
+    nullable: true,
+  })
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
   discountedPrice?: number;
 
-  @ApiProperty({ description: 'The current stock quantity of the product', type: 'integer', default: 0 })
+  @ApiProperty({
+    description: 'The current stock quantity of the product',
+    type: 'integer',
+    default: 0,
+  })
   @Column({ type: 'int', default: 0 })
   stockQuantity: number;
 
-  @ApiProperty({ description: 'The category of the product', enum: ProductCategory })
+  @ApiProperty({
+    description: 'The category of the product',
+    enum: ProductCategory,
+  })
   @Column({
     type: 'enum',
     enum: ProductCategory,
-    nullable: true
+    nullable: true,
   })
   category: ProductCategory;
 
-  @ApiProperty({ description: 'Available sizes for the product', type: [String], default: [] })
+  @ApiProperty({
+    description: 'Available sizes for the product',
+    type: [String],
+    default: [],
+  })
   @Column('varchar', { array: true, default: [] })
   sizes: string[];
 
-  @ApiProperty({ description: 'Available colors for the product', type: [String], default: [] })
+  @ApiProperty({
+    description: 'Available colors for the product',
+    type: [String],
+    default: [],
+  })
   @Column('varchar', { array: true, default: [] })
   colors: string[];
 
-  @ApiProperty({ description: 'Product images URLs', type: [String], default: [] })
+  @ApiProperty({
+    description: 'Product images URLs',
+    type: [String],
+    default: [],
+  })
   @Column({ type: 'text', array: true, default: [] })
   images: string[];
 
-  @ApiProperty({ description: 'Whether the product is currently active', type: 'boolean', default: true })
+  @ApiProperty({
+    description: 'Whether the product is currently active',
+    type: 'boolean',
+    default: true,
+  })
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
 
-  @ApiProperty({ description: 'Whether the product is featured', type: 'boolean', default: false })
+  @ApiProperty({
+    description: 'Whether the product is featured',
+    type: 'boolean',
+    default: false,
+  })
   @Column({ type: 'boolean', default: false })
   isFeatured: boolean;
 
-  @ApiProperty({ description: 'Number of times the product has been viewed', type: 'integer', default: 0 })
+  @ApiProperty({
+    description: 'Number of times the product has been viewed',
+    type: 'integer',
+    default: 0,
+  })
   @Column({ type: 'int', default: 0 })
   viewCount: number;
 
-  @ApiProperty({ description: 'Average product rating', type: 'number', format: 'decimal', default: 0 })
+  @ApiProperty({
+    description: 'Average product rating',
+    type: 'number',
+    format: 'decimal',
+    default: 0,
+  })
   @Column({ type: 'decimal', precision: 3, scale: 2, default: 0 })
   rating: number;
 
-  @ApiProperty({ description: 'Number of product reviews', type: 'integer', default: 0 })
+  @ApiProperty({
+    description: 'Number of product reviews',
+    type: 'integer',
+    default: 0,
+  })
   @Column({ type: 'int', default: 0 })
   reviewCount: number;
 
-  @ApiProperty({ 
-    description: 'Product specifications in JSON format', 
+  @ApiProperty({
+    description: 'Product specifications in JSON format',
     type: 'object',
     additionalProperties: true,
-    nullable: true 
+    nullable: true,
   })
   @Column({ type: 'jsonb', nullable: true })
   specifications: Record<string, any>;
 
-  @ApiProperty({ description: 'Product brand name', maxLength: 255, nullable: true })
+  @ApiProperty({
+    description: 'Product brand name',
+    maxLength: 255,
+    nullable: true,
+  })
   @Column({ length: 255, nullable: true })
   brand: string;
 
-  @ApiProperty({ description: 'Product material', maxLength: 255, nullable: true })
+  @ApiProperty({
+    description: 'Product material',
+    maxLength: 255,
+    nullable: true,
+  })
   @Column({ length: 255, nullable: true })
   material: string;
 
-  @ApiProperty({ description: 'Product care instructions', maxLength: 255, nullable: true })
+  @ApiProperty({
+    description: 'Product care instructions',
+    maxLength: 255,
+    nullable: true,
+  })
   @Column({ length: 255, nullable: true })
   careInstructions: string;
 
-  @ApiProperty({ description: 'Whether the product is a new arrival', type: 'boolean', default: false })
+  @ApiProperty({
+    description: 'Whether the product is a new arrival',
+    type: 'boolean',
+    default: false,
+  })
   @Column({ type: 'boolean', default: false })
   isNewArrival: boolean;
 
-  @ApiProperty({ description: 'Whether the product is a best seller', type: 'boolean', default: false })
+  @ApiProperty({
+    description: 'Whether the product is a best seller',
+    type: 'boolean',
+    default: false,
+  })
   @Column({ type: 'boolean', default: false })
   isBestSeller: boolean;
 
-  @ApiProperty({ description: 'Whether the product is on sale', type: 'boolean', default: false })
+  @ApiProperty({
+    description: 'Whether the product is on sale',
+    type: 'boolean',
+    default: false,
+  })
   @Column({ type: 'boolean', default: false })
   isOnSale: boolean;
 
@@ -131,6 +211,6 @@ export class Product {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => OrderItem, orderItem => orderItem.product)
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];
-} 
+}
