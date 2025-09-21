@@ -2,6 +2,8 @@
 
 A comprehensive e-commerce management system built with NestJS backend and Next.js frontend, featuring advanced analytics, AI-powered chatbot, and robust user management.
 
+[Figma Link](https://www.figma.com/proto/h73Byo2dZXdwnU1FA1forD/AWT_Project_Admin_Dashboard?node-id=62-364&starting-point-node-id=62%3A364&t=NFjG4bOWZatJ8AGf-1)
+
 ## 🚀 Table of Contents
 
 - [Overview](#overview)
